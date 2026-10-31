@@ -13,20 +13,21 @@ Human-readable versions are in `docs/` (start at `docs/README.md`).
 
 - **Two services:**
   - **Frontend (public):** Blazor Web App (static SSR + Interactive WebAssembly; **no Interactive Server**), BFF endpoints, OAuth sign-in and session cookie (Phase 5). **No database, no SMTP.**
-  - **Backend API (private):** Minimal APIs, game data, progress, user accounts (Identity Core), EF Core + PostgreSQL, email, seeder. Accepts only JWT service tokens from the frontend.
+  - **Backend API (private):** Minimal APIs, game data (JSON in memory), progress, user accounts (Identity Core), email. PostgreSQL from Phase 5. Accepts only JWT service tokens from the frontend.
 - .NET 10 LTS.
 - Tailwind CSS with per-game themes via CSS variables (`data-theme`). No component libraries.
-- EF Core + PostgreSQL (Npgsql, snake_case). Database `companion`, schemas `app` and `identity`. Backend only.
-- Docker Compose locally (`frontend`, `backend` on internal network only, `postgres`, `otel-lgtm`; `mailpit` from Phase 5). **Not Aspire.**
+- Game data: JSON from `data/`, loaded into memory by the backend (ADR 0013).
+- Phase 5: EF Core + PostgreSQL (Npgsql, snake_case). Database `companion`, schemas `app` and `identity`, for progress and accounts. Backend only.
+- Docker Compose locally (`frontend`, `backend` on internal network only, `otel-lgtm`; `postgres` and `mailpit` from Phase 5). **Not Aspire.**
 - OpenTelemetry → Collector on the private network → Grafana (`otel-lgtm` locally, Collector + Grafana Cloud later). Only the Collector talks to Grafana.
-- Tests: xUnit, bUnit, Testcontainers, Playwright.
+- Tests: xUnit, bUnit, Playwright; Testcontainers from Phase 5.
 
 ## Commands (once Phase 0 exists)
 
 ```bash
 docker compose up -d            # start everything
 dotnet build                    # build
-dotnet test                     # all tests (Docker needed for Testcontainers)
+dotnet test                     # all tests (Docker needed for Testcontainers from Phase 5)
 dotnet format --verify-no-changes
 dotnet run --project tools/Companion.SeedBuilder -- validate data/   # seed validation
 ```

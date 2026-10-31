@@ -1,0 +1,12 @@
+# Optional local debugging. Copy to docker-compose.override.yml (git-ignored).
+# Compose loads that file automatically. Never use it outside local development.
+services:
+  backend:
+    ports:
+      - "127.0.0.1:8090:8080"
+    networks:
+      - internal
+      - debug
+
+networks:
+  debug:

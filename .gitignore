@@ -36,3 +36,6 @@ tools/**/output/
 # OS
 .DS_Store
 Thumbs.db
+
+# Local Docker overrides (copied from docker-compose.override.example.yml)
+docker-compose.override.yml

@@ -5,7 +5,7 @@ paths:
 
 # Testing
 
-- xUnit for domain; bUnit for components; Testcontainers (real PostgreSQL) for data; Playwright for a few smoke flows.
+- xUnit for domain; bUnit for components; Testcontainers (real PostgreSQL) for data from Phase 5; Playwright for a few smoke flows.
 - Never use the EF Core in-memory provider.
 - Backend tests cover service-token auth: missing/expired/wrong-audience tokens are rejected; `uid` comes only from the token.
 - Frontend BFF tests mock the backend with a fake `HttpMessageHandler`.

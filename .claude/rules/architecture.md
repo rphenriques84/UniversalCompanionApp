@@ -19,5 +19,6 @@
 - Expected failures return result types. Throw exceptions only for unexpected errors.
 - Minimal API endpoints grouped per feature with `MapGroup`, typed results (`Results<Ok<T>, NotFound>`).
 - Domain logic (completion %, missables, spoilers, import migration) must run in both the browser (WASM) and the server: keep it pure and dependency-free.
+- Game data is JSON loaded into memory by the backend (ADR 0013). Review the triggers in that ADR before moving it to a database.
 - Guest progress is client-side only. The backend stores progress only for signed-in users (Phase 5), keyed by the opaque `uid`.
 - Render modes: static SSR by default; Interactive WebAssembly for the checklist. Do not use Interactive Server or Auto.

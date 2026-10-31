@@ -66,11 +66,12 @@ Change them through a PR (and an ADR if it's a real decision).
 - Store item keys only, never database IDs.
 - Treat imports as untrusted: max 1 MB, schema validation, unknown keys ignored with a warning.
 
-## 6. Database (EF Core + PostgreSQL)
+## 6. Database (EF Core + PostgreSQL, from Phase 5)
 
 - snake_case names via `EFCore.NamingConventions`.
 - One migration per PR. Descriptive name. Review the generated SQL.
 - `AsNoTracking()` for reads. Cache static game data in memory.
+- Game data stays in JSON, in memory ([ADR 0013](adr/0013-game-data-in-memory.md)).
 - One database `companion`, schemas `app` and `identity`, used only by the backend. A runtime user (data read/write only) and a migrations user (schema owner).
 - No raw SQL with string concatenation. Parameters only.
 
@@ -103,7 +104,7 @@ Change them through a PR (and an ADR if it's a real decision).
 
 - Domain rules fully covered: completion %, missables, prerequisites, import/migration.
 - Every bug fix includes a regression test.
-- Testcontainers for PostgreSQL. No EF in-memory provider.
+- Testcontainers for PostgreSQL (Phase 5). No EF in-memory provider.
 - Playwright smoke tests for 3–5 key flows.
 - Deterministic tests: `TimeProvider`, no shared state, no real network.
 - Test names: `Method_Scenario_ExpectedResult`.
@@ -124,9 +125,9 @@ Change them through a PR (and an ADR if it's a real decision).
 ## 11. Docker and local development
 
 - `docker compose up` works on a clean machine. README quickstart is tested.
-- The backend has no published port in the default compose file. A `docker-compose.override.yml` may expose it on `127.0.0.1` for debugging only.
+- The backend has no published port in the default compose file. A git-ignored `docker-compose.override.yml` (copied from `docker-compose.override.example.yml`) may expose it on `127.0.0.1` for debugging only.
 - Pinned image versions. Never `:latest`.
-- Health checks on every service. Named volumes for PostgreSQL (and Grafana if data should persist).
+- Health checks on every service. Named volumes for PostgreSQL from Phase 5 (and Grafana if data should persist).
 - Seed data loads automatically in development.
 
 ## 12. Definition of Done

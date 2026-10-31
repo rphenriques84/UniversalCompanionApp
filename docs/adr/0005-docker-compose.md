@@ -9,7 +9,7 @@ We need a reproducible local environment with the app, database and observabilit
 
 ## Decision
 
-Use Docker Compose with services `frontend`, `backend` (internal network only, no published port), `postgres`, `otel-lgtm` (and `mailpit` from Phase 5). Pinned image versions.
+Use Docker Compose with services `frontend`, `backend` (internal network only, no published port), `otel-lgtm` (and `postgres` and `mailpit` from Phase 5, see ADR 0013). Pinned image versions.
 
 ## Consequences
 
