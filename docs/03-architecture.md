@@ -4,9 +4,10 @@
 
 ![Architecture](images/architecture.svg)
 
-- Image: [`images/architecture.svg`](images/architecture.svg) (PNG copy: [`images/architecture.png`](images/architecture.png)).
-- The diagram shows **infrastructure only** (no app features, game-specific tools or environment-specific products).
-- The Mermaid version below is the editable source. Keep both in sync when the architecture changes.
+- Image: [`images/architecture.svg`](images/architecture.svg) is the editable source (PNG copy: [`images/architecture.png`](images/architecture.png)). Keep both in sync.
+- The diagram shows **only what exists today**, with no future components.
+- Each change is a plan task marked `Diagram:` in [04-development-plan.md](04-development-plan.md). Do it in the same PR as that task.
+- The sections below describe the target design, including parts not built yet.
 
 ### Implementation per environment
 
@@ -19,53 +20,6 @@
 | Grafana | `grafana/otel-lgtm` container (UI 3000) | Grafana Cloud Free |
 | Email service | Mailpit container (Phase 5) | Email provider, decided in Phase 6 |
 | Frontend cookie keys (Data Protection) | Docker volume | Key store decided in Phase 6 |
-
-### Mermaid source
-
-```mermaid
-flowchart TB
-  subgraph Device["User device (web browser)"]
-    WASM[WebAssembly client<br/>Blazor WebAssembly, Tailwind CSS]
-    Local[(Browser storage<br/>local user data)]
-    File[/Local files<br/>export / import JSON/]
-  end
-
-  subgraph Server["Server side"]
-    subgraph Frontend["Frontend (public) – ASP.NET Core, Blazor Web App"]
-      SSR[Server rendering<br/>Blazor static SSR]
-      BFF[BFF endpoints<br/>forward calls to backend]
-      Session[User session<br/>cookie, OAuth sign-in – later]
-    end
-    subgraph Backend["Backend API (private) – ASP.NET Core, Minimal APIs"]
-      API[Web API<br/>service-token protected]
-      Domain[Domain layer<br/>shared .NET library]
-      Data[Data access<br/>game data loader; EF Core, Identity Core later]
-    end
-    DB[(PostgreSQL – later<br/>progress and identity data)]
-    Coll[OTel Collector<br/>telemetry gateway]
-    OTel[Grafana<br/>observability]
-    Mail[Email service<br/>SMTP – later]
-  end
-
-  subgraph Pipeline["Offline data pipeline (development only)"]
-    Ext[External data<br/>game files, datasets, wikis]
-    Tools[Extraction tools<br/>per source, external]
-    Builder[Seed builder<br/>transform and validate]
-    Seed[/Seed data<br/>versioned JSON in git/]
-  end
-
-  WASM <--> Local
-  WASM <--> File
-  WASM -- HTTPS, user cookie --> Frontend
-  Frontend -- JWT service token --> API
-  Data --> DB
-  Backend -. SMTP .-> Mail
-  Frontend -- OTLP --> Coll
-  Backend -- OTLP --> Coll
-  Coll --> OTel
-  Ext --> Tools --> Builder --> Seed
-  Seed -- loaded into memory on startup --> Data
-```
 
 ## Key ideas
 

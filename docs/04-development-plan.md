@@ -48,11 +48,13 @@ Do P0.9.1 and P0.9.5 first, so security code lands with automatic checks.
 - [ ] P0.4.4 Backend: JWT bearer validation (issuer, audience, lifetime, key), current + previous key.
 - [ ] P0.4.5 Backend: deny-by-default authorization; scope policies.
 - [ ] P0.4.6 Tests: missing, expired, wrong-audience and wrong-scope tokens are rejected.
+- [ ] P0.4.7 Diagram: add the JWT service token link, frontend → backend.
 
 ### P0.5 Frontend ↔ backend communication
 - [ ] P0.5.1 Typed `HttpClient` for the backend with resilience (timeouts, retries).
 - [ ] P0.5.2 BFF endpoint pattern: thin forward, error mapping (ProblemDetails).
 - [ ] P0.5.3 First end-to-end call: `GET /bff/games` → backend `GET /games`.
+- [ ] P0.5.4 Diagram: add BFF endpoints and the first backend endpoint.
 
 ### P0.6 Seed data
 - P0.6.1 Moved to P5.0.1 (see [ADR 0013](adr/0013-game-data-in-memory.md)).
@@ -62,6 +64,7 @@ Do P0.9.1 and P0.9.5 first, so security code lands with automatic checks.
 - [ ] P0.6.5 `SeedBuilder validate` command (schema, unique keys, valid references).
 - [ ] P0.6.6 Backend loader: read validated JSON from `data/` into memory on startup. Fail fast on bad data. Copy `data/` into the backend image.
 - [ ] P0.6.7 Minimal sample seed data to prove the flow.
+- [ ] P0.6.8 Diagram: add seed data, the game data loader and the load arrow.
 
 ### P0.7 Frontend base
 - [ ] P0.7.1 Tailwind standalone CLI via MSBuild target.
@@ -69,12 +72,14 @@ Do P0.9.1 and P0.9.5 first, so security code lands with automatic checks.
 - [ ] P0.7.3 Base layout (mobile-first), resource files for UI strings.
 - [ ] P0.7.4 Render modes: static SSR default, WebAssembly enabled for interactive pages.
 - [ ] P0.7.5 Prove the WebAssembly client runs: one interactive component in a real browser, in Docker.
+- [ ] P0.7.6 Diagram: remove "no interactive pages yet", add Tailwind CSS.
 
 ### P0.8 Observability
 - [ ] P0.8.1 OpenTelemetry in both services (logs, traces, metrics) → Collector in `otel-lgtm`.
 - [ ] P0.8.2 Trace propagation frontend → backend.
 - [ ] P0.8.3 Low-volume defaults (levels, framework categories at `Warning`).
 - [ ] P0.8.4 Verify a single trace in Grafana for `GET /bff/games`.
+- [ ] P0.8.5 Diagram: add OTLP arrows from frontend and backend.
 
 ### P0.9 CI and docs
 - [x] P0.9.1 GitHub Actions: build, `dotnet format --verify-no-changes`, tests, vulnerable packages, Docker image builds. Seed validation joins when P0.6.5 exists.
@@ -96,6 +101,7 @@ Do P0.9.1 and P0.9.5 first, so security code lands with automatic checks.
 - [ ] P1.1.2 Contracts (DTOs) in `Companion.Contracts`.
 - [ ] P1.1.3 BFF endpoints for the WebAssembly client.
 - [ ] P1.1.4 Output caching of public game data in the frontend.
+- [ ] P1.1.5 Diagram: remove "No endpoints yet" and "all empty" labels that are no longer true.
 
 ### P1.2 Public pages (static SSR)
 - [ ] P1.2.1 Game list page.
@@ -117,6 +123,7 @@ Do P0.9.1 and P0.9.5 first, so security code lands with automatic checks.
 - [ ] P1.5.1 Storage abstraction (wrapped, fails safely).
 - [ ] P1.5.2 Debounced auto-save.
 - [ ] P1.5.3 Load on start; handle missing or corrupt data.
+- [ ] P1.5.4 Diagram: add browser storage.
 
 ### P1.6 Export / import
 - [ ] P1.6.1 Export format v1 schema (see [09-export-file-format.md](09-export-file-format.md)).
@@ -124,6 +131,7 @@ Do P0.9.1 and P0.9.5 first, so security code lands with automatic checks.
 - [ ] P1.6.3 Import: size limit, schema validation, unknown keys warning.
 - [ ] P1.6.4 Replace and merge modes.
 - [ ] P1.6.5 Migration pipeline skeleton (v1 → future versions) with tests.
+- [ ] P1.6.6 Diagram: add local export and import files.
 
 ### P1.7 FFX data (first set)
 - [ ] P1.7.1 Editions and chapters.
@@ -177,6 +185,7 @@ Do P0.9.1 and P0.9.5 first, so security code lands with automatic checks.
 - [ ] P3.1.2 Run the extraction tool (FFXDataParser for FFX).
 - [ ] P3.1.3 SeedBuilder importers: parser output → seed JSON.
 - [ ] P3.1.4 Validation and diff report per run.
+- [ ] P3.1.5 Diagram: add external data, extraction tools and the seed builder.
 
 ### P3.2 Generated data
 - [ ] P3.2.1 Treasures and key items.
@@ -237,6 +246,7 @@ Do P0.9.1 and P0.9.5 first, so security code lands with automatic checks.
 - [ ] P5.0.3 First migration: progress tables, keyed by item key.
 - [ ] P5.0.4 Testcontainers set up for backend integration tests.
 - [ ] P5.0.5 Trace propagation backend → database.
+- [ ] P5.0.6 Diagram: add PostgreSQL and the data access arrow.
 
 ### P5.1 Decisions
 - [ ] P5.1.1 Account linking policy.
@@ -253,12 +263,14 @@ Do P0.9.1 and P0.9.5 first, so security code lands with automatic checks.
 - [ ] P5.3.1 Add Mailpit to Docker Compose (backend network).
 - [ ] P5.3.2 Backend email sender with allowed templates only.
 - [ ] P5.3.3 Templates: confirm email, reset password.
+- [ ] P5.3.4 Diagram: add the email service.
 
 ### P5.4 Frontend session
 - [ ] P5.4.1 Cookie authentication (HttpOnly, Secure, SameSite), antiforgery.
 - [ ] P5.4.2 Data Protection keys in a Docker volume.
 - [ ] P5.4.3 Periodic session validation against the security stamp.
 - [ ] P5.4.4 Sign-out.
+- [ ] P5.4.5 Diagram: add the user session (cookie, OAuth sign-in).
 
 ### P5.5 External sign-in
 - [ ] P5.5.1 Google.
@@ -305,6 +317,7 @@ Do P0.9.1 and P0.9.5 first, so security code lands with automatic checks.
 - [ ] P6.3.1 Collector container (e.g. Grafana Alloy) on the private network → Grafana Cloud Free.
 - [ ] P6.3.2 Collector processors: batching, sampling, PII filtering, rate limits.
 - [ ] P6.3.3 Optional Sentry.
+- [ ] P6.3.4 Diagram: split the Collector from Grafana and show production hosting.
 
 ### P6.4 Deployment
 - [ ] P6.4.1 CI/CD deploy workflow (images, migrations, seeding).
