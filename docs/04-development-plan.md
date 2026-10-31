@@ -40,6 +40,8 @@ Estimates assume part-time work and are rough.
 - [x] P0.3.8 Create `.github/dependabot.yml` if it doesn't exist. Add Docker and Docker Compose (same settings).
 
 ### P0.4 Service authentication (frontend → backend)
+
+Do P0.9.1 and P0.9.5 first, so security code lands with automatic checks.
 - [ ] P0.4.1 Key pair generation script (ES256). Keys stored in user-secrets / `.env`.
 - [ ] P0.4.2 Frontend: token issuer (`iss`, `aud`, `exp` ≤ 5 min, `scope`, optional `uid`), cached until near expiry.
 - [ ] P0.4.3 Frontend: `DelegatingHandler` adding the token to backend calls.
@@ -66,6 +68,7 @@ Estimates assume part-time work and are rough.
 - [ ] P0.7.2 Theme tokens as CSS variables; `data-theme` switching; neutral default theme.
 - [ ] P0.7.3 Base layout (mobile-first), resource files for UI strings.
 - [ ] P0.7.4 Render modes: static SSR default, WebAssembly enabled for interactive pages.
+- [ ] P0.7.5 Prove the WebAssembly client runs: one interactive component in a real browser, in Docker.
 
 ### P0.8 Observability
 - [ ] P0.8.1 OpenTelemetry in both services (logs, traces, metrics) → Collector in `otel-lgtm`.
@@ -74,11 +77,13 @@ Estimates assume part-time work and are rough.
 - [ ] P0.8.4 Verify a single trace in Grafana for `GET /bff/games`.
 
 ### P0.9 CI and docs
-- [ ] P0.9.1 GitHub Actions: build, `dotnet format --verify-no-changes`, tests, seed validation, vulnerable packages, Docker image builds.
+- [ ] P0.9.1 GitHub Actions: build, `dotnet format --verify-no-changes`, tests, vulnerable packages, Docker image builds. Seed validation joins when P0.6.5 exists.
 - P0.9.2 Moved to P5.0.4.
-- [ ] P0.9.3 README quickstart tested on a clean machine.
+- [ ] P0.9.3 README quickstart tested on a clean machine, including `cp .env.example .env`.
 - [ ] P0.9.4 Create `.github/dependabot.yml` if it doesn't exist. Add GitHub Actions (same settings).
 - [ ] P0.9.5 Secret scanning (gitleaks) in CI.
+- [ ] P0.9.6 Confirm Dependabot opens a Docker or Docker Compose PR.
+- [ ] P0.9.7 Watch CI for the 2 unexplained build errors seen once after merging P0.3. Capture the message if they return.
 
 **Done when:** `docker compose up` shows a page that lists sample games from the backend, the backend is unreachable from the host, a trace is visible in Grafana, and CI is green.
 

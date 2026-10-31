@@ -7,7 +7,7 @@ Human-readable versions are in `docs/` (start at `docs/README.md`).
 
 - Web app for **100% completion tracking** in games. First game: **Final Fantasy X HD**.
 - **Guest-first:** progress lives in the browser; export/import file. Accounts come in Phase 5.
-- Current phase: **planning → Phase 0** (see `docs/04-development-plan.md`).
+- Current phase: **Phase 0** (see `docs/04-development-plan.md`).
 
 ## Stack
 
@@ -22,14 +22,15 @@ Human-readable versions are in `docs/` (start at `docs/README.md`).
 - OpenTelemetry → Collector on the private network → Grafana (`otel-lgtm` locally, Collector + Grafana Cloud later). Only the Collector talks to Grafana.
 - Tests: xUnit, bUnit, Playwright; Testcontainers from Phase 5.
 
-## Commands (once Phase 0 exists)
+## Commands
 
 ```bash
+cp .env.example .env            # first time only
 docker compose up -d            # start everything
 dotnet build                    # build
 dotnet test                     # all tests (Docker needed for Testcontainers from Phase 5)
 dotnet format --verify-no-changes
-dotnet run --project tools/Companion.SeedBuilder -- validate data/   # seed validation
+dotnet run --project tools/Companion.SeedBuilder -- validate data/   # seed validation (from P0.6.5)
 ```
 
 ## Must always

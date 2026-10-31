@@ -31,11 +31,11 @@ API DTOs live in `Companion.Contracts`. On the backend, `Playthrough.UserId` is 
 
 ```csharp
 // Game-agnostic 100% completion model. FFX first, other games later.
-// EF Core friendly (plain classes, Guid/int keys). .NET 8+.
+// Plain classes. .NET 10.
 
 namespace Companion.Domain;
 
-// ---------- Static game data (seeded from versioned JSON, read-only at runtime) ----------
+// ---------- Static game data (loaded from versioned JSON, read-only at runtime) ----------
 
 public class Game
 {
