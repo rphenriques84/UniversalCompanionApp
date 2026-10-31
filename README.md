@@ -3,7 +3,7 @@
 A web app for tracking **100% completion** in video games.
 It starts with **Final Fantasy X (HD Remaster)**. More games come later.
 
-> Status: **planning**. No code yet. See [docs/04-development-plan.md](docs/04-development-plan.md).
+> Status: **in development (Phase 0)**. See [docs/04-development-plan.md](docs/04-development-plan.md).
 
 ## What it does
 
@@ -28,7 +28,7 @@ It starts with **Final Fantasy X (HD Remaster)**. More games come later.
 | Styling | Tailwind CSS, CSS-variable themes per game |
 | Database | PostgreSQL + EF Core (Npgsql), from Phase 5 |
 | Game data | Versioned JSON in this repo, loaded into memory by the backend |
-| Auth (later) | ASP.NET Core Identity in the frontend: external logins + optional email/password |
+| Auth (later) | ASP.NET Core Identity in the backend, sign-in handled by the frontend: external logins + optional email/password |
 | Observability | OpenTelemetry → Grafana (local `otel-lgtm`, later Grafana Cloud) |
 | Local environment | Docker Compose |
 | Tests | xUnit, bUnit, Playwright; Testcontainers from Phase 5 |

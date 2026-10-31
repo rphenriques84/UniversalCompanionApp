@@ -14,11 +14,16 @@ public sealed class DependencyRulesTests
         [BackendApi] = [BackendData, Contracts],
     };
 
+    private static readonly string[] _databasePackagePrefixes =
+    [
+        "Microsoft.EntityFrameworkCore",
+        "Npgsql",
+    ];
+
     private static readonly string[] _forbiddenPackagePrefixes =
     [
         "Microsoft.AspNetCore",
-        "Microsoft.EntityFrameworkCore",
-        "Npgsql",
+        .. _databasePackagePrefixes,
     ];
 
     private readonly IReadOnlyList<ProjectFile> _projects = ProjectFile.LoadSourceProjects();
@@ -54,6 +59,19 @@ public sealed class DependencyRulesTests
         Assert.DoesNotContain(project.PackageReferences, IsForbiddenPackage);
     }
 
+    [Theory]
+    [InlineData(Frontend)]
+    [InlineData(FrontendClient)]
+    public void FrontendProjects_HaveNoDatabaseReferences(string projectName)
+    {
+        var project = _projects.Single(candidate => candidate.Name == projectName);
+
+        Assert.DoesNotContain(project.PackageReferences, IsDatabasePackage);
+    }
+
     private static bool IsForbiddenPackage(string package) =>
         _forbiddenPackagePrefixes.Any(prefix => package.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
+
+    private static bool IsDatabasePackage(string package) =>
+        _databasePackagePrefixes.Any(prefix => package.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
 }
