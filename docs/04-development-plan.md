@@ -17,7 +17,7 @@ Estimates assume part-time work and are rough.
 - [x] P0.1.1 Create the GitHub repository. Push the existing docs.
 - [x] P0.1.2 Run `_setup/install.ps1` (moves `.claude/` and `.github/` files into place). Delete `_setup/`.
 - P0.1.3 Moved to P6.1.3. Branch protection needs a public repo or GitHub Pro. Until then, the PR-only rule is followed by hand.
-- [ ] P0.1.4 Dependabot for NuGet, Docker and GitHub Actions.
+- [x] P0.1.4 Dependabot alerts and security updates on. Version update config is added per ecosystem in P0.2.7, P0.3.8 and P0.9.4.
 - [ ] P0.1.5 Secret scanning (gitleaks) in CI.
 
 ### P0.2 Solution skeleton
@@ -27,6 +27,7 @@ Estimates assume part-time work and are rough.
 - [ ] P0.2.4 `Directory.Packages.props` (Central Package Management).
 - [ ] P0.2.5 Set project references per the dependency rules (see [03-architecture.md](03-architecture.md#dependency-rules)).
 - [ ] P0.2.6 Architecture tests: Domain/Contracts have no EF/ASP.NET; frontend ↛ backend and backend ↛ frontend.
+- [ ] P0.2.7 `.github/dependabot.yml`: NuGet (weekly, grouped minor and patch, `chore:` prefix).
 
 ### P0.3 Docker environment
 - [ ] P0.3.1 Dockerfile for the frontend (multi-stage, non-root).
@@ -36,6 +37,7 @@ Estimates assume part-time work and are rough.
 - [ ] P0.3.5 Health checks and `depends_on: service_healthy`.
 - [ ] P0.3.6 Named volume for PostgreSQL. `.env.example` with all settings.
 - [ ] P0.3.7 Optional `docker-compose.override.yml` exposing the backend on `127.0.0.1` for debugging.
+- [ ] P0.3.8 Add Docker and Docker Compose to `.github/dependabot.yml`.
 
 ### P0.4 Service authentication (frontend → backend)
 - [ ] P0.4.1 Key pair generation script (ES256). Keys stored in user-secrets / `.env`.
@@ -75,6 +77,7 @@ Estimates assume part-time work and are rough.
 - [ ] P0.9.1 GitHub Actions: build, `dotnet format --verify-no-changes`, tests, seed validation, vulnerable packages, Docker image builds.
 - [ ] P0.9.2 Testcontainers set up for backend integration tests.
 - [ ] P0.9.3 README quickstart tested on a clean machine.
+- [ ] P0.9.4 Add GitHub Actions to `.github/dependabot.yml`.
 
 **Done when:** `docker compose up` shows a page that lists sample games from the backend, the backend is unreachable from the host, a trace is visible in Grafana, and CI is green.
 
@@ -275,7 +278,7 @@ Estimates assume part-time work and are rough.
 ### P6.1 Hosting choice
 - [ ] P6.1.1 Compare options with real data (see [11-hosting-options.md](11-hosting-options.md)).
 - [ ] P6.1.2 Choose hosts: frontend, backend (private), Collector, PostgreSQL, email provider.
-- [ ] P6.1.3 Decide repository visibility (public, or private with GitHub Pro). Then enable branch protection on `main`: PRs only, CI required.
+- [ ] P6.1.3 Decide repository host and CI/CD platform: GitHub public, GitHub Pro, or move to Azure DevOps. Then enforce branch protection on `main`: PRs only, CI required.
 
 ### P6.2 Infrastructure
 - [ ] P6.2.1 Backend on internal-only ingress / private network.
