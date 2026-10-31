@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Companion.Domain\Companion.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

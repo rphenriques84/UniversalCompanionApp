@@ -181,6 +181,7 @@ UniversalCompanionApp/
 ├─ docker-compose.yml
 ├─ src/Companion.Frontend/Dockerfile
 ├─ src/Companion.Backend.Api/Dockerfile
+├─ Companion.slnx
 ├─ Directory.Build.props
 ├─ Directory.Packages.props
 └─ CLAUDE.md
@@ -199,6 +200,7 @@ Domain, Contracts ──► (nothing)
 - **Frontend projects never reference Backend projects, and the reverse.** They only share `Domain` and `Contracts`.
 - The frontend talks to the backend only over HTTP (typed `HttpClient`).
 - Enforced by `Companion.Architecture.Tests`.
+- Why these projects, and which structures were rejected: [ADR 0012](adr/0012-project-structure.md).
 
 ## Docker Compose services
 

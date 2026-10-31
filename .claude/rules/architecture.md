@@ -13,6 +13,7 @@
 - Only the backend uses the database and the email service. The frontend has no database or SMTP credentials.
 - User accounts live in the backend (Identity Core). The frontend runs OAuth handshakes and issues the session cookie after the backend returns the `uid`.
 - Architecture tests enforce this. Don't weaken them.
+- Keep the six source projects (ADR 0012). Don't merge `Backend.Data` into `Backend.Api`, and don't add Application or Infrastructure layers.
 - Organize by feature: `Features/Checklist`, `Features/Export`, `Features/Accounts`.
 - No business logic in `.razor` files. Components call services.
 - Expected failures return result types. Throw exceptions only for unexpected errors.
