@@ -19,6 +19,8 @@ Change them through a PR (and an ADR if it's a real decision).
 - Central Package Management (`Directory.Packages.props`).
 - Async all the way. Pass `CancellationToken`. Never `.Result` or `.Wait()`.
 - Records for DTOs and value objects. File-scoped namespaces.
+- One top-level type per file, named after the type. Private nested types are fine.
+- No unused usings (IDE0005 in `.editorconfig`).
 - Options pattern for configuration. No magic strings.
 - Use `TimeProvider`, never `DateTime.Now`. Store UTC `DateTimeOffset`.
 - Private fields: `_camelCase`. Async methods end in `Async`.

@@ -44,5 +44,7 @@ dotnet_naming_style.end_in_async.required_suffix = Async
 
 # Logging: use message templates, not interpolation
 dotnet_diagnostic.CA2254.severity = warning
+# Remove unused usings
+dotnet_diagnostic.IDE0005.severity = warning
 # Don't block on async
 dotnet_diagnostic.CA2012.severity = warning

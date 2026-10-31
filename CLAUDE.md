@@ -26,6 +26,7 @@ Human-readable versions are in `docs/` (start at `docs/README.md`).
 
 ```bash
 cp .env.example .env            # first time only
+dotnet tools/generate-service-keys.cs >> .env   # first time only
 docker compose up -d            # start everything
 dotnet build                    # build
 dotnet test                     # all tests (Docker needed for Testcontainers from Phase 5)

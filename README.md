@@ -45,6 +45,7 @@ Start at [docs/README.md](docs/README.md).
 
 ```bash
 cp .env.example .env
+dotnet tools/generate-service-keys.cs >> .env
 docker compose up
 ```
 
