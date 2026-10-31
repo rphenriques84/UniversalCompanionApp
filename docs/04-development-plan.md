@@ -50,7 +50,7 @@ Estimates assume part-time work and are rough.
 - P0.4.7 Moved to P0.5.7. No service calls exist until P0.5.
 
 ### P0.5 Frontend ↔ backend communication
-- [ ] P0.5.0 Backend: global exception handler returning ProblemDetails. Test that no internal details leak.
+- [x] P0.5.0 Backend: global exception handler returning ProblemDetails. Test that no internal details leak.
 - [ ] P0.5.1 Backend: game DTO in `Contracts`, and `GET /games` with scope `game-data.read` returning a fixed list.
 - [ ] P0.5.2 Frontend: typed `HttpClient` for the backend, using the service token handler.
 - [ ] P0.5.3 Frontend: resilience on the typed client (timeouts, retries).
