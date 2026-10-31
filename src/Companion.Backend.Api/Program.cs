@@ -1,11 +1,14 @@
+using Companion.Backend.Api.Features.Errors;
 using Companion.Backend.Api.Features.ServiceAuth;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddErrorHandling();
 builder.Services.AddServiceAuth(builder.Configuration);
 
 var app = builder.Build();
 
+app.UseErrorHandling();
 app.UseAuthentication();
 app.UseAuthorization();
 
