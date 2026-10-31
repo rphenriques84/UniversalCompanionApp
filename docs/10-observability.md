@@ -83,7 +83,7 @@ Production: `TraceSamplingRatio` around `0.1`. Services point at the internal Co
 | Request rate, latency, error rate (per service) | Metrics (built-in ASP.NET Core) |
 | Frontend → backend calls (latency, failures, token errors) | Traces + metrics (`HttpClient` instrumentation) |
 | `companion.export.created`, `companion.import.completed` (count, migrated version) | Metrics + Information logs |
-| Seeder run (items upserted, duration) | Information log |
+| Game data load (items loaded, duration) | Information log |
 | Emails sent / failed (template, no address) | Metrics + Information/Error logs (backend) |
 | Unhandled exceptions | Error logs (+ Sentry if enabled) |
 

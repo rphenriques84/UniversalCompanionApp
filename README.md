@@ -26,12 +26,12 @@ It starts with **Final Fantasy X (HD Remaster)**. More games come later.
 | Frontend | Blazor Web App (static SSR + Interactive WebAssembly) |
 | Backend | ASP.NET Core Minimal APIs, JWT service-token auth |
 | Styling | Tailwind CSS, CSS-variable themes per game |
-| Database | PostgreSQL + EF Core (Npgsql) |
-| Game data | Versioned JSON in this repo, seeded into the database |
+| Database | PostgreSQL + EF Core (Npgsql), from Phase 5 |
+| Game data | Versioned JSON in this repo, loaded into memory by the backend |
 | Auth (later) | ASP.NET Core Identity in the frontend: external logins + optional email/password |
 | Observability | OpenTelemetry → Grafana (local `otel-lgtm`, later Grafana Cloud) |
 | Local environment | Docker Compose |
-| Tests | xUnit, bUnit, Playwright, Testcontainers |
+| Tests | xUnit, bUnit, Playwright; Testcontainers from Phase 5 |
 | CI | GitHub Actions |
 | Hosting | Deferred. See [docs/11-hosting-options.md](docs/11-hosting-options.md) |
 
@@ -41,15 +41,15 @@ Details: [docs/02-tech-stack.md](docs/02-tech-stack.md).
 
 Start at [docs/README.md](docs/README.md).
 
-## Quickstart (planned)
+## Quickstart
 
 ```bash
+cp .env.example .env
 docker compose up
 ```
 
-Then open the frontend at `https://localhost:8081` and Grafana at `http://localhost:3000`.
+Then open the frontend at `http://localhost:8080` and Grafana at `http://localhost:3000`.
 The backend API is private (internal Docker network only).
-(This becomes real in Phase 0.)
 
 ## Legal
 

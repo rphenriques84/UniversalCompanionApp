@@ -18,9 +18,9 @@ Use six source projects. Each exists because of a real boundary:
 - `Frontend`: public host.
 - `Frontend.Client`: WebAssembly code. Everything in it is public.
 - `Backend.Api`: private host.
-- `Backend.Data`: EF Core, migrations and seeder.
+- `Backend.Data`: game data loader. EF Core and migrations from Phase 5 (ADR 0013).
 
-Dependencies point toward `Domain`. Endpoints call Domain and EF Core directly, with no Application or Infrastructure layer.
+Dependencies point toward `Domain`. Endpoints call Domain and `Backend.Data` directly, with no Application or Infrastructure layer.
 
 ## Consequences
 
@@ -32,4 +32,4 @@ Dependencies point toward `Domain`. Endpoints call Domain and EF Core directly, 
 
 - Single project: can't keep database code out of the public service, or Domain light enough for the browser.
 - Full Clean Architecture (Application and Infrastructure layers): adds pass-through code with no gain for this size.
-- Merging `Backend.Data` into `Backend.Api`: would work, but migrations and the seeder change for different reasons than endpoints, and the seeder may need to run outside the API at deploy time.
+- Merging `Backend.Data` into `Backend.Api`: would work, but data access and migrations change for different reasons than endpoints.

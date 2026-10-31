@@ -30,14 +30,14 @@ Estimates assume part-time work and are rough.
 - [x] P0.2.7 Create `.github/dependabot.yml` if it doesn't exist. Add NuGet (weekly, grouped minor and patch, `chore:` prefix).
 
 ### P0.3 Docker environment
-- [ ] P0.3.1 Dockerfile for the frontend (multi-stage, non-root).
-- [ ] P0.3.2 Dockerfile for the backend (multi-stage, non-root).
-- [ ] P0.3.3 `docker-compose.yml`: `frontend`, `backend`, `postgres`, `otel-lgtm`. Pinned image versions.
-- [ ] P0.3.4 Networks: backend has no published port; `postgres` on the backend network only.
-- [ ] P0.3.5 Health checks and `depends_on: service_healthy`.
-- [ ] P0.3.6 Named volume for PostgreSQL. `.env.example` with all settings.
-- [ ] P0.3.7 Optional `docker-compose.override.yml` exposing the backend on `127.0.0.1` for debugging.
-- [ ] P0.3.8 Create `.github/dependabot.yml` if it doesn't exist. Add Docker and Docker Compose (same settings).
+- [x] P0.3.1 Dockerfile for the frontend (multi-stage, non-root).
+- [x] P0.3.2 Dockerfile for the backend (multi-stage, non-root).
+- [x] P0.3.3 `docker-compose.yml`: `frontend`, `backend`, `otel-lgtm`. Pinned image versions.
+- [x] P0.3.4 Networks: backend has no published port.
+- [x] P0.3.5 Health checks and `depends_on: service_healthy`.
+- [x] P0.3.6 `.env.example` with all settings. (PostgreSQL volume moved to P5.0.1.)
+- [x] P0.3.7 Optional `docker-compose.override.example.yml` (copy to `docker-compose.override.yml`) exposing the backend on `127.0.0.1` for debugging.
+- [x] P0.3.8 Create `.github/dependabot.yml` if it doesn't exist. Add Docker and Docker Compose (same settings).
 
 ### P0.4 Service authentication (frontend → backend)
 - [ ] P0.4.1 Key pair generation script (ES256). Keys stored in user-secrets / `.env`.
@@ -52,13 +52,13 @@ Estimates assume part-time work and are rough.
 - [ ] P0.5.2 BFF endpoint pattern: thin forward, error mapping (ProblemDetails).
 - [ ] P0.5.3 First end-to-end call: `GET /bff/games` → backend `GET /games`.
 
-### P0.6 Database and seed data
-- [ ] P0.6.1 Backend: EF Core + Npgsql, database `companion`, schema `app`, snake_case naming.
-- [ ] P0.6.2 Runtime and migrations database users.
-- [ ] P0.6.3 First migration: games, editions, chapters, categories, items.
+### P0.6 Seed data
+- P0.6.1 Moved to P5.0.1 (see [ADR 0013](adr/0013-game-data-in-memory.md)).
+- P0.6.2 Moved to P5.0.2.
+- P0.6.3 Replaced by P5.0.3. Game data gets no tables.
 - [ ] P0.6.4 Seed JSON Schemas in `data/schema/`.
 - [ ] P0.6.5 `SeedBuilder validate` command (schema, unique keys, valid references).
-- [ ] P0.6.6 Backend seeder: upsert by key on startup (dev), never delete.
+- [ ] P0.6.6 Backend loader: read validated JSON from `data/` into memory on startup. Fail fast on bad data. Copy `data/` into the backend image.
 - [ ] P0.6.7 Minimal sample seed data to prove the flow.
 
 ### P0.7 Frontend base
@@ -69,13 +69,13 @@ Estimates assume part-time work and are rough.
 
 ### P0.8 Observability
 - [ ] P0.8.1 OpenTelemetry in both services (logs, traces, metrics) → Collector in `otel-lgtm`.
-- [ ] P0.8.2 Trace propagation frontend → backend → database.
+- [ ] P0.8.2 Trace propagation frontend → backend.
 - [ ] P0.8.3 Low-volume defaults (levels, framework categories at `Warning`).
 - [ ] P0.8.4 Verify a single trace in Grafana for `GET /bff/games`.
 
 ### P0.9 CI and docs
 - [ ] P0.9.1 GitHub Actions: build, `dotnet format --verify-no-changes`, tests, seed validation, vulnerable packages, Docker image builds.
-- [ ] P0.9.2 Testcontainers set up for backend integration tests.
+- P0.9.2 Moved to P5.0.4.
 - [ ] P0.9.3 README quickstart tested on a clean machine.
 - [ ] P0.9.4 Create `.github/dependabot.yml` if it doesn't exist. Add GitHub Actions (same settings).
 - [ ] P0.9.5 Secret scanning (gitleaks) in CI.
@@ -190,6 +190,7 @@ Estimates assume part-time work and are rough.
 - [ ] P3.4.1 Verify missables and chapters for every item.
 - [ ] P3.4.2 Own wording; attribution on every sourced item.
 - [ ] P3.4.3 Performance check with the full data set (page size, WASM load).
+- [ ] P3.4.4 Review game data storage against the [ADR 0013](adr/0013-game-data-in-memory.md) triggers.
 
 **Done when:** every category in [12-ffx-completion-scope.md](12-ffx-completion-scope.md) is in the app and verified.
 
@@ -225,9 +226,17 @@ Estimates assume part-time work and are rough.
 
 ## Phase 5 – Accounts (≈3–4 weeks)
 
+### P5.0 Database
+- [ ] P5.0.1 Backend: EF Core + Npgsql, `postgres` service with a named volume, database `companion`, schema `app`, snake_case naming.
+- [ ] P5.0.2 Runtime and migrations database users.
+- [ ] P5.0.3 First migration: progress tables, keyed by item key.
+- [ ] P5.0.4 Testcontainers set up for backend integration tests.
+- [ ] P5.0.5 Trace propagation backend → database.
+
 ### P5.1 Decisions
 - [ ] P5.1.1 Account linking policy.
 - [ ] P5.1.2 Recovery approach for external-only accounts.
+- [ ] P5.1.3 Review game data storage against the [ADR 0013](adr/0013-game-data-in-memory.md) triggers.
 
 ### P5.2 Backend accounts
 - [ ] P5.2.1 Identity Core (`AddIdentityCore`) with EF stores in schema `identity`.
@@ -305,7 +314,7 @@ Estimates assume part-time work and are rough.
 
 **Done when:** the app is public, monitored, backed up and within budget.
 
-**Option:** run Phase 6 right after Phase 4 to launch guest-only, then add accounts.
+**Option:** run Phase 6 right after Phase 4 to launch guest-only, then add accounts. A guest-only launch needs no PostgreSQL.
 
 ---
 

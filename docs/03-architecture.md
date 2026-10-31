@@ -14,7 +14,7 @@
 |---|---|---|
 | Frontend, backend | Docker Compose containers | Container host decided in Phase 6 |
 | Private network | Docker Compose network (backend not published) | Internal-only ingress / private network |
-| PostgreSQL | `postgres` container | Decided in Phase 6 (e.g. Neon, Azure Flexible Server, self-hosted) |
+| PostgreSQL (Phase 5) | `postgres` container | Decided in Phase 6 (e.g. Neon, Azure Flexible Server, self-hosted) |
 | OpenTelemetry Collector | Built into the `grafana/otel-lgtm` container (OTLP 4317/4318) | Collector container on the private network (e.g. Grafana Alloy) |
 | Grafana | `grafana/otel-lgtm` container (UI 3000) | Grafana Cloud Free |
 | Email service | Mailpit container (Phase 5) | Email provider, decided in Phase 6 |
@@ -39,9 +39,9 @@ flowchart TB
     subgraph Backend["Backend API (private) – ASP.NET Core, Minimal APIs"]
       API[Web API<br/>service-token protected]
       Domain[Domain layer<br/>shared .NET library]
-      Data[Data access<br/>EF Core, Identity Core, seeder]
+      Data[Data access<br/>game data loader; EF Core, Identity Core later]
     end
-    DB[(PostgreSQL<br/>app and identity data)]
+    DB[(PostgreSQL – later<br/>progress and identity data)]
     Coll[OTel Collector<br/>telemetry gateway]
     OTel[Grafana<br/>observability]
     Mail[Email service<br/>SMTP – later]
@@ -64,7 +64,7 @@ flowchart TB
   Backend -- OTLP --> Coll
   Coll --> OTel
   Ext --> Tools --> Builder --> Seed
-  Seed -- loaded by backend seeder on startup --> DB
+  Seed -- loaded into memory on startup --> Data
 ```
 
 ## Key ideas
@@ -81,7 +81,7 @@ flowchart TB
 
 - **The WebAssembly client never calls the backend and never holds secrets.** Code in the browser is public.
 - **Secrets live where they are needed, and nowhere else:** provider OAuth secrets and cookie keys in the frontend; database, SMTP credentials and service-token validation keys in the backend; Grafana credentials in the Collector.
-- **Game data flows one way:** external data → extraction tools → seed builder → JSON in git → database (loaded by the backend seeder). Never edited at runtime.
+- **Game data flows one way:** external data → extraction tools → seed builder → JSON in git → backend memory (loaded at startup). Never edited at runtime. See [ADR 0013](adr/0013-game-data-in-memory.md).
 - **Guest progress lives in the browser.** The server is not involved until the user signs in.
 - **Domain logic is shared.** The same C# library runs in the backend and in the WebAssembly client (for instant local calculations).
 - **Telemetry** from both services goes through OpenTelemetry to a **Collector on the private network**. Only the Collector talks to Grafana and holds its credentials. One trace spans browser request → frontend → backend.
@@ -145,13 +145,13 @@ flowchart TB
 
 | Data | Owner | Store |
 |---|---|---|
-| Game data (seeded) | Backend | PostgreSQL `companion`, schema `app` |
+| Game data | Git (`data/`), served by the backend | JSON, in backend memory |
 | User progress (signed in) | Backend, keyed by opaque user ID | PostgreSQL `companion`, schema `app` |
 | User accounts, logins, password hashes, email tokens | Backend (Identity Core) | PostgreSQL `companion`, schema `identity` |
 | Session cookie keys | Frontend | Data Protection key storage (volume / key store) |
 | Guest progress | User | Browser storage, export files |
 
-- **Only the backend connects to PostgreSQL.** One database `companion`, schemas `app` and `identity`.
+- **Only the backend connects to PostgreSQL (Phase 5).** One database `companion`, schemas `app` and `identity`.
 - Database users: a runtime user (data read/write) and a migrations user (schema owner).
 - Provider access tokens are not stored. Email addresses exist only in the `identity` schema and are never logged.
 
@@ -165,7 +165,7 @@ UniversalCompanionApp/
 │  ├─ Companion.Frontend/            Public host: static SSR, BFF endpoints, cookie + OAuth sign-in (Phase 5).
 │  ├─ Companion.Frontend.Client/     Blazor WebAssembly project (interactive UI).
 │  ├─ Companion.Backend.Api/         Private host: Minimal APIs, service-token auth, auth endpoints, email.
-│  └─ Companion.Backend.Data/        EF Core DbContexts (app, identity), migrations, seeder.
+│  └─ Companion.Backend.Data/        Game data loader. EF Core DbContexts and migrations from Phase 5.
 ├─ tools/
 │  └─ Companion.SeedBuilder/         External data → validated seed JSON.
 ├─ data/
@@ -173,7 +173,7 @@ UniversalCompanionApp/
 │  └─ games/<game>/                  Seed data per game.
 ├─ tests/
 │  ├─ Companion.Domain.Tests/
-│  ├─ Companion.Backend.Tests/       API + data (Testcontainers).
+│  ├─ Companion.Backend.Tests/       API + data (Testcontainers from Phase 5).
 │  ├─ Companion.Frontend.Tests/      bUnit + BFF tests.
 │  ├─ Companion.Architecture.Tests/
 │  └─ Companion.E2E/                 Playwright.
@@ -206,8 +206,11 @@ Domain, Contracts ──► (nothing)
 
 | Service | Image | Published ports | Network | Phase |
 |---|---|---|---|---|
-| `frontend` | built from `src/Companion.Frontend/Dockerfile` | 8080 (HTTP), 8081 (HTTPS) | public + internal (reaches `backend` and the Collector only) | 0 |
+| `frontend` | built from `src/Companion.Frontend/Dockerfile` | 8080 (HTTP, localhost only) | public + internal (reaches `backend` and the Collector only) | 0 |
 | `backend` | built from `src/Companion.Backend.Api/Dockerfile` | **none** (optional localhost-only port in `docker-compose.override.yml` for debugging) | internal only | 0 |
-| `postgres` | `postgres:<pinned>` | 5432 (localhost only, for dev tools) | backend network only | 0 |
-| `otel-lgtm` | `grafana/otel-lgtm:<pinned>` (Collector + Grafana) | 3000 (Grafana UI, localhost only) | internal | 0 |
+| `postgres` | `postgres:<pinned>` | **none** (optional localhost-only port in `docker-compose.override.yml` for dev tools) | backend network only | 5 |
+| `otel-lgtm` | `grafana/otel-lgtm:<pinned>` (Collector + Grafana) | 3000 (Grafana UI, localhost only) | public + internal | 0 |
 | `mailpit` | `axllent/mailpit:<pinned>` | 8025 (UI) | backend network only | 5 |
+
+- Health checks on `frontend` and `backend` test the TCP port, so the backend needs no endpoint without a service token.
+- `docker-compose.override.yml` is git-ignored. Copy it from `docker-compose.override.example.yml`.

@@ -1,6 +1,6 @@
 # Security
 
-- Never commit or print secrets. Use `dotnet user-secrets` or `.env` (git-ignored). Don't read `.env` files.
+- Never commit or print secrets. Use `dotnet user-secrets` or `.env` (git-ignored). Don't read `.env`. Other `.env.*` files only with approval.
 - Keep dependencies patched. CI runs `dotnet list package --vulnerable` and secret scanning.
 - HTTPS everywhere. Security headers: CSP, HSTS, `X-Content-Type-Options`, `Referrer-Policy`.
 - Cookies: Secure, HttpOnly, SameSite.

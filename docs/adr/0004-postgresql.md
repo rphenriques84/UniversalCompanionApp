@@ -1,6 +1,6 @@
 # ADR 0004: PostgreSQL as database
 
-- **Status:** Accepted
+- **Status:** Accepted, amended by [ADR 0013](0013-game-data-in-memory.md)
 - **Date:** 2026-10-30
 
 ## Context

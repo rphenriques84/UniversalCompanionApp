@@ -11,9 +11,9 @@ Decisions are recorded as ADRs in [adr/](adr/).
 | Service split | Public frontend (BFF) + private backend API | [0011](adr/0011-frontend-backend-split.md) |
 | Frontend UI | Blazor Web App: static SSR + Interactive WebAssembly | [0002](adr/0002-blazor-web-app.md) |
 | Styling | Tailwind CSS with CSS-variable themes | [0003](adr/0003-tailwind-themes.md) |
-| Database | PostgreSQL + EF Core (Npgsql) | [0004](adr/0004-postgresql.md) |
+| Database | PostgreSQL + EF Core (Npgsql), from Phase 5 | [0004](adr/0004-postgresql.md) |
 | Local environment | Docker Compose (not Aspire) | [0005](adr/0005-docker-compose.md) |
-| Game data | Versioned JSON in git | [0006](adr/0006-static-data-json.md) |
+| Game data | Versioned JSON in git, served from memory | [0006](adr/0006-static-data-json.md), [0013](adr/0013-game-data-in-memory.md) |
 | Guest mode and export | Browser storage + export file | [0007](adr/0007-guest-first-export.md) |
 | Identity | Accounts in the backend (Identity Core); frontend does OAuth + cookie | [0008](adr/0008-identity.md) |
 | Service auth | JWT service tokens, frontend → backend | [0011](adr/0011-frontend-backend-split.md) |
@@ -70,11 +70,11 @@ Decisions are recorded as ADRs in [adr/](adr/).
 - Protected by JWT bearer service tokens (`Microsoft.AspNetCore.Authentication.JwtBearer`).
 - Frontend BFF endpoints are also Minimal APIs, protected by the user cookie and antiforgery.
 
-## Database: PostgreSQL + EF Core
+## Database: PostgreSQL + EF Core (Phase 5)
 
 - **Why:** free, host-neutral, great EF Core support, JSONB for game-specific fields.
 - **Local:** Docker container. **Only the backend connects to it.**
-- One database `companion`, schemas `app` and `identity`.
+- One database `companion`, schemas `app` (progress) and `identity`. Game data is not stored here.
 - **Production:** decided later (see [11-hosting-options.md](11-hosting-options.md)).
 - **Conventions:** snake_case names (`EFCore.NamingConventions`), UTC `DateTimeOffset`.
 - **Alternative:** SQL Server / Azure SQL (free offer on Azure, but heavier and less host-neutral).
@@ -82,13 +82,13 @@ Decisions are recorded as ADRs in [adr/](adr/).
 ## Local environment: Docker Compose
 
 - **Why:** one `docker compose up` starts everything. Same image deploys anywhere.
-- **Services:** `frontend`, `backend` (internal network only), `postgres`, `otel-lgtm` (Grafana). `mailpit` is added in Phase 5.
+- **Services:** `frontend`, `backend` (internal network only), `otel-lgtm` (Grafana). `postgres` and `mailpit` are added in Phase 5.
 - **Alternative rejected:** Aspire for orchestration. Good tool, but Docker Compose is simpler and host-neutral.
 
 ## Game data: versioned JSON
 
 - **Why:** data changes only when curated. Git history, PR reviews, CI validation.
-- **Load:** the backend seeder upserts by `Key` at startup (dev) or deploy (prod).
+- **Load:** the backend reads validated JSON into memory at startup ([ADR 0013](adr/0013-game-data-in-memory.md)).
 
 ## Identity (Phase 5)
 
@@ -114,7 +114,7 @@ Decisions are recorded as ADRs in [adr/](adr/).
 |---|---|
 | xUnit | Domain logic: completion %, missables, prerequisites, import/migration; service-token validation |
 | bUnit | Blazor components without a browser |
-| Testcontainers | Integration tests on real PostgreSQL |
+| Testcontainers | Integration tests on real PostgreSQL (Phase 5) |
 | Playwright for .NET | 3–5 end-to-end smoke flows |
 
 ## CI/CD: GitHub Actions

@@ -9,7 +9,7 @@ paths:
 # Docker and local development
 
 - `docker compose up` must work on a clean machine.
-- Services: `frontend`, `backend`, `postgres`, `otel-lgtm`; `mailpit` from Phase 5.
+- Services: `frontend`, `backend`, `otel-lgtm`; `postgres` and `mailpit` from Phase 5.
 - Networks: `frontend` reaches only `backend` and the Collector (`otel-lgtm` locally). `postgres` and `mailpit` are on the backend network only.
 - Grafana UI port published on `127.0.0.1` only.
 - Persist frontend Data Protection keys in a named volume.
@@ -17,6 +17,6 @@ paths:
 - One Dockerfile per service (`src/Companion.Frontend/Dockerfile`, `src/Companion.Backend.Api/Dockerfile`).
 - Pin image versions. Never `:latest`.
 - Health checks on every service. `depends_on` with `condition: service_healthy`.
-- Named volume for PostgreSQL data.
+- Named volume for PostgreSQL data (Phase 5).
 - Secrets via `.env` (git-ignored); keep `.env.example` up to date.
 - Multi-stage Dockerfile, non-root runtime user.

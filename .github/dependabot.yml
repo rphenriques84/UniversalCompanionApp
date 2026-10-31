@@ -11,3 +11,27 @@ updates:
         update-types:
           - minor
           - patch
+  - package-ecosystem: docker
+    directories:
+      - /src/Companion.Frontend
+      - /src/Companion.Backend.Api
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
+    groups:
+      docker-minor-and-patch:
+        update-types:
+          - minor
+          - patch
+  - package-ecosystem: docker-compose
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
+    groups:
+      docker-compose-minor-and-patch:
+        update-types:
+          - minor
+          - patch
