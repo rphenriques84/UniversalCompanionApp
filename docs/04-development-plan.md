@@ -27,7 +27,7 @@ Estimates assume part-time work and are rough.
 - [ ] P0.2.4 `Directory.Packages.props` (Central Package Management).
 - [ ] P0.2.5 Set project references per the dependency rules (see [03-architecture.md](03-architecture.md#dependency-rules)).
 - [ ] P0.2.6 Architecture tests: Domain/Contracts have no EF/ASP.NET; frontend ↛ backend and backend ↛ frontend.
-- [ ] P0.2.7 `.github/dependabot.yml`: NuGet (weekly, grouped minor and patch, `chore:` prefix).
+- [ ] P0.2.7 Create `.github/dependabot.yml` if it doesn't exist. Add NuGet (weekly, grouped minor and patch, `chore:` prefix).
 
 ### P0.3 Docker environment
 - [ ] P0.3.1 Dockerfile for the frontend (multi-stage, non-root).
@@ -37,7 +37,7 @@ Estimates assume part-time work and are rough.
 - [ ] P0.3.5 Health checks and `depends_on: service_healthy`.
 - [ ] P0.3.6 Named volume for PostgreSQL. `.env.example` with all settings.
 - [ ] P0.3.7 Optional `docker-compose.override.yml` exposing the backend on `127.0.0.1` for debugging.
-- [ ] P0.3.8 Add Docker and Docker Compose to `.github/dependabot.yml`.
+- [ ] P0.3.8 Create `.github/dependabot.yml` if it doesn't exist. Add Docker and Docker Compose (same settings).
 
 ### P0.4 Service authentication (frontend → backend)
 - [ ] P0.4.1 Key pair generation script (ES256). Keys stored in user-secrets / `.env`.
@@ -77,7 +77,7 @@ Estimates assume part-time work and are rough.
 - [ ] P0.9.1 GitHub Actions: build, `dotnet format --verify-no-changes`, tests, seed validation, vulnerable packages, Docker image builds.
 - [ ] P0.9.2 Testcontainers set up for backend integration tests.
 - [ ] P0.9.3 README quickstart tested on a clean machine.
-- [ ] P0.9.4 Add GitHub Actions to `.github/dependabot.yml`.
+- [ ] P0.9.4 Create `.github/dependabot.yml` if it doesn't exist. Add GitHub Actions (same settings).
 
 **Done when:** `docker compose up` shows a page that lists sample games from the backend, the backend is unreachable from the host, a trace is visible in Grafana, and CI is green.
 
