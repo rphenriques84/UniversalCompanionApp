@@ -9,7 +9,7 @@ Short version of the rules. Full guidelines: [docs/05-guidelines.md](docs/05-gui
 3. Use [Conventional Commits](https://www.conventionalcommits.org/):
    `feat:`, `fix:`, `docs:`, `chore:`, `test:`, `refactor:`, `data:` (seed JSON changes).
 4. Open a pull request. CI must be green.
-5. Squash-merge. `main` is protected: no direct pushes.
+5. Squash-merge. No direct pushes to `main` (GitHub enforcement comes in P6.1.3).
 
 ## Decisions
 

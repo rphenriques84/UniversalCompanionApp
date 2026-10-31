@@ -16,7 +16,7 @@ Estimates assume part-time work and are rough.
 ### P0.1 Repository and tooling
 - [x] P0.1.1 Create the GitHub repository. Push the existing docs.
 - [x] P0.1.2 Run `_setup/install.ps1` (moves `.claude/` and `.github/` files into place). Delete `_setup/`.
-- [ ] P0.1.3 Branch protection on `main`: PRs only, CI required.
+- P0.1.3 Moved to P6.1.3. Branch protection needs a public repo or GitHub Pro. Until then, the PR-only rule is followed by hand.
 - [ ] P0.1.4 Dependabot for NuGet, Docker and GitHub Actions.
 - [ ] P0.1.5 Secret scanning (gitleaks) in CI.
 
@@ -275,6 +275,7 @@ Estimates assume part-time work and are rough.
 ### P6.1 Hosting choice
 - [ ] P6.1.1 Compare options with real data (see [11-hosting-options.md](11-hosting-options.md)).
 - [ ] P6.1.2 Choose hosts: frontend, backend (private), Collector, PostgreSQL, email provider.
+- [ ] P6.1.3 Decide repository visibility (public, or private with GitHub Pro). Then enable branch protection on `main`: PRs only, CI required.
 
 ### P6.2 Infrastructure
 - [ ] P6.2.1 Backend on internal-only ingress / private network.
