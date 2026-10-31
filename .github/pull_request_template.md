@@ -12,6 +12,8 @@
 
 ## Checklist (Definition of Done)
 
+- [ ] One plan subtask, within the PR size limit (or the reason is above)
+- [ ] Stable release on its own: `main` could ship as it is
 - [ ] CI green: build, format, tests, seed validation
 - [ ] Tests added or updated
 - [ ] Works at mobile width and with keyboard only

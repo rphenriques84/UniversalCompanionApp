@@ -31,7 +31,7 @@ docker compose up -d            # start everything
 dotnet build                    # build
 dotnet test                     # all tests (Docker needed for Testcontainers from Phase 5)
 dotnet format --verify-no-changes
-dotnet run --project tools/Companion.SeedBuilder -- validate data/   # seed validation (from P0.6.5)
+dotnet run --project tools/Companion.SeedBuilder -- validate data/   # seed validation (from P0.6.6)
 ```
 
 ## Must always
