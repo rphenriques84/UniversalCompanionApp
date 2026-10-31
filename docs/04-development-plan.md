@@ -77,11 +77,11 @@ Do P0.9.1 and P0.9.5 first, so security code lands with automatic checks.
 - [ ] P0.8.4 Verify a single trace in Grafana for `GET /bff/games`.
 
 ### P0.9 CI and docs
-- [ ] P0.9.1 GitHub Actions: build, `dotnet format --verify-no-changes`, tests, vulnerable packages, Docker image builds. Seed validation joins when P0.6.5 exists.
+- [x] P0.9.1 GitHub Actions: build, `dotnet format --verify-no-changes`, tests, vulnerable packages, Docker image builds. Seed validation joins when P0.6.5 exists.
 - P0.9.2 Moved to P5.0.4.
 - [ ] P0.9.3 README quickstart tested on a clean machine, including `cp .env.example .env`.
-- [ ] P0.9.4 Create `.github/dependabot.yml` if it doesn't exist. Add GitHub Actions (same settings).
-- [ ] P0.9.5 Secret scanning (gitleaks) in CI.
+- [x] P0.9.4 Create `.github/dependabot.yml` if it doesn't exist. Add GitHub Actions (same settings).
+- [x] P0.9.5 Secret scanning (gitleaks) in CI.
 - [ ] P0.9.6 Confirm Dependabot opens a Docker or Docker Compose PR.
 - [ ] P0.9.7 Watch CI for the 2 unexplained build errors seen once after merging P0.3. Capture the message if they return.
 

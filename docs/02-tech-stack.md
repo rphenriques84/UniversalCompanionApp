@@ -119,5 +119,5 @@ Decisions are recorded as ADRs in [adr/](adr/).
 
 ## CI/CD: GitHub Actions
 
-Build → format check → tests → seed validation → vulnerability check → Docker image builds (frontend, backend).
+Build → format check → tests → vulnerability check → Docker image builds (frontend, backend) → secret scan (gitleaks). Seed validation joins with P0.6.5.
 Deploy steps are added in Phase 6.

@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-dotnet@v6.0.0
+        with:
+          global-json-file: global.json
+      - run: dotnet restore Companion.slnx
+      - run: dotnet build Companion.slnx --no-restore --configuration Release
+      - run: dotnet format Companion.slnx --no-restore --verify-no-changes
+      - run: dotnet test Companion.slnx --no-build --configuration Release
+      - name: Check for vulnerable packages
+        run: |
+          dotnet list Companion.slnx package --vulnerable --include-transitive | tee vulnerable.txt
+          ! grep -q "has the following vulnerable packages" vulnerable.txt
+
+  docker-images:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - run: docker build --file src/Companion.Frontend/Dockerfile .
+      - run: docker build --file src/Companion.Backend.Api/Dockerfile .
+
+  secret-scan:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Run gitleaks on the full history
+        run: |
+          docker run --rm --volume "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.30.1 \
+            git /repo --redact --exit-code 1

@@ -1,0 +1,8 @@
+[extend]
+useDefault = true
+
+# Game item keys look like API keys to gitleaks, for example "key": "ffx.al-bhed-primers.vol-01".
+[[allowlists]]
+description = "Permanent game item keys"
+regexTarget = "line"
+regexes = ['''"key":\s*"[a-z0-9-]+(\.[a-z0-9-]+)+"''']
