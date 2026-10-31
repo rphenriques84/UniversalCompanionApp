@@ -33,6 +33,7 @@ Change them through a PR (and an ADR if it's a real decision).
   - Frontend projects never reference Backend projects, and the reverse.
 - Domain and Contracts have no EF/ASP.NET references.
 - Enforced by architecture tests.
+- Keep the six source projects ([ADR 0012](adr/0012-project-structure.md)). Don't merge `Backend.Data` into `Backend.Api`, and don't add Application or Infrastructure layers.
 - **The WebAssembly client talks only to the frontend (BFF).** It never calls the backend and never holds secrets.
 - **The frontend talks to the backend only over HTTP** with a typed `HttpClient` and a service token.
 - **The backend is private.** Never publish its port in production. Every backend endpoint requires a valid service token (deny by default).
@@ -145,3 +146,23 @@ Change them through a PR (and an ADR if it's a real decision).
 - Non-commercial. No ads, no paid features.
 - CC BY-SA attribution wherever wiki-derived content is used.
 - Respect third-party licenses in tools (check before reusing code).
+
+## 14. Design principles
+
+Apply these with judgment. If two conflict, prefer the simpler option.
+
+- **Separation of Concerns:** one project, one area.
+- **SOLID:**
+  - Single Responsibility: a class has one reason to change.
+  - Open/Closed: add a new game through data and a theme, not by changing shared code.
+  - Liskov Substitution: an implementation honors its interface's contract.
+  - Interface Segregation: small interfaces, shaped for the caller.
+  - Dependency Inversion: dependencies point toward Domain. Add an interface only for a real boundary or a second implementation.
+- **DRY:** one source of truth per rule or fact. Wait for the third real copy before extracting.
+- **KISS:** the simplest design that works. No repository layer over EF Core, mediator or CQRS without a concrete need.
+- **YAGNI:** build for the current plan task, not for later phases.
+- **Functional core, imperative shell:** Domain stays pure, with no I/O, clock or logging. Services at the edges do the rest.
+- **Least privilege:** each service, database user and token gets only the access it needs.
+- **Secure by default:** deny first. Opening access is a deliberate step.
+- **Fail fast:** validate configuration at startup and input at the boundary.
+- **Composition over inheritance:** build from small parts, not base-class chains.

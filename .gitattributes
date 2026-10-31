@@ -1,0 +1,2 @@
+# Keep LF on every platform, to match .editorconfig and dotnet format.
+* text=auto eol=lf

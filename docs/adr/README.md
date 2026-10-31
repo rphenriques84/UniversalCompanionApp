@@ -13,5 +13,6 @@
 | [0009](0009-observability-grafana.md) | OpenTelemetry with Grafana locally and in production | Accepted |
 | [0010](0010-hosting-deferred.md) | Defer hosting decision to Phase 6 | Accepted |
 | [0011](0011-frontend-backend-split.md) | Public frontend (BFF) and private backend API | Accepted |
+| [0012](0012-project-structure.md) | Six source projects, no extra layers | Accepted |
 
 New ADR: copy [0000-template.md](0000-template.md), use the next number.

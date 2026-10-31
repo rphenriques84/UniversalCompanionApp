@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Companion.Backend.Api/Companion.Backend.Api.csproj" />
+    <Project Path="src/Companion.Backend.Data/Companion.Backend.Data.csproj" />
+    <Project Path="src/Companion.Contracts/Companion.Contracts.csproj" />
+    <Project Path="src/Companion.Domain/Companion.Domain.csproj" />
+    <Project Path="src/Companion.Frontend.Client/Companion.Frontend.Client.csproj" />
+    <Project Path="src/Companion.Frontend/Companion.Frontend.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Companion.Architecture.Tests/Companion.Architecture.Tests.csproj" />
+    <Project Path="tests/Companion.Backend.Tests/Companion.Backend.Tests.csproj" />
+    <Project Path="tests/Companion.Domain.Tests/Companion.Domain.Tests.csproj" />
+    <Project Path="tests/Companion.E2E/Companion.E2E.csproj" />
+    <Project Path="tests/Companion.Frontend.Tests/Companion.Frontend.Tests.csproj" />
+  </Folder>
+</Solution>

@@ -18,16 +18,16 @@ Estimates assume part-time work and are rough.
 - [x] P0.1.2 Run `_setup/install.ps1` (moves `.claude/` and `.github/` files into place). Delete `_setup/`.
 - P0.1.3 Moved to P6.1.3. Branch protection needs a public repo or GitHub Pro. Until then, the PR-only rule is followed by hand.
 - [x] P0.1.4 Dependabot alerts and security updates on. Version update config is added per ecosystem in P0.2.7, P0.3.8 and P0.9.4.
-- [ ] P0.1.5 Secret scanning (gitleaks) in CI.
+- P0.1.5 Moved to P0.9.5. Secret scanning needs CI to run in.
 
 ### P0.2 Solution skeleton
-- [ ] P0.2.1 Create the solution and projects: `Domain`, `Contracts`, `Frontend`, `Frontend.Client`, `Backend.Api`, `Backend.Data`.
-- [ ] P0.2.2 Create test projects: `Domain.Tests`, `Backend.Tests`, `Frontend.Tests`, `Architecture.Tests`, `E2E`.
-- [ ] P0.2.3 `Directory.Build.props`: .NET 10, `Nullable`, `ImplicitUsings`, `TreatWarningsAsErrors`, `AnalysisLevel=latest-recommended`.
-- [ ] P0.2.4 `Directory.Packages.props` (Central Package Management).
-- [ ] P0.2.5 Set project references per the dependency rules (see [03-architecture.md](03-architecture.md#dependency-rules)).
-- [ ] P0.2.6 Architecture tests: Domain/Contracts have no EF/ASP.NET; frontend ↛ backend and backend ↛ frontend.
-- [ ] P0.2.7 Create `.github/dependabot.yml` if it doesn't exist. Add NuGet (weekly, grouped minor and patch, `chore:` prefix).
+- [x] P0.2.1 Create the solution and projects: `Domain`, `Contracts`, `Frontend`, `Frontend.Client`, `Backend.Api`, `Backend.Data`.
+- [x] P0.2.2 Create test projects: `Domain.Tests`, `Backend.Tests`, `Frontend.Tests`, `Architecture.Tests`, `E2E`.
+- [x] P0.2.3 `Directory.Build.props`: .NET 10, `Nullable`, `ImplicitUsings`, `TreatWarningsAsErrors`, `AnalysisLevel=latest-recommended`.
+- [x] P0.2.4 `Directory.Packages.props` (Central Package Management).
+- [x] P0.2.5 Set project references per the dependency rules (see [03-architecture.md](03-architecture.md#dependency-rules)).
+- [x] P0.2.6 Architecture tests: Domain/Contracts have no EF/ASP.NET; frontend ↛ backend and backend ↛ frontend.
+- [x] P0.2.7 Create `.github/dependabot.yml` if it doesn't exist. Add NuGet (weekly, grouped minor and patch, `chore:` prefix).
 
 ### P0.3 Docker environment
 - [ ] P0.3.1 Dockerfile for the frontend (multi-stage, non-root).
@@ -78,6 +78,7 @@ Estimates assume part-time work and are rough.
 - [ ] P0.9.2 Testcontainers set up for backend integration tests.
 - [ ] P0.9.3 README quickstart tested on a clean machine.
 - [ ] P0.9.4 Create `.github/dependabot.yml` if it doesn't exist. Add GitHub Actions (same settings).
+- [ ] P0.9.5 Secret scanning (gitleaks) in CI.
 
 **Done when:** `docker compose up` shows a page that lists sample games from the backend, the backend is unreachable from the host, a trace is visible in Grafana, and CI is green.
 
