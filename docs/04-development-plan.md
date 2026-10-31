@@ -40,21 +40,19 @@ Estimates assume part-time work and are rough.
 - [x] P0.3.8 Create `.github/dependabot.yml` if it doesn't exist. Add Docker and Docker Compose (same settings).
 
 ### P0.4 Service authentication (frontend → backend)
-
-Do P0.9.1 and P0.9.5 first, so security code lands with automatic checks.
-- [ ] P0.4.1 Key pair generation script (ES256). Keys stored in user-secrets / `.env`.
-- [ ] P0.4.2 Frontend: token issuer (`iss`, `aud`, `exp` ≤ 5 min, `scope`, optional `uid`), cached until near expiry.
-- [ ] P0.4.3 Frontend: `DelegatingHandler` adding the token to backend calls.
-- [ ] P0.4.4 Backend: JWT bearer validation (issuer, audience, lifetime, key), current + previous key.
-- [ ] P0.4.5 Backend: deny-by-default authorization; scope policies.
-- [ ] P0.4.6 Tests: missing, expired, wrong-audience and wrong-scope tokens are rejected.
-- [ ] P0.4.7 Diagram: add the JWT service token link, frontend → backend.
+- [x] P0.4.1 Key pair generation script (ES256). Keys stored in user-secrets / `.env`.
+- [x] P0.4.2 Frontend: token issuer (`iss`, `aud`, `exp` ≤ 5 min, `scope`, optional `uid`), cached until near expiry.
+- [x] P0.4.3 Frontend: `DelegatingHandler` adding the token to backend calls.
+- [x] P0.4.4 Backend: JWT bearer validation (issuer, audience, lifetime, key), current + previous key.
+- [x] P0.4.5 Backend: deny-by-default authorization; scope policies.
+- [x] P0.4.6 Tests: missing, expired, wrong-audience and wrong-scope tokens are rejected.
+- P0.4.7 Moved to P0.5.4. No service calls exist until P0.5.
 
 ### P0.5 Frontend ↔ backend communication
 - [ ] P0.5.1 Typed `HttpClient` for the backend with resilience (timeouts, retries).
 - [ ] P0.5.2 BFF endpoint pattern: thin forward, error mapping (ProblemDetails).
 - [ ] P0.5.3 First end-to-end call: `GET /bff/games` → backend `GET /games`.
-- [ ] P0.5.4 Diagram: add BFF endpoints and the first backend endpoint.
+- [ ] P0.5.4 Diagram: add the JWT service token link, BFF endpoints and the first backend endpoint.
 
 ### P0.6 Seed data
 - P0.6.1 Moved to P5.0.1 (see [ADR 0013](adr/0013-game-data-in-memory.md)).

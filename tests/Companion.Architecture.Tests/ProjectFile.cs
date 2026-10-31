@@ -34,7 +34,7 @@ internal sealed record ProjectFile(
     private static string ToProjectName(string include) =>
         Path.GetFileNameWithoutExtension(include.Replace('\\', '/'));
 
-    private static string FindRepositoryRoot()
+    public static string FindRepositoryRoot()
     {
         var directory = new DirectoryInfo(AppContext.BaseDirectory);
 

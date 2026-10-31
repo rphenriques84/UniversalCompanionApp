@@ -1,6 +1,9 @@
 using Companion.Frontend.Components;
+using Companion.Frontend.Features.ServiceAuth;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddServiceTokens(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
