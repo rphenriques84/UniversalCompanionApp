@@ -8,6 +8,7 @@ Estimates assume part-time work and are rough.
 - Each phase has **tasks** (`P0.1`) and **subtasks** (`P0.1.1`). Use the IDs in branch names, commits and PRs (e.g. `feat/p0-4-service-auth`).
 - A task is done when all its subtasks are done and the [Definition of Done](05-guidelines.md#12-definition-of-done) is met.
 - Each phase ends with **Done when** criteria.
+- **One subtask, one PR, each a stable release.** Split a subtask here before starting it if it will not fit the PR size limit (see [05-guidelines.md](05-guidelines.md#1-git-and-workflow)). Later phases get split when they start.
 
 ---
 
@@ -46,41 +47,53 @@ Estimates assume part-time work and are rough.
 - [x] P0.4.4 Backend: JWT bearer validation (issuer, audience, lifetime, key), current + previous key.
 - [x] P0.4.5 Backend: deny-by-default authorization; scope policies.
 - [x] P0.4.6 Tests: missing, expired, wrong-audience and wrong-scope tokens are rejected.
-- P0.4.7 Moved to P0.5.4. No service calls exist until P0.5.
+- P0.4.7 Moved to P0.5.7. No service calls exist until P0.5.
 
 ### P0.5 Frontend ↔ backend communication
-- [ ] P0.5.1 Typed `HttpClient` for the backend with resilience (timeouts, retries).
-- [ ] P0.5.2 BFF endpoint pattern: thin forward, error mapping (ProblemDetails).
-- [ ] P0.5.3 First end-to-end call: `GET /bff/games` → backend `GET /games`.
-- [ ] P0.5.4 Diagram: add the JWT service token link, BFF endpoints and the first backend endpoint.
+- [ ] P0.5.1 Backend: game DTO in `Contracts`, and `GET /games` with scope `game-data.read` returning a fixed list.
+- [ ] P0.5.2 Frontend: typed `HttpClient` for the backend, using the service token handler.
+- [ ] P0.5.3 Frontend: resilience on the typed client (timeouts, retries).
+- [ ] P0.5.4 BFF: `GET /bff/games` forwarding to the backend.
+- [ ] P0.5.5 BFF: error mapping (ProblemDetails).
+- [ ] P0.5.6 Prove `GET /bff/games` works end to end in Docker.
+- [ ] P0.5.7 Diagram: add the JWT service token link, BFF endpoints and the first backend endpoint.
 
 ### P0.6 Seed data
 - P0.6.1 Moved to P5.0.1 (see [ADR 0013](adr/0013-game-data-in-memory.md)).
 - P0.6.2 Moved to P5.0.2.
 - P0.6.3 Replaced by P5.0.3. Game data gets no tables.
-- [ ] P0.6.4 Seed JSON Schemas in `data/schema/`.
-- [ ] P0.6.5 `SeedBuilder validate` command (schema, unique keys, valid references).
-- [ ] P0.6.6 Backend loader: read validated JSON from `data/` into memory on startup. Fail fast on bad data. Copy `data/` into the backend image.
-- [ ] P0.6.7 Minimal sample seed data to prove the flow.
-- [ ] P0.6.8 Diagram: add seed data, the game data loader and the load arrow.
+- [ ] P0.6.4 JSON Schemas for games, editions and chapters in `data/schema/`.
+- [ ] P0.6.5 JSON Schemas for categories and items.
+- [ ] P0.6.6 `SeedBuilder` project with a `validate` command: schema checks.
+- [ ] P0.6.7 `SeedBuilder validate`: unique keys and valid references.
+- [ ] P0.6.8 Add seed validation to CI.
+- [ ] P0.6.9 Minimal sample seed data to prove the flow.
+- [ ] P0.6.10 Copy `data/` into the backend image.
+- [ ] P0.6.11 Backend loader: read validated JSON from `data/` into memory on startup. Fail fast on bad data.
+- [ ] P0.6.12 Backend: `GET /games` serves loaded data instead of the fixed list.
+- [ ] P0.6.13 Diagram: add seed data, the game data loader and the load arrow.
 
 ### P0.7 Frontend base
-- [ ] P0.7.1 Tailwind standalone CLI via MSBuild target.
-- [ ] P0.7.2 Theme tokens as CSS variables; `data-theme` switching; neutral default theme.
-- [ ] P0.7.3 Base layout (mobile-first), resource files for UI strings.
-- [ ] P0.7.4 Render modes: static SSR default, WebAssembly enabled for interactive pages.
-- [ ] P0.7.5 Prove the WebAssembly client runs: one interactive component in a real browser, in Docker.
-- [ ] P0.7.6 Diagram: remove "no interactive pages yet", add Tailwind CSS.
+- [ ] P0.7.1 Tailwind standalone CLI via MSBuild target, working in local and Docker builds.
+- [ ] P0.7.2 Theme tokens as CSS variables; replace template colors.
+- [ ] P0.7.3 `data-theme` switching; neutral default theme.
+- [ ] P0.7.4 Base layout (mobile-first).
+- [ ] P0.7.5 Resource files for UI strings.
+- [ ] P0.7.6 Render modes: static SSR default, WebAssembly enabled for interactive pages.
+- [ ] P0.7.7 Prove the WebAssembly client runs: one interactive component in a real browser, in Docker.
+- [ ] P0.7.8 Diagram: remove "no interactive pages yet", add Tailwind CSS.
 
 ### P0.8 Observability
-- [ ] P0.8.1 OpenTelemetry in both services (logs, traces, metrics) → Collector in `otel-lgtm`.
-- [ ] P0.8.2 Trace propagation frontend → backend.
-- [ ] P0.8.3 Low-volume defaults (levels, framework categories at `Warning`).
-- [ ] P0.8.4 Verify a single trace in Grafana for `GET /bff/games`.
-- [ ] P0.8.5 Diagram: add OTLP arrows from frontend and backend.
+- [ ] P0.8.1 Frontend: OpenTelemetry traces → Collector in `otel-lgtm`.
+- [ ] P0.8.2 Backend: OpenTelemetry traces → Collector in `otel-lgtm`.
+- [ ] P0.8.3 Logs and metrics in both services.
+- [ ] P0.8.4 Trace propagation frontend → backend.
+- [ ] P0.8.5 Low-volume defaults (levels, framework categories at `Warning`).
+- [ ] P0.8.6 Verify a single trace in Grafana for `GET /bff/games`.
+- [ ] P0.8.7 Diagram: add OTLP arrows from frontend and backend.
 
 ### P0.9 CI and docs
-- [x] P0.9.1 GitHub Actions: build, `dotnet format --verify-no-changes`, tests, vulnerable packages, Docker image builds. Seed validation joins when P0.6.5 exists.
+- [x] P0.9.1 GitHub Actions: build, `dotnet format --verify-no-changes`, tests, vulnerable packages, Docker image builds. Seed validation joins in P0.6.8.
 - P0.9.2 Moved to P5.0.4.
 - [ ] P0.9.3 README quickstart tested on a clean machine, including `cp .env.example .env`.
 - [x] P0.9.4 Create `.github/dependabot.yml` if it doesn't exist. Add GitHub Actions (same settings).
@@ -95,11 +108,13 @@ Estimates assume part-time work and are rough.
 ## Phase 1 – Guest MVP (≈2–3 weeks)
 
 ### P1.1 Game data API
-- [ ] P1.1.1 Backend endpoints: games, game detail, chapters, categories, items (scope `game-data.read`).
-- [ ] P1.1.2 Contracts (DTOs) in `Companion.Contracts`.
-- [ ] P1.1.3 BFF endpoints for the WebAssembly client.
-- [ ] P1.1.4 Output caching of public game data in the frontend.
-- [ ] P1.1.5 Diagram: remove "No endpoints yet" and "all empty" labels that are no longer true.
+- [ ] P1.1.1 `GET /games/{key}`: game detail (contract and backend endpoint, scope `game-data.read`).
+- [ ] P1.1.2 Chapters endpoint (contract and backend).
+- [ ] P1.1.3 Categories endpoint (contract and backend).
+- [ ] P1.1.4 Items endpoint (contract and backend).
+- [ ] P1.1.5 BFF endpoints for the WebAssembly client.
+- [ ] P1.1.6 Output caching of public game data in the frontend.
+- [ ] P1.1.7 Diagram: remove "No endpoints yet" and "all empty" labels that are no longer true.
 
 ### P1.2 Public pages (static SSR)
 - [ ] P1.2.1 Game list page.
@@ -107,13 +122,15 @@ Estimates assume part-time work and are rough.
 - [ ] P1.2.3 Category page (items, read-only).
 
 ### P1.3 Domain logic
-- [ ] P1.3.1 Completion % per category and overall (weights, counters).
-- [ ] P1.3.2 Edition filtering in totals.
-- [ ] P1.3.3 Prerequisites evaluation.
-- [ ] P1.3.4 Full unit test coverage.
+- [ ] P1.3.1 Completion % for one category (weights).
+- [ ] P1.3.2 Counter items in completion %.
+- [ ] P1.3.3 Overall completion %.
+- [ ] P1.3.4 Edition filtering in totals.
+- [ ] P1.3.5 Prerequisites evaluation.
 
 ### P1.4 Interactive tracking (WebAssembly)
-- [ ] P1.4.1 Checkbox and counter components (theme tokens, accessible).
+- [ ] P1.4.1 Checkbox component (theme tokens, accessible).
+- [ ] P1.4.4 Counter component (theme tokens, accessible).
 - [ ] P1.4.2 Progress state service in the client.
 - [ ] P1.4.3 Live completion % using the shared Domain library.
 
@@ -126,7 +143,8 @@ Estimates assume part-time work and are rough.
 ### P1.6 Export / import
 - [ ] P1.6.1 Export format v1 schema (see [09-export-file-format.md](09-export-file-format.md)).
 - [ ] P1.6.2 Export to file download.
-- [ ] P1.6.3 Import: size limit, schema validation, unknown keys warning.
+- [ ] P1.6.3 Import: size limit and schema validation.
+- [ ] P1.6.7 Import: unknown keys warning.
 - [ ] P1.6.4 Replace and merge modes.
 - [ ] P1.6.5 Migration pipeline skeleton (v1 → future versions) with tests.
 - [ ] P1.6.6 Diagram: add local export and import files.
@@ -144,7 +162,8 @@ Estimates assume part-time work and are rough.
 - [ ] P1.8.3 Footer trademark notice.
 
 ### P1.9 Browser error reporting
-- [ ] P1.9.1 Frontend `POST /bff/client-errors` (rate-limited, size-limited, no personal data).
+- [ ] P1.9.1 Frontend `POST /bff/client-errors` (size-limited, no personal data).
+- [ ] P1.9.3 Rate limit on `POST /bff/client-errors`.
 - [ ] P1.9.2 Client: global error handler calling it.
 
 **Done when:** a guest can track the first FFX categories on a phone, progress survives a reload, and export → import restores it.

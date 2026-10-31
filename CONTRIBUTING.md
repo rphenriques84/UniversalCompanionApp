@@ -5,7 +5,7 @@ Short version of the rules. Full guidelines: [docs/05-guidelines.md](docs/05-gui
 ## Workflow
 
 1. Branch from `main`: `feat/...`, `fix/...`, `data/...`, `docs/...`, `chore/...`.
-2. Keep branches short-lived.
+2. Keep branches short-lived: one plan subtask per PR, about 10 files and 300 changed lines at most. Each PR must be a stable release on its own.
 3. Use [Conventional Commits](https://www.conventionalcommits.org/):
    `feat:`, `fix:`, `docs:`, `chore:`, `test:`, `refactor:`, `data:` (seed JSON changes).
 4. Open a pull request. CI must be green.
