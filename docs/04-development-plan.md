@@ -50,6 +50,7 @@ Estimates assume part-time work and are rough.
 - P0.4.7 Moved to P0.5.7. No service calls exist until P0.5.
 
 ### P0.5 Frontend ↔ backend communication
+- [ ] P0.5.0 Backend: global exception handler returning ProblemDetails. Test that no internal details leak.
 - [ ] P0.5.1 Backend: game DTO in `Contracts`, and `GET /games` with scope `game-data.read` returning a fixed list.
 - [ ] P0.5.2 Frontend: typed `HttpClient` for the backend, using the service token handler.
 - [ ] P0.5.3 Frontend: resilience on the typed client (timeouts, retries).
@@ -86,7 +87,7 @@ Estimates assume part-time work and are rough.
 ### P0.8 Observability
 - [ ] P0.8.1 Frontend: OpenTelemetry traces → Collector in `otel-lgtm`.
 - [ ] P0.8.2 Backend: OpenTelemetry traces → Collector in `otel-lgtm`.
-- [ ] P0.8.3 Logs and metrics in both services.
+- [ ] P0.8.3 Logs and metrics in both services, including Error logs for unhandled exceptions.
 - [ ] P0.8.4 Trace propagation frontend → backend.
 - [ ] P0.8.5 Low-volume defaults (levels, framework categories at `Warning`).
 - [ ] P0.8.6 Verify a single trace in Grafana for `GET /bff/games`.
@@ -117,7 +118,7 @@ Estimates assume part-time work and are rough.
 - [ ] P1.1.7 Diagram: remove "No endpoints yet" and "all empty" labels that are no longer true.
 
 ### P1.2 Public pages (static SSR)
-- [ ] P1.2.1 Game list page.
+- [ ] P1.2.1 Game list page, with a friendly error state when data cannot load.
 - [ ] P1.2.2 Game overview page (categories, totals).
 - [ ] P1.2.3 Category page (items, read-only).
 
@@ -143,7 +144,7 @@ Estimates assume part-time work and are rough.
 ### P1.6 Export / import
 - [ ] P1.6.1 Export format v1 schema (see [09-export-file-format.md](09-export-file-format.md)).
 - [ ] P1.6.2 Export to file download.
-- [ ] P1.6.3 Import: size limit and schema validation.
+- [ ] P1.6.3 Import: size limit and schema validation. Define the Domain result type for expected failures here.
 - [ ] P1.6.7 Import: unknown keys warning.
 - [ ] P1.6.4 Replace and merge modes.
 - [ ] P1.6.5 Migration pipeline skeleton (v1 → future versions) with tests.
