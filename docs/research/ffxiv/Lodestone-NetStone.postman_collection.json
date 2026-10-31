@@ -1,0 +1,715 @@
+{
+  "info": {
+    "_postman_id": "1b4925af-4edd-4e5d-b7fd-b373d3f4a96f",
+    "name": "Lodestone (NetStone targets)",
+    "description": "NetStone is a .NET library, not an HTTP API. These are the Lodestone pages it scrapes, returning HTML.\nUse them to inspect markup when a parser breaks, or to compare with lodestone-css-selectors.\n\nBe gentle: ~1 req/s. No official API or rate limit; SE may throttle/block.\nIn code, call NetStone (e.g. client.GetCharacter(id)) instead.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "lodestone",
+      "value": "https://na.finalfantasyxiv.com/lodestone"
+    },
+    {
+      "key": "userAgent",
+      "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+    },
+    {
+      "key": "characterId",
+      "value": "<lodestone character id>"
+    },
+    {
+      "key": "characterName",
+      "value": "First Last"
+    },
+    {
+      "key": "world",
+      "value": "Ragnarok"
+    },
+    {
+      "key": "fcId",
+      "value": "<fc id>"
+    },
+    {
+      "key": "fcName",
+      "value": "My FC"
+    },
+    {
+      "key": "linkshellId",
+      "value": "<ls id>"
+    },
+    {
+      "key": "cwlsId",
+      "value": "<cwls id>"
+    },
+    {
+      "key": "pvpTeamId",
+      "value": "<pvp team id>"
+    },
+    {
+      "key": "page",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Character",
+      "item": [
+        {
+          "name": "Search character",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{userAgent}}",
+                "description": "NetStone / lodestone-css-selectors parse the mobile layout"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{lodestone}}/character/?q={{characterName}}&worldname={{world}}",
+              "host": [
+                "{{lodestone}}"
+              ],
+              "path": [
+                "character"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "{{characterName}}",
+                  "description": "Name"
+                },
+                {
+                  "key": "worldname",
+                  "value": "{{world}}",
+                  "description": "World"
+                },
+                {
+                  "key": "page",
+                  "value": "{{page}}",
+                  "description": "",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "NetStone: SearchCharacter(CharacterSearchQuery)"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Is HTML', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{userAgent}}",
+                "description": "NetStone / lodestone-css-selectors parse the mobile layout"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{lodestone}}/character/{{characterId}}/",
+              "host": [
+                "{{lodestone}}"
+              ],
+              "path": [
+                "character",
+                "{{characterId}}"
+              ],
+              "query": []
+            },
+            "description": "NetStone: GetCharacter(id) — includes gear and attributes"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Is HTML', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Class/Job levels",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{userAgent}}",
+                "description": "NetStone / lodestone-css-selectors parse the mobile layout"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{lodestone}}/character/{{characterId}}/class_job/",
+              "host": [
+                "{{lodestone}}"
+              ],
+              "path": [
+                "character",
+                "{{characterId}}",
+                "class_job"
+              ],
+              "query": []
+            },
+            "description": "NetStone: GetCharacterClassJob(id)"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Is HTML', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Achievements",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{userAgent}}",
+                "description": "NetStone / lodestone-css-selectors parse the mobile layout"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{lodestone}}/character/{{characterId}}/achievement/?page={{page}}",
+              "host": [
+                "{{lodestone}}"
+              ],
+              "path": [
+                "character",
+                "{{characterId}}",
+                "achievement"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "{{page}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "NetStone: GetCharacterAchievement(id, page). Hidden if private."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Is HTML', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Mounts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{userAgent}}",
+                "description": "NetStone / lodestone-css-selectors parse the mobile layout"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{lodestone}}/character/{{characterId}}/mount/",
+              "host": [
+                "{{lodestone}}"
+              ],
+              "path": [
+                "character",
+                "{{characterId}}",
+                "mount"
+              ],
+              "query": []
+            },
+            "description": "NetStone: GetCharacterMount(id)"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Is HTML', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Minions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{userAgent}}",
+                "description": "NetStone / lodestone-css-selectors parse the mobile layout"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{lodestone}}/character/{{characterId}}/minion/",
+              "host": [
+                "{{lodestone}}"
+              ],
+              "path": [
+                "character",
+                "{{characterId}}",
+                "minion"
+              ],
+              "query": []
+            },
+            "description": "NetStone: GetCharacterMinion(id)"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Is HTML', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Free Company",
+      "item": [
+        {
+          "name": "Search FC",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{userAgent}}",
+                "description": "NetStone / lodestone-css-selectors parse the mobile layout"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{lodestone}}/freecompany/?q={{fcName}}&worldname={{world}}",
+              "host": [
+                "{{lodestone}}"
+              ],
+              "path": [
+                "freecompany"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "{{fcName}}",
+                  "description": ""
+                },
+                {
+                  "key": "worldname",
+                  "value": "{{world}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "NetStone: SearchFreeCompany(query)"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Is HTML', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "FC profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{userAgent}}",
+                "description": "NetStone / lodestone-css-selectors parse the mobile layout"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{lodestone}}/freecompany/{{fcId}}/",
+              "host": [
+                "{{lodestone}}"
+              ],
+              "path": [
+                "freecompany",
+                "{{fcId}}"
+              ],
+              "query": []
+            },
+            "description": "NetStone: GetFreeCompany(id)"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Is HTML', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "FC members",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{userAgent}}",
+                "description": "NetStone / lodestone-css-selectors parse the mobile layout"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{lodestone}}/freecompany/{{fcId}}/member/?page={{page}}",
+              "host": [
+                "{{lodestone}}"
+              ],
+              "path": [
+                "freecompany",
+                "{{fcId}}",
+                "member"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "{{page}}",
+                  "description": "50 per page"
+                }
+              ]
+            },
+            "description": "NetStone: GetFreeCompanyMembers(id, page)"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Is HTML', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Linkshells & PvP",
+      "item": [
+        {
+          "name": "Search linkshell",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{userAgent}}",
+                "description": "NetStone / lodestone-css-selectors parse the mobile layout"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{lodestone}}/linkshell/?q=name&worldname={{world}}",
+              "host": [
+                "{{lodestone}}"
+              ],
+              "path": [
+                "linkshell"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "name",
+                  "description": ""
+                },
+                {
+                  "key": "worldname",
+                  "value": "{{world}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Is HTML', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Linkshell",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{userAgent}}",
+                "description": "NetStone / lodestone-css-selectors parse the mobile layout"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{lodestone}}/linkshell/{{linkshellId}}/",
+              "host": [
+                "{{lodestone}}"
+              ],
+              "path": [
+                "linkshell",
+                "{{linkshellId}}"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "{{page}}",
+                  "description": "",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "NetStone: GetLinkshell(id)"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Is HTML', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Search CWLS",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{userAgent}}",
+                "description": "NetStone / lodestone-css-selectors parse the mobile layout"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{lodestone}}/crossworld_linkshell/?q=name&dcname=Chaos",
+              "host": [
+                "{{lodestone}}"
+              ],
+              "path": [
+                "crossworld_linkshell"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "name",
+                  "description": ""
+                },
+                {
+                  "key": "dcname",
+                  "value": "Chaos",
+                  "description": ""
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Is HTML', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cross-world linkshell",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{userAgent}}",
+                "description": "NetStone / lodestone-css-selectors parse the mobile layout"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{lodestone}}/crossworld_linkshell/{{cwlsId}}/",
+              "host": [
+                "{{lodestone}}"
+              ],
+              "path": [
+                "crossworld_linkshell",
+                "{{cwlsId}}"
+              ],
+              "query": []
+            },
+            "description": "NetStone: GetCrossworldLinkshell(id)"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Is HTML', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PvP team",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{userAgent}}",
+                "description": "NetStone / lodestone-css-selectors parse the mobile layout"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "url": {
+              "raw": "{{lodestone}}/pvpteam/{{pvpTeamId}}/",
+              "host": [
+                "{{lodestone}}"
+              ],
+              "path": [
+                "pvpteam",
+                "{{pvpTeamId}}"
+              ],
+              "query": []
+            },
+            "description": "NetStone: GetPvPTeam(id)"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Is HTML', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

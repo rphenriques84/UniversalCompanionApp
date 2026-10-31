@@ -1,0 +1,541 @@
+{
+  "info": {
+    "_postman_id": "57d359fd-05c0-488e-88c4-7c06f978781c",
+    "name": "Universalis API v2",
+    "description": "FFXIV crowdsourced market board data. No auth.\n\nLimits: 25 req/s (50 burst), max 8 simultaneous connections per IP.\nScope `{{scope}}` = world name/ID, data center, or region (Europe, North-America, Japan, Oceania).\nUp to 100 comma-separated item IDs per call.\nDocs: https://docs.universalis.app/",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://universalis.app/api/v2"
+    },
+    {
+      "key": "scope",
+      "value": "Chaos"
+    },
+    {
+      "key": "world",
+      "value": "Ragnarok"
+    },
+    {
+      "key": "itemId",
+      "value": "5057"
+    },
+    {
+      "key": "itemIds",
+      "value": "5057,5333,36109"
+    }
+  ],
+  "item": [
+    {
+      "name": "Market data",
+      "item": [
+        {
+          "name": "Current listings — single item",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/{{scope}}/{{itemId}}?listings=10&entries=5",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "{{scope}}",
+                "{{itemId}}"
+              ],
+              "query": [
+                {
+                  "key": "listings",
+                  "value": "10",
+                  "description": "Max listings returned"
+                },
+                {
+                  "key": "entries",
+                  "value": "5",
+                  "description": "Recent sales returned"
+                },
+                {
+                  "key": "hq",
+                  "value": "",
+                  "description": "true/false to filter HQ",
+                  "disabled": true
+                },
+                {
+                  "key": "statsWithin",
+                  "value": "604800000",
+                  "description": "Stats window (ms)",
+                  "disabled": true
+                },
+                {
+                  "key": "entriesWithin",
+                  "value": "86400",
+                  "description": "Sales window (s)",
+                  "disabled": true
+                },
+                {
+                  "key": "fields",
+                  "value": "",
+                  "description": "Comma list to trim response, e.g. minPrice,listings.pricePerUnit",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Current listings + recent history + computed stats."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "const ts = j.lastUploadTime || (j.items && Object.values(j.items)[0]?.lastUploadTime);",
+                  "if (ts) console.log('Data age (min):', Math.round((Date.now()-ts)/60000));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Current listings — multiple items",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/{{scope}}/{{itemIds}}?listings=5&entries=0&fields=items.minPrice,items.currentAveragePrice,items.lastUploadTime",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "{{scope}}",
+                "{{itemIds}}"
+              ],
+              "query": [
+                {
+                  "key": "listings",
+                  "value": "5",
+                  "description": ""
+                },
+                {
+                  "key": "entries",
+                  "value": "0",
+                  "description": ""
+                },
+                {
+                  "key": "fields",
+                  "value": "items.minPrice,items.currentAveragePrice,items.lastUploadTime",
+                  "description": "Trim large multi-item responses"
+                }
+              ]
+            },
+            "description": "Batch up to 100 IDs. Response nests per-item data under `items`."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "const ts = j.lastUploadTime || (j.items && Object.values(j.items)[0]?.lastUploadTime);",
+                  "if (ts) console.log('Data age (min):', Math.round((Date.now()-ts)/60000));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Aggregated prices",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/aggregated/{{scope}}/{{itemIds}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "aggregated",
+                "{{scope}}",
+                "{{itemIds}}"
+              ],
+              "query": []
+            },
+            "description": "Cheap, cached summaries (min listing, recent purchase, avg sale velocity) for world/DC/region. Best for dashboards."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sale history",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/history/{{scope}}/{{itemIds}}?entriesToReturn=100&entriesWithin=604800",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "history",
+                "{{scope}}",
+                "{{itemIds}}"
+              ],
+              "query": [
+                {
+                  "key": "entriesToReturn",
+                  "value": "100",
+                  "description": "Max entries"
+                },
+                {
+                  "key": "entriesWithin",
+                  "value": "604800",
+                  "description": "Window (s), here 7 days"
+                },
+                {
+                  "key": "statsWithin",
+                  "value": "",
+                  "description": "Stats window (ms)",
+                  "disabled": true
+                },
+                {
+                  "key": "entriesUntil",
+                  "value": "",
+                  "description": "Unix ts (s) upper bound",
+                  "disabled": true
+                },
+                {
+                  "key": "minSalePrice",
+                  "value": "",
+                  "description": "",
+                  "disabled": true
+                },
+                {
+                  "key": "maxSalePrice",
+                  "value": "",
+                  "description": "",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Sales history. Good for charts / trends."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reference",
+      "item": [
+        {
+          "name": "Marketable items",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/marketable",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "marketable"
+              ],
+              "query": []
+            },
+            "description": "All marketable item IDs. Cache ~1 day."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Worlds",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/worlds",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "worlds"
+              ],
+              "query": []
+            },
+            "description": "World IDs and names. Cache ~1 day."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Data centers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/data-centers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "data-centers"
+              ],
+              "query": []
+            },
+            "description": "DCs, regions and member world IDs."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Tax rates",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tax-rates?world={{world}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tax-rates"
+              ],
+              "query": [
+                {
+                  "key": "world",
+                  "value": "{{world}}",
+                  "description": "World name or ID"
+                }
+              ]
+            },
+            "description": "Current retainer city tax rates."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Extra stats",
+      "item": [
+        {
+          "name": "Most recently updated items",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/extra/stats/most-recently-updated?world={{world}}&entries=50",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "extra",
+                "stats",
+                "most-recently-updated"
+              ],
+              "query": [
+                {
+                  "key": "world",
+                  "value": "{{world}}",
+                  "description": "World (or use dcName)"
+                },
+                {
+                  "key": "dcName",
+                  "value": "",
+                  "description": "",
+                  "disabled": true
+                },
+                {
+                  "key": "entries",
+                  "value": "50",
+                  "description": "Max 200"
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Least recently updated items",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/extra/stats/least-recently-updated?world={{world}}&entries=50",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "extra",
+                "stats",
+                "least-recently-updated"
+              ],
+              "query": [
+                {
+                  "key": "world",
+                  "value": "{{world}}",
+                  "description": ""
+                },
+                {
+                  "key": "dcName",
+                  "value": "",
+                  "description": "",
+                  "disabled": true
+                },
+                {
+                  "key": "entries",
+                  "value": "50",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "Stale items — candidates for a 'data may be old' warning."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Upload counts by world",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/extra/stats/world-upload-counts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "extra",
+                "stats",
+                "world-upload-counts"
+              ],
+              "query": []
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Upload history (daily)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/extra/stats/upload-history",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "extra",
+                "stats",
+                "upload-history"
+              ],
+              "query": []
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

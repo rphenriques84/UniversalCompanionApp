@@ -1,0 +1,19 @@
+# Security
+
+- Never commit or print secrets. Use `dotnet user-secrets` or `.env` (git-ignored). Don't read `.env` files.
+- Keep dependencies patched. CI runs `dotnet list package --vulnerable` and secret scanning.
+- HTTPS everywhere. Security headers: CSP, HSTS, `X-Content-Type-Options`, `Referrer-Policy`.
+- Cookies: Secure, HttpOnly, SameSite.
+- Validate all input. Antiforgery on forms and cookie-authenticated BFF endpoints. Rate limit auth endpoints (Phase 5).
+- Service tokens (frontend → backend): JWT, signed by the frontend, `aud` = backend, `exp` ≤ 5 min, scoped. Keys only in secrets; support key rotation.
+- Backend: deny by default. Every endpoint requires a valid service token and the right scope.
+- Backend takes the user ID only from the `uid` claim. Never from URL, query or body.
+- No secrets in WebAssembly client code. Everything in the browser is public.
+- The backend is private: no published port in production.
+- Passwords are hashed by ASP.NET Core Identity in the backend. Never store, encrypt or log them. They go frontend → backend only over the private network.
+- Backend `/auth/*` endpoints accept only the `auth` scope and are rate-limited.
+- Email: backend only, allowed templates only, rate-limited. Never accept arbitrary email content.
+- Frontend holds no database, SMTP or Grafana credentials. Grafana credentials live only in the OpenTelemetry Collector.
+- `/bff/client-errors` is rate-limited and size-limited; treat its content as untrusted and strip personal data.
+- Never auto-link accounts by matching email.
+- No personal data in logs: emails, tokens, IPs, OAuth payloads, request/response bodies.

@@ -1,0 +1,1120 @@
+{
+  "info": {
+    "name": "XIVAPI v2",
+    "_postman_id": "6c1d5f0e-9b7a-4a43-9e1c-3f2a7b8c0d01",
+    "description": "FFXIV game data API (https://v2.xivapi.com). No auth required.\n\nVariables: baseUrl, language, version, schema.\nFull reference: https://v2.xivapi.com/api/docs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://v2.xivapi.com/api"
+    },
+    {
+      "key": "language",
+      "value": "en"
+    },
+    {
+      "key": "version",
+      "value": "latest"
+    },
+    {
+      "key": "schema",
+      "value": "exdschema@2:ver:request"
+    },
+    {
+      "key": "cursor",
+      "value": ""
+    },
+    {
+      "key": "after",
+      "value": "0"
+    }
+  ],
+  "item": [
+    {
+      "name": "Meta",
+      "item": [
+        {
+          "name": "List game versions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/version",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "version"
+              ],
+              "query": []
+            },
+            "description": "Lists available game versions and names (e.g. 'latest')."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List sheets",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sheet?version={{version}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sheet"
+              ],
+              "query": [
+                {
+                  "key": "version",
+                  "value": "{{version}}",
+                  "description": "Game version"
+                }
+              ]
+            },
+            "description": "Lists every sheet name."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sheets",
+      "item": [
+        {
+          "name": "Get row — Item",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sheet/Item/37362?fields=Name,Description,Icon,LevelItem,ItemUICategory.Name&language={{language}}&version={{version}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sheet",
+                "Item",
+                "37362"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "Name,Description,Icon,LevelItem,ItemUICategory.Name",
+                  "description": "Comma list; dot notation for relations"
+                },
+                {
+                  "key": "language",
+                  "value": "{{language}}",
+                  "description": "en | ja | de | fr"
+                },
+                {
+                  "key": "version",
+                  "value": "{{version}}",
+                  "description": "Game version, e.g. 7.3 or latest"
+                },
+                {
+                  "key": "schema",
+                  "value": "{{schema}}",
+                  "description": "e.g. exdschema@2:ver:request",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Single row. Always set `fields` — full rows can exceed 80 kB."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get row — Action (with transient)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sheet/Action/34684?fields=Name,ClassJob.Abbreviation,Range,Cast100ms,Recast100ms&transient=Description@as(html)&language={{language}}&version={{version}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sheet",
+                "Action",
+                "34684"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "Name,ClassJob.Abbreviation,Range,Cast100ms,Recast100ms",
+                  "description": ""
+                },
+                {
+                  "key": "transient",
+                  "value": "Description@as(html)",
+                  "description": "Fields from the transient sheet (ActionTransient)"
+                },
+                {
+                  "key": "language",
+                  "value": "{{language}}",
+                  "description": "en | ja | de | fr"
+                },
+                {
+                  "key": "version",
+                  "value": "{{version}}",
+                  "description": "Game version, e.g. 7.3 or latest"
+                },
+                {
+                  "key": "schema",
+                  "value": "{{schema}}",
+                  "description": "e.g. exdschema@2:ver:request",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Transient fields come from the companion *Transient sheet."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get row — Recipe",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sheet/Recipe/1?fields=ItemResult.Name,AmountResult,CraftType.Name,RecipeLevelTable.ClassJobLevel,Ingredient[].Name,AmountIngredient&language={{language}}&version={{version}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sheet",
+                "Recipe",
+                "1"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "ItemResult.Name,AmountResult,CraftType.Name,RecipeLevelTable.ClassJobLevel,Ingredient[].Name,AmountIngredient",
+                  "description": "Arrays use []"
+                },
+                {
+                  "key": "language",
+                  "value": "{{language}}",
+                  "description": "en | ja | de | fr"
+                },
+                {
+                  "key": "version",
+                  "value": "{{version}}",
+                  "description": "Game version, e.g. 7.3 or latest"
+                },
+                {
+                  "key": "schema",
+                  "value": "{{schema}}",
+                  "description": "e.g. exdschema@2:ver:request",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Recipe with result item, job and ingredients."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get row — ClassJob",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sheet/ClassJob/19?fields=Name,Abbreviation,Role,ClassJobCategory.Name&language={{language}}&version={{version}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sheet",
+                "ClassJob",
+                "19"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "Name,Abbreviation,Role,ClassJobCategory.Name",
+                  "description": ""
+                },
+                {
+                  "key": "language",
+                  "value": "{{language}}",
+                  "description": "en | ja | de | fr"
+                },
+                {
+                  "key": "version",
+                  "value": "{{version}}",
+                  "description": "Game version, e.g. 7.3 or latest"
+                },
+                {
+                  "key": "schema",
+                  "value": "{{schema}}",
+                  "description": "e.g. exdschema@2:ver:request",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get subrow",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sheet/QuestClassJobReward/1:0?language={{language}}&version={{version}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sheet",
+                "QuestClassJobReward",
+                "1:0"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "",
+                  "description": "Leave empty to inspect structure",
+                  "disabled": true
+                },
+                {
+                  "key": "language",
+                  "value": "{{language}}",
+                  "description": "en | ja | de | fr"
+                },
+                {
+                  "key": "version",
+                  "value": "{{version}}",
+                  "description": "Game version, e.g. 7.3 or latest"
+                },
+                {
+                  "key": "schema",
+                  "value": "{{schema}}",
+                  "description": "e.g. exdschema@2:ver:request",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Subrow sheets use `{row}:{subrow}` addressing."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List rows — by IDs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sheet/Item?rows=1,29,46,37362&fields=Name,Icon&language={{language}}&version={{version}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sheet",
+                "Item"
+              ],
+              "query": [
+                {
+                  "key": "rows",
+                  "value": "1,29,46,37362",
+                  "description": "Comma-separated row IDs"
+                },
+                {
+                  "key": "fields",
+                  "value": "Name,Icon",
+                  "description": ""
+                },
+                {
+                  "key": "language",
+                  "value": "{{language}}",
+                  "description": "en | ja | de | fr"
+                },
+                {
+                  "key": "version",
+                  "value": "{{version}}",
+                  "description": "Game version, e.g. 7.3 or latest"
+                },
+                {
+                  "key": "schema",
+                  "value": "{{schema}}",
+                  "description": "e.g. exdschema@2:ver:request",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List rows — paged",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sheet/Item?after={{after}}&limit=100&fields=Name,LevelItem&language={{language}}&version={{version}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sheet",
+                "Item"
+              ],
+              "query": [
+                {
+                  "key": "after",
+                  "value": "{{after}}",
+                  "description": "Return rows with ID > after"
+                },
+                {
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Clamped to server max"
+                },
+                {
+                  "key": "fields",
+                  "value": "Name,LevelItem",
+                  "description": ""
+                },
+                {
+                  "key": "language",
+                  "value": "{{language}}",
+                  "description": "en | ja | de | fr"
+                },
+                {
+                  "key": "version",
+                  "value": "{{version}}",
+                  "description": "Game version, e.g. 7.3 or latest"
+                },
+                {
+                  "key": "schema",
+                  "value": "{{schema}}",
+                  "description": "e.g. exdschema@2:ver:request",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Page by setting `after` to the last row_id received. Test script stores it."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "const rows = pm.response.json().rows || [];",
+                  "if (rows.length) pm.collectionVariables.set('after', rows[rows.length-1].row_id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get row — localized decorator",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sheet/Item/42589?fields=Name,Name@lang(ja),Name@lang(de)&version={{version}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sheet",
+                "Item",
+                "42589"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "Name,Name@lang(ja),Name@lang(de)",
+                  "description": "@lang() overrides language per field"
+                },
+                {
+                  "key": "version",
+                  "value": "{{version}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "item": [
+        {
+          "name": "Search items by name",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/search?sheets=Item&query=Name~\"Brush\"&fields=Name,LevelItem,Icon&limit=20&language={{language}}&version={{version}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "sheets",
+                  "value": "Item",
+                  "description": "Comma list of sheets"
+                },
+                {
+                  "key": "query",
+                  "value": "Name~\"Brush\"",
+                  "description": "~ partial, = exact; Postman URL-encodes"
+                },
+                {
+                  "key": "fields",
+                  "value": "Name,LevelItem,Icon",
+                  "description": ""
+                },
+                {
+                  "key": "limit",
+                  "value": "20",
+                  "description": ""
+                },
+                {
+                  "key": "language",
+                  "value": "{{language}}",
+                  "description": "en | ja | de | fr"
+                },
+                {
+                  "key": "version",
+                  "value": "{{version}}",
+                  "description": "Game version, e.g. 7.3 or latest"
+                },
+                {
+                  "key": "schema",
+                  "value": "{{schema}}",
+                  "description": "e.g. exdschema@2:ver:request",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Stores `next` into {{cursor}} for paging."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "const n = pm.response.json().next;",
+                  "pm.collectionVariables.set('cursor', n || '');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Search — next page (cursor)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/search?cursor={{cursor}}&fields=Name,LevelItem,Icon&limit=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "cursor",
+                  "value": "{{cursor}}",
+                  "description": "From previous response `next`; sheets/query ignored"
+                },
+                {
+                  "key": "fields",
+                  "value": "Name,LevelItem,Icon",
+                  "description": ""
+                },
+                {
+                  "key": "limit",
+                  "value": "20",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "Run after a search. Empty `next` means last page."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "const n = pm.response.json().next;",
+                  "pm.collectionVariables.set('cursor', n || '');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Search — gear by level & job",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/search?sheets=Item&query=+LevelItem>=710 +ClassJobCategory.PLD=true&fields=Name,LevelItem,EquipSlotCategory&limit=50&language={{language}}&version={{version}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "sheets",
+                  "value": "Item",
+                  "description": ""
+                },
+                {
+                  "key": "query",
+                  "value": "+LevelItem>=710 +ClassJobCategory.PLD=true",
+                  "description": "+ required, - excluded, () groups"
+                },
+                {
+                  "key": "fields",
+                  "value": "Name,LevelItem,EquipSlotCategory",
+                  "description": ""
+                },
+                {
+                  "key": "limit",
+                  "value": "50",
+                  "description": ""
+                },
+                {
+                  "key": "language",
+                  "value": "{{language}}",
+                  "description": "en | ja | de | fr"
+                },
+                {
+                  "key": "version",
+                  "value": "{{version}}",
+                  "description": "Game version, e.g. 7.3 or latest"
+                },
+                {
+                  "key": "schema",
+                  "value": "{{schema}}",
+                  "description": "e.g. exdschema@2:ver:request",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Example of combined clauses with required prefixes."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Search — multiple sheets",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/search?sheets=Action,Item&query=Name~\"Cover\"&fields=Name&language={{language}}&version={{version}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "sheets",
+                  "value": "Action,Item",
+                  "description": "Query may only use fields shared by all sheets"
+                },
+                {
+                  "key": "query",
+                  "value": "Name~\"Cover\"",
+                  "description": ""
+                },
+                {
+                  "key": "fields",
+                  "value": "Name",
+                  "description": ""
+                },
+                {
+                  "key": "language",
+                  "value": "{{language}}",
+                  "description": "en | ja | de | fr"
+                },
+                {
+                  "key": "version",
+                  "value": "{{version}}",
+                  "description": "Game version, e.g. 7.3 or latest"
+                },
+                {
+                  "key": "schema",
+                  "value": "{{schema}}",
+                  "description": "e.g. exdschema@2:ver:request",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Search — Japanese name",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/search?sheets=Item&query=Name@ja~\"天使\"&fields=Name,Name@lang(ja)",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "sheets",
+                  "value": "Item",
+                  "description": ""
+                },
+                {
+                  "key": "query",
+                  "value": "Name@ja~\"天使\"",
+                  "description": "@lang override per clause"
+                },
+                {
+                  "key": "fields",
+                  "value": "Name,Name@lang(ja)",
+                  "description": ""
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Search — duties",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/search?sheets=ContentFinderCondition&query=+ClassJobLevelRequired>=100 +ContentType.Name=\"Trials\"&fields=Name,ClassJobLevelRequired,ItemLevelRequired,ContentType.Name&language={{language}}&version={{version}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "sheets",
+                  "value": "ContentFinderCondition",
+                  "description": ""
+                },
+                {
+                  "key": "query",
+                  "value": "+ClassJobLevelRequired>=100 +ContentType.Name=\"Trials\"",
+                  "description": ""
+                },
+                {
+                  "key": "fields",
+                  "value": "Name,ClassJobLevelRequired,ItemLevelRequired,ContentType.Name",
+                  "description": ""
+                },
+                {
+                  "key": "language",
+                  "value": "{{language}}",
+                  "description": "en | ja | de | fr"
+                },
+                {
+                  "key": "version",
+                  "value": "{{version}}",
+                  "description": "Game version, e.g. 7.3 or latest"
+                },
+                {
+                  "key": "schema",
+                  "value": "{{schema}}",
+                  "description": "e.g. exdschema@2:ver:request",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Useful for static/raid planners."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Assets",
+      "item": [
+        {
+          "name": "Get icon (PNG)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/asset?path=ui/icon/065000/065002_hr1.tex&format=png&version={{version}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "asset"
+              ],
+              "query": [
+                {
+                  "key": "path",
+                  "value": "ui/icon/065000/065002_hr1.tex",
+                  "description": "Game path; icon fields in sheets give these"
+                },
+                {
+                  "key": "format",
+                  "value": "png",
+                  "description": "png | jpg | webp"
+                },
+                {
+                  "key": "version",
+                  "value": "{{version}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "Hotlinking is encouraged. Responses carry ETag; send If-None-Match to get 304."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get loading image (WebP)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/asset?path=ui/loadingimage/-nowloading_base01_hr1.tex&format=webp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "asset"
+              ],
+              "query": [
+                {
+                  "key": "path",
+                  "value": "ui/loadingimage/-nowloading_base01_hr1.tex",
+                  "description": ""
+                },
+                {
+                  "key": "format",
+                  "value": "webp",
+                  "description": ""
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Compose map",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/asset/map/s1d1/00?version={{version}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "asset",
+                "map",
+                "s1d1",
+                "00"
+              ],
+              "query": [
+                {
+                  "key": "version",
+                  "value": "{{version}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "Merges split map textures. IDs come from the Map sheet (Id field) or ui/map."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+# Build output
+bin/
+obj/
+publish/
+artifacts/
+
+# IDEs
+.vs/
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.user
+*.suo
+
+# Secrets and local config
+.env
+.env.*
+!.env.example
+appsettings.*.local.json
+*.pfx
+
+# Node / Tailwind
+node_modules/
+**/wwwroot/css/app.out.css
+
+# Test output
+TestResults/
+coverage*/
+playwright-report/
+
+# Game files and extraction output (never commit game assets)
+game-files/
+extract/
+tools/**/output/
+
+# OS
+.DS_Store
+Thumbs.db

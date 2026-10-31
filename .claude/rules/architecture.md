@@ -1,0 +1,22 @@
+# Architecture
+
+- Two services: **Frontend (public)** and **Backend API (private)**. See `docs/03-architecture.md`.
+- Project dependencies:
+  - `Frontend.Client → Domain, Contracts`
+  - `Frontend → Frontend.Client, Contracts, Domain`
+  - `Backend.Api → Backend.Data → Domain`, `Backend.Api → Contracts`
+  - `Domain` and `Contracts` reference nothing (no EF Core, no ASP.NET).
+  - Frontend projects never reference Backend projects, and the reverse.
+- The WebAssembly client calls only frontend BFF endpoints. Never the backend.
+- The frontend calls the backend only over HTTP with a typed `HttpClient` and a service token.
+- BFF endpoints stay thin: authorize, forward, map errors. Business rules live in the backend/Domain.
+- Only the backend uses the database and the email service. The frontend has no database or SMTP credentials.
+- User accounts live in the backend (Identity Core). The frontend runs OAuth handshakes and issues the session cookie after the backend returns the `uid`.
+- Architecture tests enforce this. Don't weaken them.
+- Organize by feature: `Features/Checklist`, `Features/Export`, `Features/Accounts`.
+- No business logic in `.razor` files. Components call services.
+- Expected failures return result types. Throw exceptions only for unexpected errors.
+- Minimal API endpoints grouped per feature with `MapGroup`, typed results (`Results<Ok<T>, NotFound>`).
+- Domain logic (completion %, missables, spoilers, import migration) must run in both the browser (WASM) and the server: keep it pure and dependency-free.
+- Guest progress is client-side only. The backend stores progress only for signed-in users (Phase 5), keyed by the opaque `uid`.
+- Render modes: static SSR by default; Interactive WebAssembly for the checklist. Do not use Interactive Server or Auto.
