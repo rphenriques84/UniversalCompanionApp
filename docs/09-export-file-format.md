@@ -19,9 +19,7 @@ The export file lets guests keep and move progress. It must keep working forever
     {
       "id": "6f1c2d1e-0d3b-4e8e-9f42-1a2b3c4d5e6f",
       "game": "ffx",
-      "edition": "hd",
       "name": "HD 100% run",
-      "currentChapter": "ffx.chapter.luca",
       "progress": {
         "ffx.al-bhed-primers.vol-01": { "count": 1, "done": true, "updatedAt": "2026-10-30T19:12:00Z" },
         "ffx.minigames.lightning-dodges": { "count": 57, "done": false, "updatedAt": "2026-10-30T19:30:00Z" },

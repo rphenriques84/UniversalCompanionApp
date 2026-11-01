@@ -10,7 +10,7 @@ What "100%" means for FFX HD. **Draft from memory. Verify every item** before it
 | Jecht Spheres | 10 collectibles | Unlock Auron's Overdrives |
 | Celestial Weapons | 7 × (weapon + crest + sigil) + Celestial Mirror | Prerequisites model fits here |
 | Optional aeons | Yojimbo, Anima, Magus Sisters | |
-| Dark Aeons + Penance | Bosses | **International/HD only** (edition tag) |
+| Dark Aeons + Penance | Bosses | **International/HD only** |
 | Monster Arena | Captures per fiend (counter, target 10) + arena creations | Large data set from parser |
 | Cloister of Trials | Destruction Spheres / treasures | Some missable |
 | Treasures | Chests and key items | From parser |
@@ -22,8 +22,7 @@ What "100%" means for FFX HD. **Draft from memory. Verify every item** before it
 
 ## Missable handling
 
-- Every item needs `missableAfter` (chapter key or `null`).
-- Points of no return get `IsPointOfNoReturn = true` on the chapter.
+P1.7.6 decides how missables are stored.
 
 ## Editions
 
@@ -35,4 +34,4 @@ What "100%" means for FFX HD. **Draft from memory. Verify every item** before it
 
 ## Next step
 
-Build the chapter list first, then Primers, Jecht Spheres and Celestial Weapons for the MVP.
+Start with Primers, Jecht Spheres and Celestial Weapons for the MVP.

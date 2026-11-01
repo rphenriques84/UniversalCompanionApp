@@ -8,7 +8,6 @@ One app, many games, each with its own theme.
 ## First game
 
 **Final Fantasy X – HD Remaster** (PS4/PC/Switch/Xbox editions).
-Edition differences (e.g. original PS2 NA vs International/HD) are modeled from the start.
 
 ## Target users
 
@@ -20,14 +19,14 @@ Edition differences (e.g. original PS2 NA vs International/HD) are modeled from 
 
 1. **Guest first.** Everything works without signing in.
 2. **Your data is yours.** Export and import at any time.
-3. **No spoilers by default.** Content past your chapter is hidden.
+3. **No spoilers by default.** Content you haven't reached is hidden.
 4. **Never lose progress.** Stable item keys, versioned file format.
 5. **Low cost.** Free tiers and cheap hosting.
 6. **Game-agnostic core.** A new game is mostly new data and a theme.
 
 ## MVP scope (guest-only)
 
-- FFX chapters and the first categories: Al Bhed Primers, Jecht Spheres, Celestial Weapons.
+- The first FFX categories: Al Bhed Primers, Jecht Spheres, Celestial Weapons.
 - Checkboxes and counters, completion %.
 - Browser storage, export/import file.
 - FFX theme, mobile-first.

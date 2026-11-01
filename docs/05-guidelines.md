@@ -57,8 +57,7 @@ Change them through a PR (and an ADR if it's a real decision).
 - **Item keys are permanent.** Format: `<game>.<category>.<slug>`, e.g. `ffx.al-bhed-primers.vol-01`.
   - Never rename, reuse or delete a key. Use `"deprecated": true` instead.
 - Lowercase kebab-case slugs. ASCII only in keys.
-- JSON Schema validated in CI: required fields, unique keys, valid prerequisites, known chapters/editions.
-- Required on every item: `key`, `name`, `kind`, `spoiler`, `editions` (or empty = all), `missableAfter` (or `null`).
+- JSON Schema validated in CI: required fields and unique keys. P1.7.6 decides the rest.
 - Content:
   - Notes in our own words. Never copy guide text (Game8, Jegged, GameFAQs, etc.).
   - Every external source gets an `refs` entry with license (e.g. CC BY-SA for Fandom wikis).

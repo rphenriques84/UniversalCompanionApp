@@ -2,6 +2,8 @@
 
 Game-agnostic. FFX is the first data set. New games add data, not schema.
 
+Everything here except "Seed files" is a draft. P1.7.6 replaces it.
+
 ## Concepts
 
 | Concept | Meaning |
