@@ -7,7 +7,7 @@ services:
       dockerfile: src/Companion.Frontend/Dockerfile
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:?Copy .env.example to .env}
-      ServiceAuth__PrivateKey: ${SERVICE_TOKEN_PRIVATE_KEY:?Run dotnet tools/generate-service-keys.cs and add the output to .env}
+      ServiceAuth__PrivateKey: ${SERVICE_TOKEN_PRIVATE_KEY:?Run dotnet tools/generate-service-keys.cs}
       Backend__BaseUrl: http://backend:8080
     ports:
       - "127.0.0.1:8080:8080"
@@ -32,7 +32,7 @@ services:
       dockerfile: src/Companion.Backend.Api/Dockerfile
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:?Copy .env.example to .env}
-      ServiceAuth__CurrentPublicKey: ${SERVICE_TOKEN_PUBLIC_KEY:?Run dotnet tools/generate-service-keys.cs and add the output to .env}
+      ServiceAuth__CurrentPublicKey: ${SERVICE_TOKEN_PUBLIC_KEY:?Run dotnet tools/generate-service-keys.cs}
       ServiceAuth__PreviousPublicKey: ${SERVICE_TOKEN_PREVIOUS_PUBLIC_KEY:-}
     networks:
       - internal

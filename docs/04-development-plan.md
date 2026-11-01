@@ -101,6 +101,8 @@ Estimates assume part-time work and are rough.
 - [x] P0.9.5 Secret scanning (gitleaks) in CI.
 - [ ] P0.9.6 Confirm Dependabot opens a Docker or Docker Compose PR.
 - [ ] P0.9.7 Watch CI for the 2 unexplained build errors seen once after merging P0.3. Capture the message if they return.
+- [x] P0.9.8 Key generator writes `.env` itself as UTF-8. Windows PowerShell quickstart check in CI.
+- [ ] P0.9.9 Test that apps never print keys. Security rule: run Docker Compose with a temporary `--env-file`, never the real `.env`.
 
 **Done when:** `docker compose up` shows a page that lists sample games from the backend, the backend is unreachable from the host, a trace is visible in Grafana, and CI is green.
 
