@@ -8,7 +8,7 @@ public static class BffGamesEndpoints
 {
     public static IEndpointRouteBuilder MapBffGamesEndpoints(this IEndpointRouteBuilder endpoints)
     {
-        var games = endpoints.MapGroup("/bff/games");
+        var games = endpoints.MapGroup("/bff/games").AddEndpointFilter<BackendErrorFilter>();
 
         games.MapGet("/", GetGamesAsync);
 
