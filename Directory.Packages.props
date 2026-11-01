@@ -15,6 +15,10 @@
     <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.23.0" />
   </ItemGroup>
 
+  <ItemGroup Label="Tools">
+    <PackageVersion Include="LateApexEarlySpeed.Json.Schema" Version="4.2.2" />
+  </ItemGroup>
+
   <ItemGroup Label="Tests">
     <PackageVersion Include="bunit" Version="2.13.3" />
     <PackageVersion Include="coverlet.collector" Version="10.1.0" />
