@@ -6,6 +6,7 @@ paths:
 # Testing
 
 - xUnit for domain; bUnit for components; Testcontainers (real PostgreSQL) for data from Phase 5; Playwright for a few smoke flows.
+- End-to-end tests start the real Compose stack and are skipped unless `COMPANION_E2E=1`. CI runs them.
 - Never use the EF Core in-memory provider.
 - Backend tests cover service-token auth: missing/expired/wrong-audience tokens are rejected; `uid` comes only from the token.
 - Frontend BFF tests mock the backend with a fake `HttpMessageHandler`.
