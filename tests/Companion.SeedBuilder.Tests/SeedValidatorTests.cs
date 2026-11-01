@@ -41,6 +41,28 @@ public sealed class SeedValidatorTests
     }
 
     [Fact]
+    public async Task ValidateAsync_KeyDiffersFromFolder_ReturnsError()
+    {
+        using var data = new SeedDataFolder();
+        data.AddGameFile("game.json", """{ "key": "ffx-2", "name": "Final Fantasy X-2" }""");
+
+        var errors = await SeedValidator.ValidateAsync(data.Path, CancellationToken.None);
+
+        Assert.Equal("Key 'ffx-2' doesn't match its folder.", Assert.Single(errors).Message);
+    }
+
+    [Fact]
+    public async Task ValidateAsync_FolderWithoutGameFile_ReturnsError()
+    {
+        using var data = new SeedDataFolder();
+        data.AddEmptyGameFolder("ffx");
+
+        var errors = await SeedValidator.ValidateAsync(data.Path, CancellationToken.None);
+
+        Assert.Equal("Missing game.json.", Assert.Single(errors).Message);
+    }
+
+    [Fact]
     public async Task ValidateAsync_MalformedJson_ReturnsError()
     {
         using var data = new SeedDataFolder();

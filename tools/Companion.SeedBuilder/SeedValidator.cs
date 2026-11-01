@@ -33,7 +33,8 @@ public static class SeedValidator
             errors.AddRange(await ValidateFileAsync(file, dataDirectory, cancellationToken));
         }
 
-        return errors;
+        // Folder rules read the files, so they run only once every file is valid.
+        return errors.Count == 0 ? await GameFolderRules.ValidateAsync(gamesDirectory, cancellationToken) : errors;
     }
 
     private static async Task<IReadOnlyList<SeedError>> ValidateFileAsync(string file, string dataDirectory, CancellationToken cancellationToken)
