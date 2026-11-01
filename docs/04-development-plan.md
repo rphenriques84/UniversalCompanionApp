@@ -117,9 +117,15 @@ Estimates assume part-time work and are rough.
 
 ## Phase 1 – Guest MVP (≈2–3 weeks)
 
+### P1.7 FFX data (first set)
+- [ ] P1.7.6 Decide the seed structure from real FFX data: JSON Schemas, including categories and items, `SeedBuilder validate` checks, and any Domain rules, endpoints and tasks it needs.
+- [ ] P1.7.2 Al Bhed Primers.
+- [ ] P1.7.3 Jecht Spheres.
+- [ ] P1.7.4 Celestial Weapons (weapon, crest, sigil, prerequisites).
+- [ ] P1.7.5 Verify every entry; own wording; attribution.
+
 ### P1.1 Game data API
 - [ ] P1.1.1 `GET /games/{key}`: game detail (contract and backend endpoint, scope `game-data.read`).
-- [ ] P1.1.2 Chapters endpoint (contract and backend).
 - [ ] P1.1.3 Categories endpoint (contract and backend).
 - [ ] P1.1.4 Items endpoint (contract and backend).
 - [ ] P1.1.5 BFF endpoints for the WebAssembly client.
@@ -135,7 +141,6 @@ Estimates assume part-time work and are rough.
 - [ ] P1.3.1 Completion % for one category (weights).
 - [ ] P1.3.2 Counter items in completion %.
 - [ ] P1.3.3 Overall completion %.
-- [ ] P1.3.4 Edition filtering in totals.
 - [ ] P1.3.5 Prerequisites evaluation.
 
 ### P1.4 Interactive tracking (WebAssembly)
@@ -159,13 +164,6 @@ Estimates assume part-time work and are rough.
 - [ ] P1.6.5 Migration pipeline skeleton (v1 → future versions) with tests.
 - [ ] P1.6.6 Diagram: add local export and import files.
 
-### P1.7 FFX data (first set)
-- [ ] P1.7.1 Editions and chapters.
-- [ ] P1.7.2 Al Bhed Primers.
-- [ ] P1.7.3 Jecht Spheres.
-- [ ] P1.7.4 Celestial Weapons (weapon, crest, sigil, prerequisites).
-- [ ] P1.7.5 Verify every entry; own wording; attribution.
-
 ### P1.8 FFX theme
 - [ ] P1.8.1 FFX theme tokens (colors, fonts, surfaces).
 - [ ] P1.8.2 Contrast check (WCAG AA).
@@ -184,24 +182,19 @@ Estimates assume part-time work and are rough.
 
 ### P2.1 Playthroughs
 - [ ] P2.1.1 Multiple local playthroughs (create, rename, delete, switch).
-- [ ] P2.1.2 Edition per playthrough; edition filtering in views.
 - [ ] P2.1.3 Export/import includes all playthroughs.
 
-### P2.2 Current chapter
-- [ ] P2.2.1 Chapter selector per playthrough.
-- [ ] P2.2.2 Store current chapter in browser storage and export file.
-
 ### P2.3 Spoiler protection
-- [ ] P2.3.1 Hide spoiler items past the current chapter.
+- [ ] P2.3.1 Hide spoilers the player hasn't reached yet.
 - [ ] P2.3.2 "Show spoilers" opt-in per playthrough.
 
 ### P2.4 Missables
-- [ ] P2.4.1 Domain: "missable soon" calculation with look-ahead.
+- [ ] P2.4.1 Domain: "missable soon" calculation.
 - [ ] P2.4.2 Warning banner before points of no return.
 - [ ] P2.4.3 "Mark as missed" state; 100% shown as impossible.
 - [ ] P2.4.4 Tests for all missable rules.
 
-**Done when:** a guest sees warnings before missing items and no spoilers past their chapter.
+**Done when:** a guest sees warnings before missing items and no spoilers they haven't reached yet.
 
 ---
 
@@ -221,14 +214,14 @@ Estimates assume part-time work and are rough.
 
 ### P3.3 Curated data
 - [ ] P3.3.1 Optional aeons.
-- [ ] P3.3.2 Dark Aeons and Penance (edition-tagged).
+- [ ] P3.3.2 Dark Aeons and Penance.
 - [ ] P3.3.3 Blitzball.
 - [ ] P3.3.4 Minigames (counters).
 - [ ] P3.3.5 Trophies / achievements.
 - [ ] P3.3.6 Overdrives.
 
 ### P3.4 Quality
-- [ ] P3.4.1 Verify missables and chapters for every item.
+- [ ] P3.4.1 Verify missables for every item.
 - [ ] P3.4.2 Own wording; attribution on every sourced item.
 - [ ] P3.4.3 Performance check with the full data set (page size, WASM load).
 - [ ] P3.4.4 Review game data storage against the [ADR 0013](adr/0013-game-data-in-memory.md) triggers.
