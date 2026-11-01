@@ -20,4 +20,4 @@ paths:
   - Never color alone for status: done/missed/missable also use icon or text.
   - Respect `prefers-reduced-motion`.
 - UI strings in resource files (`.resx`), English first.
-- Hide spoiler content past the current chapter unless the user opted in.
+- Hide spoiler content the user hasn't reached unless they opted in.
