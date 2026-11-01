@@ -52,7 +52,7 @@
 - **Rules:**
   - The backend takes the user ID **only** from the `uid` claim, never from the URL, query or body.
   - Keys come from secrets (`dotnet user-secrets` / `.env` locally, a secret store in production). Never in git. `tools/generate-service-keys.cs` creates a key pair.
-  - **Key rotation:** generate a new pair, set the old public key as `SERVICE_TOKEN_PREVIOUS_PUBLIC_KEY`, restart the backend, then the frontend. Remove the previous key after 5 minutes.
+  - **Key rotation:** set the old public key as `SERVICE_TOKEN_PREVIOUS_PUBLIC_KEY`, remove the two current key lines from `.env`, run the generator, then restart the backend and the frontend. Remove the previous key after 5 minutes.
   - Defense in depth: the backend is also unreachable from outside (private network).
 - **Production option (Phase 6):** if hosted on Azure, the token can come from Microsoft Entra ID (managed identity) instead of self-signed keys. The backend only changes its token validation settings.
 

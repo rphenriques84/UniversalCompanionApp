@@ -1,0 +1,32 @@
+name: Quickstart
+
+on:
+  pull_request:
+    paths: &quickstart-paths
+      - .env.example
+      - .github/workflows/quickstart.yml
+      - docker-compose.yml
+      - global.json
+      - README.md
+      - tools/**
+  push:
+    branches: [main]
+    paths: *quickstart-paths
+
+permissions:
+  contents: read
+
+jobs:
+  windows-powershell:
+    runs-on: windows-2022
+    defaults:
+      run:
+        shell: powershell
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-dotnet@v6.0.0
+        with:
+          global-json-file: global.json
+      - run: Copy-Item .env.example .env
+      - run: dotnet tools/generate-service-keys.cs
+      - run: docker compose config --quiet
