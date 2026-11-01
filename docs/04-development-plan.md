@@ -54,7 +54,7 @@ Estimates assume part-time work and are rough.
 - [x] P0.5.1 Backend: game DTO in `Contracts`, and `GET /games` with scope `game-data.read` returning a fixed list.
 - [x] P0.5.2 Frontend: typed `HttpClient` for the backend, using the service token handler.
 - [x] P0.5.3 Frontend: resilience on the typed client (timeouts, retries).
-- [ ] P0.5.4 BFF: `GET /bff/games` forwarding to the backend.
+- [x] P0.5.4 BFF: `GET /bff/games` forwarding to the backend.
 - [ ] P0.5.5 BFF: error mapping (ProblemDetails).
 - [ ] P0.5.6 Prove `GET /bff/games` works end to end in Docker.
 - [ ] P0.5.7 Diagram: add the JWT service token link, BFF endpoints and the first backend endpoint.
@@ -88,6 +88,7 @@ Estimates assume part-time work and are rough.
 - [ ] P0.8.1 Frontend: OpenTelemetry traces → Collector in `otel-lgtm`.
 - [ ] P0.8.2 Backend: OpenTelemetry traces → Collector in `otel-lgtm`.
 - [ ] P0.8.3 Logs and metrics in both services, including Error logs for unhandled exceptions.
+- [ ] P0.8.8 Scan test log output for key values, not just known failure paths.
 - [ ] P0.8.4 Trace propagation frontend → backend.
 - [ ] P0.8.5 Low-volume defaults (levels, framework categories at `Warning`).
 - [ ] P0.8.6 Verify a single trace in Grafana for `GET /bff/games`.
@@ -101,6 +102,12 @@ Estimates assume part-time work and are rough.
 - [x] P0.9.5 Secret scanning (gitleaks) in CI.
 - [ ] P0.9.6 Confirm Dependabot opens a Docker or Docker Compose PR.
 - [ ] P0.9.7 Watch CI for the 2 unexplained build errors seen once after merging P0.3. Capture the message if they return.
+- [ ] P0.9.10 Test the real resilience settings: 5 s per attempt, 15 s total, and the circuit breaker opening.
+- [ ] P0.9.11 Test that the real frontend refuses to start with a bad key, without printing it.
+- [ ] P0.9.12 Confirm the key generator test fails when the "keys already exist" check is removed.
+- [ ] P0.9.13 Automate Compose network checks: backend unreachable from the host and with no internet.
+- [ ] P0.9.14 Find out why the backend exits with code 139 on a bad key, not a clean failure code.
+- [ ] P0.9.15 Extend the one-type-per-file rule to `.razor` files, or record why not.
 - [x] P0.9.8 Key generator writes `.env` itself as UTF-8. Windows PowerShell quickstart check in CI.
 - [x] P0.9.9 Test that apps never print keys. Security rule: run Docker Compose with a temporary `--env-file`, never the real `.env`.
 
@@ -291,6 +298,7 @@ Estimates assume part-time work and are rough.
 - [ ] P5.4.3 Periodic session validation against the security stamp.
 - [ ] P5.4.4 Sign-out.
 - [ ] P5.4.5 Diagram: add the user session (cookie, OAuth sign-in).
+- [ ] P5.4.6 Bound the service token cache once tokens carry real user IDs.
 
 ### P5.5 External sign-in
 - [ ] P5.5.1 Google.

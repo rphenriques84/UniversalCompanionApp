@@ -1,5 +1,6 @@
 using Companion.Frontend.Components;
 using Companion.Frontend.Features.Backend;
+using Companion.Frontend.Features.Games;
 using Companion.Frontend.Features.ServiceAuth;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,8 +31,11 @@ app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages:
 app.UseAntiforgery();
 
 app.MapStaticAssets();
+app.MapBffGamesEndpoints();
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(Companion.Frontend.Client._Imports).Assembly);
 
-app.Run();
+await app.RunAsync();
+
+public partial class Program;
