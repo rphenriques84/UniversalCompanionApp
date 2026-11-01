@@ -57,7 +57,7 @@ Estimates assume part-time work and are rough.
 - [x] P0.5.4 BFF: `GET /bff/games` forwarding to the backend.
 - [x] P0.5.5 BFF: error mapping (ProblemDetails).
 - [x] P0.5.6 Prove `GET /bff/games` works end to end in Docker.
-- [ ] P0.5.7 Diagram: add the JWT service token link, BFF endpoints and the first backend endpoint.
+- [x] P0.5.7 Diagram: add the JWT service token link, BFF endpoints and the first backend endpoint.
 
 ### P0.6 Seed data
 - P0.6.1 Moved to P5.0.1 (see [ADR 0013](adr/0013-game-data-in-memory.md)).
@@ -124,7 +124,7 @@ Estimates assume part-time work and are rough.
 - [ ] P1.1.4 Items endpoint (contract and backend).
 - [ ] P1.1.5 BFF endpoints for the WebAssembly client.
 - [ ] P1.1.6 Output caching of public game data in the frontend.
-- [ ] P1.1.7 Diagram: remove "No endpoints yet" and "all empty" labels that are no longer true.
+- [ ] P1.1.7 Diagram: update the endpoint labels.
 
 ### P1.2 Public pages (static SSR)
 - [ ] P1.2.1 Game list page, with a friendly error state when data cannot load.
