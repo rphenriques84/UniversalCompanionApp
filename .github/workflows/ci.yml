@@ -36,6 +36,17 @@ jobs:
       - run: docker build --file src/Companion.Frontend/Dockerfile .
       - run: docker build --file src/Companion.Backend.Api/Dockerfile .
 
+  e2e:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-dotnet@v6.0.0
+        with:
+          global-json-file: global.json
+      - run: dotnet test tests/Companion.E2E
+        env:
+          COMPANION_E2E: "1"
+
   secret-scan:
     runs-on: ubuntu-24.04
     steps:

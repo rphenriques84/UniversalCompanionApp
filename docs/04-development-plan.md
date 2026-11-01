@@ -56,7 +56,7 @@ Estimates assume part-time work and are rough.
 - [x] P0.5.3 Frontend: resilience on the typed client (timeouts, retries).
 - [x] P0.5.4 BFF: `GET /bff/games` forwarding to the backend.
 - [x] P0.5.5 BFF: error mapping (ProblemDetails).
-- [ ] P0.5.6 Prove `GET /bff/games` works end to end in Docker.
+- [x] P0.5.6 Prove `GET /bff/games` works end to end in Docker.
 - [ ] P0.5.7 Diagram: add the JWT service token link, BFF endpoints and the first backend endpoint.
 
 ### P0.6 Seed data
