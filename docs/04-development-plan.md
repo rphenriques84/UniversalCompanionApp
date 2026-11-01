@@ -67,7 +67,7 @@ Estimates assume part-time work and are rough.
 - P0.6.5 Moved to P1.7.6.
 - [x] P0.6.6 `SeedBuilder` project with a `validate` command: schema checks.
 - [x] P0.6.7 `SeedBuilder validate`: each game folder has a `game.json` whose key matches the folder, which also makes keys unique.
-- [ ] P0.6.8 Add seed validation to CI.
+- [x] P0.6.8 Add seed validation to CI.
 - [ ] P0.6.9 Minimal sample seed data to prove the flow.
 - [ ] P0.6.10 Copy `data/` into the backend image.
 - [ ] P0.6.11 Backend loader: read validated JSON from `data/` into memory on startup. Fail fast on bad data.
@@ -95,7 +95,7 @@ Estimates assume part-time work and are rough.
 - [ ] P0.8.7 Diagram: add OTLP arrows from frontend and backend.
 
 ### P0.9 CI and docs
-- [x] P0.9.1 GitHub Actions: build, `dotnet format --verify-no-changes`, tests, vulnerable packages, Docker image builds. Seed validation joins in P0.6.8.
+- [x] P0.9.1 GitHub Actions: build, `dotnet format --verify-no-changes`, tests, seed validation, vulnerable packages, Docker image builds.
 - P0.9.2 Moved to P5.0.4.
 - [ ] P0.9.3 README quickstart tested on a clean machine, including `cp .env.example .env`.
 - [x] P0.9.4 Create `.github/dependabot.yml` if it doesn't exist. Add GitHub Actions (same settings).

@@ -24,6 +24,7 @@ jobs:
       - run: dotnet build Companion.slnx --no-restore --configuration Release
       - run: dotnet format Companion.slnx --no-restore --verify-no-changes
       - run: dotnet test Companion.slnx --no-build --configuration Release
+      - run: dotnet run --project tools/Companion.SeedBuilder --no-build --configuration Release -- validate data/
       - name: Check for vulnerable packages
         run: |
           dotnet list Companion.slnx package --vulnerable --include-transitive | tee vulnerable.txt
