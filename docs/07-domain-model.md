@@ -169,6 +169,16 @@ public interface ISaveImporter
 }
 ```
 
+## Seed files
+
+Each game has a folder, `data/games/<game>/`. Schemas are in `data/schema/`.
+
+| File | Schema | Holds |
+|---|---|---|
+| `game.json` | `game.schema.json` | Key and name |
+
+Further files and schemas are decided in P1.7.6, once real data exists.
+
 ## Seed JSON shape (draft)
 
 ```json

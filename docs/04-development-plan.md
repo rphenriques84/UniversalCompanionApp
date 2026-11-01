@@ -63,10 +63,10 @@ Estimates assume part-time work and are rough.
 - P0.6.1 Moved to P5.0.1 (see [ADR 0013](adr/0013-game-data-in-memory.md)).
 - P0.6.2 Moved to P5.0.2.
 - P0.6.3 Replaced by P5.0.3. Game data gets no tables.
-- [ ] P0.6.4 JSON Schemas for games, editions and chapters in `data/schema/`.
-- [ ] P0.6.5 JSON Schemas for categories and items.
+- [x] P0.6.4 JSON Schema for games in `data/schema/`.
+- P0.6.5 Moved to P1.7.6.
 - [ ] P0.6.6 `SeedBuilder` project with a `validate` command: schema checks.
-- [ ] P0.6.7 `SeedBuilder validate`: unique keys and valid references.
+- [ ] P0.6.7 `SeedBuilder validate`: unique keys, and each game's key matches its folder.
 - [ ] P0.6.8 Add seed validation to CI.
 - [ ] P0.6.9 Minimal sample seed data to prove the flow.
 - [ ] P0.6.10 Copy `data/` into the backend image.
