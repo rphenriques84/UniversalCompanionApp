@@ -53,7 +53,7 @@ Estimates assume part-time work and are rough.
 - [x] P0.5.0 Backend: global exception handler returning ProblemDetails. Test that no internal details leak.
 - [x] P0.5.1 Backend: game DTO in `Contracts`, and `GET /games` with scope `game-data.read` returning a fixed list.
 - [x] P0.5.2 Frontend: typed `HttpClient` for the backend, using the service token handler.
-- [ ] P0.5.3 Frontend: resilience on the typed client (timeouts, retries).
+- [x] P0.5.3 Frontend: resilience on the typed client (timeouts, retries).
 - [ ] P0.5.4 BFF: `GET /bff/games` forwarding to the backend.
 - [ ] P0.5.5 BFF: error mapping (ProblemDetails).
 - [ ] P0.5.6 Prove `GET /bff/games` works end to end in Docker.
@@ -311,6 +311,7 @@ Estimates assume part-time work and are rough.
 - [ ] P5.7.2 BFF sync endpoints (cookie + antiforgery).
 - [ ] P5.7.3 Client sync: local-first, background sync, last-write-wins per item.
 - [ ] P5.7.4 Guest → account migration prompt on first sign-in.
+- [ ] P5.7.5 Retry POSTs in the backend client once they can repeat safely (idempotency keys). Turn off `DisableForUnsafeHttpMethods` for those calls.
 
 ### P5.8 Privacy
 - [ ] P5.8.1 Account deletion (frontend → backend; security stamp change).
