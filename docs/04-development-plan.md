@@ -69,7 +69,7 @@ Estimates assume part-time work and are rough.
 - [x] P0.6.7 `SeedBuilder validate`: each game folder has a `game.json` whose key matches the folder, which also makes keys unique.
 - [x] P0.6.8 Add seed validation to CI.
 - [x] P0.6.9 Minimal sample seed data to prove the flow.
-- [ ] P0.6.10 Copy `data/` into the backend image.
+- [x] P0.6.10 Copy `data/` into the backend image.
 - [ ] P0.6.11 Backend loader: read validated JSON from `data/` into memory on startup. Fail fast on bad data.
 - [ ] P0.6.12 Backend: `GET /games` serves loaded data instead of the fixed list.
 - [ ] P0.6.13 Diagram: add seed data, the game data loader and the load arrow.
