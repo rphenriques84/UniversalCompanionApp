@@ -66,7 +66,7 @@ Estimates assume part-time work and are rough.
 - [x] P0.6.4 JSON Schema for games in `data/schema/`.
 - P0.6.5 Moved to P1.7.6.
 - [x] P0.6.6 `SeedBuilder` project with a `validate` command: schema checks.
-- [ ] P0.6.7 `SeedBuilder validate`: unique keys, and each game's key matches its folder.
+- [x] P0.6.7 `SeedBuilder validate`: each game folder has a `game.json` whose key matches the folder, which also makes keys unique.
 - [ ] P0.6.8 Add seed validation to CI.
 - [ ] P0.6.9 Minimal sample seed data to prove the flow.
 - [ ] P0.6.10 Copy `data/` into the backend image.

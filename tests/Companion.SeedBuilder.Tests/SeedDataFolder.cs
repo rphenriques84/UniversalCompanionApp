@@ -22,6 +22,8 @@ internal sealed class SeedDataFolder : IDisposable
         File.WriteAllText(System.IO.Path.Combine(folder.FullName, name), content);
     }
 
+    public void AddEmptyGameFolder(string name) => Directory.CreateDirectory(System.IO.Path.Combine(Path, "games", name));
+
     public void Dispose() => Directory.Delete(Path, recursive: true);
 
     private static string FindRealSchemaFolder()
