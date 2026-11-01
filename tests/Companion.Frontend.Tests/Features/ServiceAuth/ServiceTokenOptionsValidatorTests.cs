@@ -27,6 +27,17 @@ public sealed class ServiceTokenOptionsValidatorTests
     }
 
     [Fact]
+    public void Validate_InvalidKey_OmitsKeyValue()
+    {
+        const string BadKey = "bad-key-value-that-must-stay-hidden";
+
+        var result = _validator.Validate(null, new ServiceTokenOptions { PrivateKey = BadKey });
+
+        Assert.True(result.Failed);
+        Assert.DoesNotContain(BadKey, result.FailureMessage, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void Validate_WrongCurve_Fails()
     {
         var result = _validator.Validate(null, new ServiceTokenOptions { PrivateKey = CreateKey(ECCurve.NamedCurves.nistP384) });
