@@ -28,5 +28,6 @@ public sealed class BffGamesTests
         var stylesheet = await client.GetStringAsync(_stylesheetUri);
 
         Assert.Contains("tailwindcss", stylesheet, StringComparison.Ordinal);
+        Assert.Contains("--theme-background", stylesheet, StringComparison.Ordinal);
     }
 }

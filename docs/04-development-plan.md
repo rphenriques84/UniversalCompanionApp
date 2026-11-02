@@ -76,7 +76,7 @@ Estimates assume part-time work and are rough.
 
 ### P0.7 Frontend base
 - [x] P0.7.1 Tailwind standalone CLI via MSBuild target, working in local and Docker builds.
-- [ ] P0.7.2 Theme tokens as CSS variables; replace template colors.
+- [x] P0.7.2 Theme tokens as CSS variables; replace template colors.
 - [ ] P0.7.3 `data-theme` switching; neutral default theme.
 - [ ] P0.7.4 Base layout (mobile-first).
 - [ ] P0.7.5 Resource files for UI strings.
