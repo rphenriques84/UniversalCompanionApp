@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "Frontend + Backend",
+    "Projects": [
+      {
+        "Path": "src\\Companion.Backend.Api\\Companion.Backend.Api.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      },
+      {
+        "Path": "src\\Companion.Frontend\\Companion.Frontend.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      }
+    ]
+  }
+]

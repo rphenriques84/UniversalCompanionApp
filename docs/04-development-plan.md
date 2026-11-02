@@ -79,6 +79,7 @@ Estimates assume part-time work and are rough.
 - [x] P0.7.2 Theme tokens as CSS variables; replace template colors.
 - [x] P0.7.3 `data-theme` switching; neutral default theme.
 - [x] P0.7.4 Base layout (mobile-first).
+- [x] P0.7.9 Direct debugging: F5 starts the frontend and backend together with Docker off, using user secrets for throwaway local keys. Our services always run this way; infrastructure may stay in Docker (P5.0.7, P5.3.1). Document the setup.
 - [ ] P0.7.5 Resource files for UI strings.
 - [ ] P0.7.6 Render modes: static SSR default, WebAssembly enabled for interactive pages.
 - [ ] P0.7.7 Prove the WebAssembly client runs: one interactive component in a real browser, in Docker.
@@ -271,6 +272,7 @@ Estimates assume part-time work and are rough.
 - [ ] P5.0.4 Testcontainers set up for backend integration tests: one shared PostgreSQL container per test run, across test projects (see P0.9.16).
 - [ ] P5.0.5 Trace propagation backend → database.
 - [ ] P5.0.6 Diagram: add PostgreSQL and the data access arrow.
+- [ ] P5.0.7 Debug with the database: PostgreSQL stays in Docker, on a dev-only `127.0.0.1` port that F5 can reach. In Development, the backend's debug output shows every SQL query, with parameter values hidden so no personal data is logged.
 
 ### P5.1 Decisions
 - [ ] P5.1.1 Account linking policy.
@@ -284,7 +286,7 @@ Estimates assume part-time work and are rough.
 - [ ] P5.2.4 Security stamp endpoint for session validation.
 
 ### P5.3 Email
-- [ ] P5.3.1 Add Mailpit to Docker Compose (backend network).
+- [ ] P5.3.1 Add Mailpit to Docker Compose (backend network), with dev-only `127.0.0.1` ports so F5 can send to it and its web page shows each message.
 - [ ] P5.3.2 Backend email sender with allowed templates only.
 - [ ] P5.3.3 Templates: confirm email, reset password.
 - [ ] P5.3.4 Diagram: add the email service.
