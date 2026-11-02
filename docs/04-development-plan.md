@@ -72,7 +72,7 @@ Estimates assume part-time work and are rough.
 - [x] P0.6.10 Copy `data/` into the backend image.
 - [x] P0.6.11 Backend loader: read validated JSON from `data/` into memory on startup. Fail fast on bad data.
 - [x] P0.6.12 Backend: `GET /games` serves loaded data instead of the fixed list.
-- [ ] P0.6.13 Diagram: add seed data, the game data loader and the load arrow.
+- [x] P0.6.13 Diagram: add seed data, the game data loader and the load arrow.
 
 ### P0.7 Frontend base
 - [ ] P0.7.1 Tailwind standalone CLI via MSBuild target, working in local and Docker builds.
