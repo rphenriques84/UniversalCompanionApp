@@ -1,0 +1,11 @@
+/* Default theme. Also applies when data-theme names no known theme. */
+:root,
+[data-theme="neutral"] {
+    --theme-background: #ffffff;
+    --theme-foreground: #1f2937;
+    --theme-success: #15803d;
+    --theme-danger: #b32121;
+    --theme-on-danger: #ffffff;
+    --theme-notice: #fef9c3;
+    --theme-shadow: rgb(0 0 0 / 0.2);
+}
