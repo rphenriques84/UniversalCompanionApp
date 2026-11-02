@@ -45,6 +45,29 @@ public sealed class GamesEndpointsTests : IAsyncDisposable
     }
 
     [Fact]
+    public async Task GetGames_OtherGameData_ReturnsWhatWasLoaded()
+    {
+        var gamesDirectory = Directory.CreateTempSubdirectory("games-endpoint-tests");
+
+        try
+        {
+            var folder = gamesDirectory.CreateSubdirectory("other");
+            await File.WriteAllTextAsync(Path.Combine(folder.FullName, "game.json"), """{ "key": "other", "name": "Other Game" }""");
+            using var factory = _factory.WithWebHostBuilder(host => host.UseSetting("GameData:Directory", gamesDirectory.FullName));
+            using var client = factory.CreateClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", CreateToken(ServiceScopes.GameDataRead));
+
+            var games = await client.GetFromJsonAsync<GameDto[]>(_gamesUri);
+
+            Assert.Equal([new GameDto("other", "Other Game")], games!);
+        }
+        finally
+        {
+            gamesDirectory.Delete(recursive: true);
+        }
+    }
+
+    [Fact]
     public async Task GetGames_MissingToken_IsRejected()
     {
         using var client = _factory.CreateClient();

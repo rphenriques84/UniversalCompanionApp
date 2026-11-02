@@ -5,9 +5,6 @@ namespace Companion.Backend.Api.Features.Games;
 
 public static class GamesEndpoints
 {
-    // Fixed until P0.6.12 serves loaded seed data.
-    private static readonly IReadOnlyList<GameDto> _games = [new("ffx", "Final Fantasy X HD Remaster")];
-
     public static IEndpointRouteBuilder MapGamesEndpoints(this IEndpointRouteBuilder endpoints)
     {
         var games = endpoints.MapGroup("/games").RequireAuthorization(ServiceScopes.GameDataRead);
@@ -17,5 +14,6 @@ public static class GamesEndpoints
         return endpoints;
     }
 
-    private static Ok<IReadOnlyList<GameDto>> GetGames() => TypedResults.Ok(_games);
+    private static Ok<IEnumerable<GameDto>> GetGames(GameCatalog catalog) =>
+        TypedResults.Ok(catalog.Games.Select(game => new GameDto(game.Key, game.Name)));
 }
