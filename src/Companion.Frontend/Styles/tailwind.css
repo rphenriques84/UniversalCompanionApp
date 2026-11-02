@@ -1,2 +1,29 @@
 @import "tailwindcss";
 @source "../../Companion.Frontend.Client";
+
+/* Theme values. These are the only place for colors. */
+:root {
+    --theme-background: #ffffff;
+    --theme-foreground: #1f2937;
+    --theme-success: #15803d;
+    --theme-danger: #b32121;
+    --theme-on-danger: #ffffff;
+    --theme-notice: #fef9c3;
+    --theme-shadow: rgb(0 0 0 / 0.2);
+}
+
+/* Tailwind classes such as bg-background and text-danger. */
+@theme inline {
+    --color-background: var(--theme-background);
+    --color-foreground: var(--theme-foreground);
+    --color-success: var(--theme-success);
+    --color-danger: var(--theme-danger);
+    --color-on-danger: var(--theme-on-danger);
+    --color-notice: var(--theme-notice);
+}
+
+@layer base {
+    body {
+        @apply bg-background text-foreground;
+    }
+}
