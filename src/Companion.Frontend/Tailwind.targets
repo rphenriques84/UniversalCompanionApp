@@ -1,0 +1,73 @@
+<Project>
+
+  <!-- Builds the stylesheet with the Tailwind standalone CLI (ADR 0003). The CLI is pinned and hash-checked. -->
+  <PropertyGroup>
+    <TailwindVersion>4.3.3</TailwindVersion>
+    <TailwindInput>Styles/tailwind.css</TailwindInput>
+    <TailwindOutput>wwwroot/css/app.out.css</TailwindOutput>
+    <TailwindOutputIsNew Condition="!Exists('$(TailwindOutput)')">true</TailwindOutputIsNew>
+    <TailwindArchitecture>$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)</TailwindArchitecture>
+    <TailwindOnWindows>$([MSBuild]::IsOSPlatform('Windows'))</TailwindOnWindows>
+    <TailwindOnLinux>$([MSBuild]::IsOSPlatform('Linux'))</TailwindOnLinux>
+    <TailwindOnMac>$([MSBuild]::IsOSPlatform('OSX'))</TailwindOnMac>
+    <TailwindOnMusl>$([System.IO.File]::Exists('/etc/alpine-release'))</TailwindOnMusl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TailwindOnWindows)' == 'true' And '$(TailwindArchitecture)' == 'X64'">
+    <TailwindAsset>tailwindcss-windows-x64.exe</TailwindAsset>
+    <TailwindSha256>e0e260ce048014e9268f6237ff18f8ccf02cef521cbd0ae04e82c2cdf7aa3955</TailwindSha256>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TailwindOnLinux)' == 'true' And '$(TailwindOnMusl)' != 'true' And '$(TailwindArchitecture)' == 'X64'">
+    <TailwindAsset>tailwindcss-linux-x64</TailwindAsset>
+    <TailwindSha256>dc61b3ac6b8c9ca874c0cc4c57b2409791a64c5540404ca5f5367360babc313a</TailwindSha256>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TailwindOnLinux)' == 'true' And '$(TailwindOnMusl)' == 'true' And '$(TailwindArchitecture)' == 'X64'">
+    <TailwindAsset>tailwindcss-linux-x64-musl</TailwindAsset>
+    <TailwindSha256>a04d34ceacc8f52cbe8920ad846cdeb61d3d0021dba32db0d1f77c9d9fad7a6c</TailwindSha256>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TailwindOnLinux)' == 'true' And '$(TailwindOnMusl)' != 'true' And '$(TailwindArchitecture)' == 'Arm64'">
+    <TailwindAsset>tailwindcss-linux-arm64</TailwindAsset>
+    <TailwindSha256>55fd0b241214eff3de1e8ee4f22796662f2d2e7a49bcfca7477cfd0bac398195</TailwindSha256>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TailwindOnLinux)' == 'true' And '$(TailwindOnMusl)' == 'true' And '$(TailwindArchitecture)' == 'Arm64'">
+    <TailwindAsset>tailwindcss-linux-arm64-musl</TailwindAsset>
+    <TailwindSha256>71ea4be79c9de9827545682df3e040053fb535d37c71ed2cfdedf9385a0868e0</TailwindSha256>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TailwindOnMac)' == 'true' And '$(TailwindArchitecture)' == 'X64'">
+    <TailwindAsset>tailwindcss-macos-x64</TailwindAsset>
+    <TailwindSha256>7922e0953f2110c05976e3bf58f14e643d90427575e766b7d433f5f80cbee7e1</TailwindSha256>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TailwindOnMac)' == 'true' And '$(TailwindArchitecture)' == 'Arm64'">
+    <TailwindAsset>tailwindcss-macos-arm64</TailwindAsset>
+    <TailwindSha256>cdf646702987a743464dff4d9c60fd4480d1c1e73dd819a9a67f1078815dce9d</TailwindSha256>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TailwindFolder>$(MSBuildProjectDirectory)/$(BaseIntermediateOutputPath)tailwind/$(TailwindVersion)/</TailwindFolder>
+    <TailwindCli>$(TailwindFolder)$(TailwindAsset)</TailwindCli>
+  </PropertyGroup>
+
+  <Target Name="BuildTailwind" BeforeTargets="BeforeBuild" Condition="'$(DesignTimeBuild)' != 'true'">
+    <Error Condition="'$(TailwindAsset)' == ''" Text="No Tailwind CLI is pinned for this platform. Add it to Tailwind.targets." />
+
+    <DownloadFile
+      Condition="!Exists('$(TailwindCli)')"
+      SourceUrl="https://github.com/tailwindlabs/tailwindcss/releases/download/v$(TailwindVersion)/$(TailwindAsset)"
+      DestinationFolder="$(TailwindFolder)"
+      DestinationFileName="$(TailwindAsset)"
+      Retries="2" />
+    <VerifyFileHash File="$(TailwindCli)" Hash="$(TailwindSha256)" Algorithm="SHA256" HashEncoding="hex" />
+
+    <Exec Condition="'$(TailwindOnWindows)' != 'true'" Command="chmod +x &quot;$(TailwindCli)&quot;" />
+    <Exec
+      Command="&quot;$(TailwindCli)&quot; --input &quot;$(TailwindInput)&quot; --output &quot;$(TailwindOutput)&quot; --minify"
+      WorkingDirectory="$(MSBuildProjectDirectory)"
+      IgnoreStandardErrorWarningFormat="true" />
+
+    <!-- On a clean build the file didn't exist when MSBuild evaluated the project. -->
+    <ItemGroup Condition="'$(TailwindOutputIsNew)' == 'true'">
+      <Content Include="$(TailwindOutput)" />
+    </ItemGroup>
+  </Target>
+
+</Project>
