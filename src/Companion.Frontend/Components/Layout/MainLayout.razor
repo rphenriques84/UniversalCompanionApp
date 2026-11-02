@@ -2,11 +2,11 @@
 @inject NavigationManager Navigation
 
 <div class="flex min-h-dvh flex-col">
-    <a href="@MainContentUrl" class="sr-only focus:not-sr-only focus:flex focus:min-h-11 focus:items-center focus:px-4">Skip to content</a>
+    <a href="@MainContentUrl" class="sr-only focus:not-sr-only focus:flex focus:min-h-11 focus:items-center focus:px-4">@Strings.SkipToContent</a>
 
     <header class="border-b border-border">
         <div class="mx-auto w-full max-w-3xl px-4">
-            <a href="" class="inline-flex min-h-11 items-center font-semibold">Universal Companion</a>
+            <a href="" class="inline-flex min-h-11 items-center font-semibold">@Strings.AppName</a>
         </div>
     </header>
 
@@ -16,8 +16,8 @@
 </div>
 
 <div id="blazor-error-ui" data-nosnippet>
-    An unhandled error has occurred.
-    <a href="." class="reload">Reload</a>
+    @Strings.UnhandledError
+    <a href="." class="reload">@Strings.Reload</a>
     <span class="dismiss">🗙</span>
 </div>
 

@@ -3,12 +3,17 @@
   <PropertyGroup>
     <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
     <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Companion.Contracts\Companion.Contracts.csproj" />
     <ProjectReference Include="..\Companion.Domain\Companion.Domain.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Strings.resx" Generator="MSBuild:Compile" StronglyTypedClassName="Strings" StronglyTypedNamespace="Companion.Frontend.Client.Resources" StronglyTypedLanguage="CSharp" StronglyTypedFileName="$(IntermediateOutputPath)Strings.Designer.cs" PublicClass="true" />
   </ItemGroup>
 
 </Project>

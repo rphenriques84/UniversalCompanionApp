@@ -26,6 +26,15 @@ public sealed class AppTests
     }
 
     [Fact]
+    public async Task GetHome_Anonymous_RendersResourceStrings()
+    {
+        var page = await GetPageAsync(_homeUri);
+
+        Assert.Contains("Skip to content", page, StringComparison.Ordinal);
+        Assert.Contains("Track 100% completion in your games.", page, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public async Task GetError_Anonymous_SkipLinkStaysOnPage()
     {
         var page = await GetPageAsync(_errorUri);
