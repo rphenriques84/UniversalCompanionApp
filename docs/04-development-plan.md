@@ -80,6 +80,8 @@ Estimates assume part-time work and are rough.
 - [x] P0.7.3 `data-theme` switching; neutral default theme.
 - [x] P0.7.4 Base layout (mobile-first).
 - [x] P0.7.9 Direct debugging: F5 starts the frontend and backend together with Docker off, using user secrets for throwaway local keys. Our services always run this way; infrastructure may stay in Docker (P5.0.7, P5.3.1). Document the setup.
+- [x] P0.7.10 Frontend endpoint page: OpenAPI and a Scalar page in Development only, to call the `/bff/*` endpoints from the browser. Production exposes neither (tested).
+- [ ] P0.7.11 Backend endpoint page: OpenAPI and a Scalar page in Development only, to call the backend directly during F5 debugging. A dev tool reads the throwaway key from user secrets and issues a short-lived service token to paste in. Real token checks stay on, with no bypass. Production exposes neither (tested).
 - [x] P0.7.5 Resource files for UI strings.
 - [ ] P0.7.6 Render modes: static SSR default, WebAssembly enabled for interactive pages.
 - [ ] P0.7.7 Prove the WebAssembly client runs: one interactive component in a real browser, in Docker.

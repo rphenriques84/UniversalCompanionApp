@@ -62,6 +62,7 @@ dotnet tools/setup-dev-secrets.cs
 
 In Visual Studio, choose the **Frontend + Backend** startup profile and press F5.
 It opens the frontend at `http://localhost:5110`, with the backend at `http://localhost:5147`.
+To call the BFF endpoints from the browser, open `http://localhost:5110/scalar`. This page exists only in Development.
 
 Other tools use two terminals:
 

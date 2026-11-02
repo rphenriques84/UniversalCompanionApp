@@ -1,4 +1,5 @@
 using Companion.Frontend.Components;
+using Companion.Frontend.Features.ApiDocs;
 using Companion.Frontend.Features.Backend;
 using Companion.Frontend.Features.Games;
 using Companion.Frontend.Features.ServiceAuth;
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddServiceTokens(builder.Configuration);
 builder.Services.AddBackendClient(builder.Configuration);
+builder.Services.AddOpenApi();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -31,6 +33,7 @@ app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages:
 app.UseAntiforgery();
 
 app.MapStaticAssets();
+app.MapApiDocsInDevelopment();
 app.MapBffGamesEndpoints();
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
