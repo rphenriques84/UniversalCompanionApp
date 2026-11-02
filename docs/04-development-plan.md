@@ -75,7 +75,7 @@ Estimates assume part-time work and are rough.
 - [x] P0.6.13 Diagram: add seed data, the game data loader and the load arrow.
 
 ### P0.7 Frontend base
-- [ ] P0.7.1 Tailwind standalone CLI via MSBuild target, working in local and Docker builds.
+- [x] P0.7.1 Tailwind standalone CLI via MSBuild target, working in local and Docker builds.
 - [ ] P0.7.2 Theme tokens as CSS variables; replace template colors.
 - [ ] P0.7.3 `data-theme` switching; neutral default theme.
 - [ ] P0.7.4 Base layout (mobile-first).

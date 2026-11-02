@@ -9,4 +9,6 @@
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" />
   </ItemGroup>
 
+  <Import Project="Tailwind.targets" />
+
 </Project>
