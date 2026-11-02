@@ -6,7 +6,6 @@ RUN dotnet publish src/Companion.Backend.Api/Companion.Backend.Api.csproj -c Rel
 FROM mcr.microsoft.com/dotnet/aspnet:10.0.14-alpine3.24 AS runtime
 WORKDIR /app
 COPY --from=build /app .
-COPY --from=build /repo/data data
 USER $APP_UID
 EXPOSE 8080
 ENTRYPOINT ["dotnet", "Companion.Backend.Api.dll"]

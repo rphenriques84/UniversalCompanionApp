@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddErrorHandling();
 builder.Services.AddServiceAuth(builder.Configuration);
+builder.Services.AddGameData(builder.Configuration);
 
 var app = builder.Build();
 
