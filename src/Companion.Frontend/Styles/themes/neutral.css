@@ -3,6 +3,7 @@
 [data-theme="neutral"] {
     --theme-background: #ffffff;
     --theme-foreground: #1f2937;
+    --theme-border: #6b7280;
     --theme-success: #15803d;
     --theme-danger: #b32121;
     --theme-on-danger: #ffffff;
