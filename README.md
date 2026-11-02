@@ -52,6 +52,24 @@ docker compose up
 Then open the frontend at `http://localhost:8080` and Grafana at `http://localhost:3000`.
 The backend API is private (internal Docker network only).
 
+## Debugging
+
+The frontend and backend run directly, without Docker. First time only:
+
+```bash
+dotnet tools/setup-dev-secrets.cs
+```
+
+In Visual Studio, choose the **Frontend + Backend** startup profile and press F5.
+It opens the frontend at `http://localhost:5110`, with the backend at `http://localhost:5147`.
+
+Other tools use two terminals:
+
+```bash
+dotnet run --project src/Companion.Backend.Api --launch-profile http
+dotnet run --project src/Companion.Frontend --launch-profile http
+```
+
 ## Legal
 
 FINAL FANTASY is a registered trademark of Square Enix Holdings Co., Ltd.
