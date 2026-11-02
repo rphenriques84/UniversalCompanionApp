@@ -69,6 +69,7 @@ Decisions are recorded as ADRs in [adr/](adr/).
 - Grouped per feature (`MapGroup`).
 - Protected by JWT bearer service tokens (`Microsoft.AspNetCore.Authentication.JwtBearer`).
 - Frontend BFF endpoints are also Minimal APIs, protected by the user cookie and antiforgery.
+- OpenAPI documents and Scalar pages (`Microsoft.AspNetCore.OpenApi`, `Scalar.AspNetCore`, both MIT) exist only in Development, for F5 debugging. Docker runs in Production and has neither.
 
 ## Database: PostgreSQL + EF Core (Phase 5)
 

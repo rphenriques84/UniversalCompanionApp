@@ -62,7 +62,14 @@ dotnet tools/setup-dev-secrets.cs
 
 In Visual Studio, choose the **Frontend + Backend** startup profile and press F5.
 It opens the frontend at `http://localhost:5110`, with the backend at `http://localhost:5147`.
-To call the BFF endpoints from the browser, open `http://localhost:5110/scalar`. This page exists only in Development.
+To call the BFF endpoints from the browser, open `http://localhost:5110/scalar`.
+To call the backend directly, open `http://localhost:5147/scalar`. Backend calls need a service token, valid for 5 minutes. Paste it into the page's Bearer token field:
+
+```bash
+dotnet tools/dev-service-token.cs
+```
+
+These pages exist only in Development, so they are not in Docker, which runs in Production.
 
 Other tools use two terminals:
 

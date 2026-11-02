@@ -81,7 +81,9 @@ Estimates assume part-time work and are rough.
 - [x] P0.7.4 Base layout (mobile-first).
 - [x] P0.7.9 Direct debugging: F5 starts the frontend and backend together with Docker off, using user secrets for throwaway local keys. Our services always run this way; infrastructure may stay in Docker (P5.0.7, P5.3.1). Document the setup.
 - [x] P0.7.10 Frontend endpoint page: OpenAPI and a Scalar page in Development only, to call the `/bff/*` endpoints from the browser. Production exposes neither (tested).
-- [ ] P0.7.11 Backend endpoint page: OpenAPI and a Scalar page in Development only, to call the backend directly during F5 debugging. A dev tool reads the throwaway key from user secrets and issues a short-lived service token to paste in. Real token checks stay on, with no bypass. Production exposes neither (tested).
+- [x] P0.7.11 Backend endpoint page: OpenAPI and a Scalar page in Development only, to call the backend directly during F5 debugging. A dev tool reads the throwaway key from user secrets and issues a short-lived service token to paste in. Real token checks stay on, with no bypass. Production exposes neither (tested).
+- [ ] P0.7.12 One local secrets file: the git-ignored `.env` holds every local secret, for both Docker and F5, and user secrets go away. Services read secrets only through .NET configuration, so a remote key vault can replace the file later (P6.2.3) with no feature code changes. Update the tools, `docs/` and the rules. Add an ADR.
+- [ ] P0.7.13 Tests for the debug tools: `setup-dev-secrets` and `dev-service-token`, including a token the backend accepts.
 - [x] P0.7.5 Resource files for UI strings.
 - [ ] P0.7.6 Render modes: static SSR default, WebAssembly enabled for interactive pages.
 - [ ] P0.7.7 Prove the WebAssembly client runs: one interactive component in a real browser, in Docker.
@@ -340,7 +342,7 @@ Estimates assume part-time work and are rough.
 ### P6.2 Infrastructure
 - [ ] P6.2.1 Backend on internal-only ingress / private network.
 - [ ] P6.2.2 PostgreSQL instance, users, backups.
-- [ ] P6.2.3 Secret store for service-token keys, OAuth secrets, SMTP, Grafana key (or managed identity on Azure).
+- [ ] P6.2.3 Remote key vault replaces the local secrets file (P0.7.12): service-token keys, OAuth secrets, SMTP, Grafana key (or managed identity on Azure).
 - [ ] P6.2.4 Frontend Data Protection key storage.
 
 ### P6.3 Observability

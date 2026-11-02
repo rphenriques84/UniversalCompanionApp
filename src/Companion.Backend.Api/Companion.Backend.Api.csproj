@@ -8,6 +8,8 @@
     <ProjectReference Include="..\Companion.Backend.Data\Companion.Backend.Data.csproj" />
     <ProjectReference Include="..\Companion.Contracts\Companion.Contracts.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Scalar.AspNetCore" />
   </ItemGroup>
 
   <ItemGroup>
