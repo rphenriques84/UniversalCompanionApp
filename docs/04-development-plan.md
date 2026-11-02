@@ -93,6 +93,7 @@ Estimates assume part-time work and are rough.
 - [ ] P0.8.5 Low-volume defaults (levels, framework categories at `Warning`).
 - [ ] P0.8.6 Verify a single trace in Grafana for `GET /bff/games`.
 - [ ] P0.8.7 Diagram: add OTLP arrows from frontend and backend.
+- [ ] P0.8.9 Tag logs, traces and metrics with the stack they came from (dev or test) through `deployment.environment`.
 
 ### P0.9 CI and docs
 - [x] P0.9.1 GitHub Actions: build, `dotnet format --verify-no-changes`, tests, seed validation, vulnerable packages, Docker image builds.
@@ -108,6 +109,9 @@ Estimates assume part-time work and are rough.
 - [ ] P0.9.13 Automate Compose network checks: backend unreachable from the host and with no internet.
 - [ ] P0.9.14 Find out why the backend exits with code 139 on a bad key, not a clean failure code.
 - [ ] P0.9.15 Extend the one-type-per-file rule to `.razor` files, or record why not.
+- [ ] P0.9.16 One Compose stack per test run, shared by every test project that makes real requests. A shared test helper creates it if missing, starts it if stopped, and reuses it if running, once across test processes. It stops the stack after the last project finishes and never removes it. Containers are recreated only when the code changes, so the throwaway keys stay the same between runs. Tests reach the backend only through the frontend, as in production. Tests that need their own settings or fake services stay in-process. Add this to the testing rule.
+- [ ] P0.9.17 Remove `COMPANION_E2E`: E2E tests always run and fail with a clear message if Docker is off or a test port is in use. Update the testing rule and `CLAUDE.md`, and keep CI from running them twice.
+- [ ] P0.9.18 Make Compose's published ports configurable, with the dev defaults unchanged (8080, 3000). The test stack uses 8081 and 3001, so both stacks can run together.
 - [x] P0.9.8 Key generator writes `.env` itself as UTF-8. Windows PowerShell quickstart check in CI.
 - [x] P0.9.9 Test that apps never print keys. Security rule: run Docker Compose with a temporary `--env-file`, never the real `.env`.
 
@@ -251,7 +255,7 @@ Estimates assume part-time work and are rough.
 - [ ] P4.4.2 Alerts: error rate, log volume at 50% of budget.
 
 ### P4.5 Testing
-- [ ] P4.5.1 Playwright smoke tests (3–5 flows).
+- [ ] P4.5.1 Playwright smoke tests (3–5 flows) on the shared E2E stack (P0.9.16).
 - [ ] P4.5.2 bUnit coverage for core components.
 
 **Done when:** the guest-only app is complete and could be released.
@@ -264,7 +268,7 @@ Estimates assume part-time work and are rough.
 - [ ] P5.0.1 Backend: EF Core + Npgsql, `postgres` service with a named volume, database `companion`, schema `app`, snake_case naming.
 - [ ] P5.0.2 Runtime and migrations database users.
 - [ ] P5.0.3 First migration: progress tables, keyed by item key.
-- [ ] P5.0.4 Testcontainers set up for backend integration tests.
+- [ ] P5.0.4 Testcontainers set up for backend integration tests: one shared PostgreSQL container per test run, across test projects (see P0.9.16).
 - [ ] P5.0.5 Trace propagation backend → database.
 - [ ] P5.0.6 Diagram: add PostgreSQL and the data access arrow.
 
