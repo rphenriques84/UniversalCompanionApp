@@ -80,7 +80,7 @@ Estimates assume part-time work and are rough.
 - [x] P0.7.3 `data-theme` switching; neutral default theme.
 - [x] P0.7.4 Base layout (mobile-first).
 - [x] P0.7.9 Direct debugging: F5 starts the frontend and backend together with Docker off, using user secrets for throwaway local keys. Our services always run this way; infrastructure may stay in Docker (P5.0.7, P5.3.1). Document the setup.
-- [ ] P0.7.5 Resource files for UI strings.
+- [x] P0.7.5 Resource files for UI strings.
 - [ ] P0.7.6 Render modes: static SSR default, WebAssembly enabled for interactive pages.
 - [ ] P0.7.7 Prove the WebAssembly client runs: one interactive component in a real browser, in Docker.
 - [ ] P0.7.8 Diagram: remove "no interactive pages yet", add Tailwind CSS.

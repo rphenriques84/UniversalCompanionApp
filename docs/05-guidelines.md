@@ -91,7 +91,7 @@ Change them through a PR (and an ADR if it's a real decision).
   - Contrast checked per theme.
   - Never color alone for status: done/missed/missable also use icon or text.
   - Respect `prefers-reduced-motion`.
-- UI strings in resource files from day one (English first).
+- UI strings in resource files from day one (English first). They live in `Companion.Frontend.Client/Resources/Strings.resx`. Use the generated `Strings` class, so a missing string fails the build.
 
 ## 8. Security
 
