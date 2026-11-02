@@ -1,16 +1,8 @@
 @import "tailwindcss";
 @source "../../Companion.Frontend.Client";
 
-/* Theme values. These are the only place for colors. */
-:root {
-    --theme-background: #ffffff;
-    --theme-foreground: #1f2937;
-    --theme-success: #15803d;
-    --theme-danger: #b32121;
-    --theme-on-danger: #ffffff;
-    --theme-notice: #fef9c3;
-    --theme-shadow: rgb(0 0 0 / 0.2);
-}
+/* One file per theme. Each sets every --theme-* value under its data-theme. */
+@import "./themes/neutral.css";
 
 /* Tailwind classes such as bg-background and text-danger. */
 @theme inline {

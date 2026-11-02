@@ -56,7 +56,7 @@ Decisions are recorded as ADRs in [adr/](adr/).
 ## Styling: Tailwind CSS
 
 - **Why:** full control for game-specific themes. No component library look to fight.
-- **How:** Tailwind tokens map to CSS variables. Each game has a theme file.
+- **How:** Tailwind tokens map to CSS variables. Each game has a theme file in `Styles/themes/`.
   Switch with `<html data-theme="ffx">`.
 - **Build:** Tailwind standalone CLI via an MSBuild target. No Node toolchain required.
 - **Alternative rejected:** MudBlazor (fast to start, but Material look is hard to theme deeply).

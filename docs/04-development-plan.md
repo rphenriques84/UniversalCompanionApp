@@ -77,7 +77,7 @@ Estimates assume part-time work and are rough.
 ### P0.7 Frontend base
 - [x] P0.7.1 Tailwind standalone CLI via MSBuild target, working in local and Docker builds.
 - [x] P0.7.2 Theme tokens as CSS variables; replace template colors.
-- [ ] P0.7.3 `data-theme` switching; neutral default theme.
+- [x] P0.7.3 `data-theme` switching; neutral default theme.
 - [ ] P0.7.4 Base layout (mobile-first).
 - [ ] P0.7.5 Resource files for UI strings.
 - [ ] P0.7.6 Render modes: static SSR default, WebAssembly enabled for interactive pages.
@@ -169,7 +169,7 @@ Estimates assume part-time work and are rough.
 - [ ] P1.6.6 Diagram: add local export and import files.
 
 ### P1.8 FFX theme
-- [ ] P1.8.1 FFX theme tokens (colors, fonts, surfaces).
+- [ ] P1.8.1 FFX theme tokens (colors, fonts, surfaces); game pages set `data-theme="ffx"`.
 - [ ] P1.8.2 Contrast check (WCAG AA).
 - [ ] P1.8.3 Footer trademark notice.
 
