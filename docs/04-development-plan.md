@@ -78,7 +78,7 @@ Estimates assume part-time work and are rough.
 - [x] P0.7.1 Tailwind standalone CLI via MSBuild target, working in local and Docker builds.
 - [x] P0.7.2 Theme tokens as CSS variables; replace template colors.
 - [x] P0.7.3 `data-theme` switching; neutral default theme.
-- [ ] P0.7.4 Base layout (mobile-first).
+- [x] P0.7.4 Base layout (mobile-first).
 - [ ] P0.7.5 Resource files for UI strings.
 - [ ] P0.7.6 Render modes: static SSR default, WebAssembly enabled for interactive pages.
 - [ ] P0.7.7 Prove the WebAssembly client runs: one interactive component in a real browser, in Docker.
