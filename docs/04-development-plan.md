@@ -89,7 +89,7 @@ Estimates assume part-time work and are rough.
   - Log capture tests use known test secrets (private key, public key, service token) in a normal run with successful and rejected calls. The test captures every log record with `FakeLogCollector` and fails if it finds a secret, in the message or in structured values.
   - Exception messages stay covered: rejected tokens must not put the token or key in logged exceptions.
 - [x] P0.7.5 Resource files for UI strings.
-- [ ] P0.7.6 Render modes: static SSR default, WebAssembly enabled for interactive pages.
+- [x] P0.7.6 Render modes: static SSR default, WebAssembly enabled for interactive pages.
 - [ ] P0.7.7 Prove the WebAssembly client runs: one interactive component in a real browser, in Docker.
 - [ ] P0.7.8 Diagram: remove "no interactive pages yet", add Tailwind CSS.
 

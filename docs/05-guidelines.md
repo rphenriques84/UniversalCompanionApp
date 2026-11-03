@@ -85,7 +85,7 @@ Change them through a PR (and an ADR if it's a real decision).
 - Components use theme tokens (Tailwind classes mapped to CSS variables). No hard-coded colors.
 - Every component must work in every theme.
 - Mobile-first. Tap targets ≥ 44 px.
-- Explicit render mode on every page (`@rendermode`), static SSR by default.
+- Static SSR by default, with no `@rendermode`. Interactive pages live in `Frontend.Client` and set `@rendermode InteractiveWebAssembly`. No Interactive Server or Auto. Architecture tests check this.
 - Accessibility: WCAG 2.2 AA.
   - Keyboard navigation, visible focus.
   - Contrast checked per theme.
