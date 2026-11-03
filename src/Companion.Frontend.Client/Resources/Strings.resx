@@ -15,6 +15,15 @@
   <data name="AppName" xml:space="preserve">
     <value>Universal Companion</value>
   </data>
+  <data name="ClientCheckNotRunning" xml:space="preserve">
+    <value>Interactive mode is not running yet.</value>
+  </data>
+  <data name="ClientCheckRunning" xml:space="preserve">
+    <value>Interactive mode is running in your browser.</value>
+  </data>
+  <data name="ClientCheckTitle" xml:space="preserve">
+    <value>Client check</value>
+  </data>
   <data name="ErrorHeading" xml:space="preserve">
     <value>Error</value>
   </data>

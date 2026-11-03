@@ -7,6 +7,7 @@ public sealed class AppTests
 {
     private static readonly Uri _homeUri = new("/", UriKind.Relative);
     private static readonly Uri _errorUri = new("/Error", UriKind.Relative);
+    private static readonly Uri _clientCheckUri = new("/client-check", UriKind.Relative);
 
     [Fact]
     public async Task GetHome_Anonymous_UsesNeutralTheme()
@@ -42,6 +43,16 @@ public sealed class AppTests
         // Interactive components leave "<!--Blazor:" markers in the HTML. Static SSR leaves none.
         Assert.DoesNotContain("<!--Blazor:", page, StringComparison.Ordinal);
         Assert.Contains("_framework/blazor.web", page, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task GetClientCheck_Anonymous_PrerendersWebAssemblyComponent()
+    {
+        var page = await GetPageAsync(_clientCheckUri);
+
+        Assert.Contains("Interactive mode is not running yet.", page, StringComparison.Ordinal);
+        Assert.Contains("<!--Blazor:{\"type\":\"webassembly\"", page, StringComparison.Ordinal);
+        Assert.Contains("<meta name=\"robots\" content=\"noindex\"", page, StringComparison.Ordinal);
     }
 
     [Fact]
