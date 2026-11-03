@@ -35,6 +35,7 @@ services:
       ASPNETCORE_ENVIRONMENT: Production
       ServiceAuth__CurrentPublicKey: ${SERVICE_TOKEN_PUBLIC_KEY:?Run dotnet tools/generate-service-keys.cs}
       ServiceAuth__PreviousPublicKey: ${SERVICE_TOKEN_PREVIOUS_PUBLIC_KEY:-}
+      OpenTelemetry__OtlpEndpoint: http://otel-lgtm:4317
     networks:
       - internal
     depends_on:
