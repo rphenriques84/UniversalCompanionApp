@@ -1,5 +1,6 @@
 using Companion.Backend.Api.Features.ServiceAuth;
-using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace Companion.Backend.Tests.Features.ServiceAuth;
@@ -20,10 +21,13 @@ public sealed class ServiceAuthKeyExposureTests
     [Fact]
     public void Startup_InvalidKey_OmitsKeyValueFromError()
     {
-        using var factory = new WebApplicationFactory<Program>()
-            .WithWebHostBuilder(host => host.UseSetting("ServiceAuth:CurrentPublicKey", _badKey));
+        var configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection([KeyValuePair.Create<string, string?>("ServiceAuth:CurrentPublicKey", _badKey)])
+            .Build();
+        using var provider = new ServiceCollection().AddServiceAuth(configuration).BuildServiceProvider();
 
-        var exception = Assert.Throws<OptionsValidationException>(() => factory.CreateClient());
+        // Runs the startup check directly. Through WebApplicationFactory, a failed start can race with host disposal.
+        var exception = Assert.Throws<OptionsValidationException>(() => provider.GetRequiredService<IStartupValidator>().Validate());
 
         Assert.DoesNotContain(_badKey, exception.ToString(), StringComparison.Ordinal);
     }
