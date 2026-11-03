@@ -37,6 +37,15 @@ internal sealed class ComposeStack : IAsyncDisposable
         }
     }
 
+    /// <summary>The throwaway key values this stack runs with, to check that they never leak.</summary>
+    public IReadOnlyList<string> ReadKeyValues() =>
+    [
+        .. File.ReadAllLines(_envFile)
+            .Where(line => line.StartsWith("SERVICE_TOKEN_", StringComparison.Ordinal))
+            .Select(line => line[(line.IndexOf('=', StringComparison.Ordinal) + 1)..])
+            .Where(value => value.Length > 0),
+    ];
+
     public async ValueTask DisposeAsync()
     {
         await RunComposeAsync("down", "--volumes");

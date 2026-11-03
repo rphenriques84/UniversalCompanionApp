@@ -80,6 +80,7 @@ Production: `TraceSamplingRatio` around `0.1`. Services point at the internal Co
 - Levels: `Error` (needs action), `Warning` (handled but unexpected), `Information` (key business events), `Debug` (local only).
 - Production minimum: `Information`. Framework noise (`Microsoft.*`, `System.*`) at `Warning`.
 - Never log: emails, tokens, passwords, IPs, OAuth payloads, request/response bodies.
+- Tests check this. Unit tests capture every log record and look for test keys and tokens. The E2E test reads everything stored in Grafana (logs, traces, metric labels) and fails on a key value or a JWT.
 
 ## Key signals
 
