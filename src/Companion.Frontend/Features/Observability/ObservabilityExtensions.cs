@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using OpenTelemetry;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Metrics;
@@ -9,6 +10,9 @@ namespace Companion.Frontend.Features.Observability;
 public static class ObservabilityExtensions
 {
     public const string ServiceName = "companion-frontend";
+
+    // Request metrics only. The framework's other meters (memory pool, Kestrel, DNS) add series we don't use.
+    private static readonly string[] _meters = ["Microsoft.AspNetCore.Hosting", "Microsoft.AspNetCore.Diagnostics", "System.Net.Http"];
 
     public static IServiceCollection AddObservability(this IServiceCollection services, IConfiguration configuration)
     {
@@ -30,14 +34,21 @@ public static class ObservabilityExtensions
         services.AddOpenTelemetry()
             .ConfigureResource(resource => resource.AddService(ServiceName))
             .WithTracing(tracing => tracing
-                .AddAspNetCoreInstrumentation()
+                .SetSampler(CreateSampler)
+                .AddAspNetCoreInstrumentation(aspNetCore => aspNetCore.Filter = IsTraced)
                 .AddHttpClientInstrumentation())
-            .WithMetrics(metrics => metrics
-                .AddAspNetCoreInstrumentation()
-                .AddHttpClientInstrumentation())
+            .WithMetrics(metrics => metrics.AddMeter(_meters))
             .WithLogging()
             .UseOtlpExporter(OtlpExportProtocol.Grpc, endpointUri);
 
         return services;
     }
+
+    /// <summary>Pages and BFF calls are traced. Static files (one page load fetches dozens) are not.</summary>
+    public static bool IsTraced(HttpContext context) => !Path.HasExtension(context.Request.Path.Value);
+
+    // Parent-based: a call that arrives inside a kept trace stays in it, whatever the ratio.
+    private static Sampler CreateSampler(IServiceProvider services) =>
+        new ParentBasedSampler(new TraceIdRatioBasedSampler(
+            services.GetRequiredService<IOptions<ObservabilityOptions>>().Value.TraceSamplingRatio));
 }
