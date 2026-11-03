@@ -71,6 +71,7 @@ OpenTelemetry keeps all of these one config change away.
 - An invalid `OtlpEndpoint` stops the service at startup.
 - Both services send traces, logs and metrics. Traces and metrics cover incoming requests, plus `HttpClient` calls in the frontend.
 - Unhandled exceptions are logged at `Error` by the framework's exception handler, so they reach Grafana too.
+- Frontend → backend calls carry the W3C `traceparent` header (.NET default), so `GET /bff/games` is one trace across both services. To see it, open Grafana → Explore → Tempo and search for `GET /bff/games/`.
 
 Production: `TraceSamplingRatio` around `0.1`. Services point at the internal Collector and need **no API key**; the Grafana Cloud key is configured only in the Collector.
 
