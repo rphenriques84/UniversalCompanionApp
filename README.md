@@ -65,7 +65,8 @@ To call the backend directly, open `http://localhost:5147/scalar`. Backend calls
 dotnet tools/dev-service-token.cs
 ```
 
-These pages exist only in Development, so they are not in Docker, which runs in Production.
+To check that the WebAssembly client runs in a browser, open `/client-check`. This page also exists in Docker.
+The Scalar pages exist only in Development, so they are not in Docker, which runs in Production.
 
 Other tools use two terminals:
 

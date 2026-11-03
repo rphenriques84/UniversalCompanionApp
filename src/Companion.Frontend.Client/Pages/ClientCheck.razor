@@ -1,0 +1,14 @@
+@page "/client-check"
+@rendermode InteractiveWebAssembly
+
+@* Diagnostic page, not linked anywhere. It shows whether the WebAssembly client runs in this browser. *@
+
+<PageTitle>@Strings.ClientCheckTitle</PageTitle>
+
+<HeadContent>
+    <meta name="robots" content="noindex" />
+</HeadContent>
+
+<h1>@Strings.ClientCheckTitle</h1>
+
+<p role="status">@(RendererInfo.IsInteractive ? Strings.ClientCheckRunning : Strings.ClientCheckNotRunning)</p>
