@@ -3,6 +3,8 @@ using Companion.Backend.Api.Features.Games;
 using Companion.Domain;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 
 namespace Companion.Backend.Tests.Features.Games;
 
@@ -32,10 +34,12 @@ public sealed class GameCatalogTests : IAsyncDisposable
     }
 
     [Fact]
-    public void Startup_BadGameData_FailsToStart()
+    public async Task StartAsync_BadGameData_Throws()
     {
-        using var factory = _factory.WithWebHostBuilder(host => host.UseSetting("GameData:Directory", "no-such-folder"));
+        // Calls the catalog directly. Through WebApplicationFactory, a failed start can race with host disposal.
+        var options = Options.Create(new GameDataOptions { Directory = "no-such-folder" });
+        var catalog = new GameCatalog(options, NullLogger<GameCatalog>.Instance);
 
-        Assert.Throws<DirectoryNotFoundException>(() => factory.CreateClient());
+        await Assert.ThrowsAsync<DirectoryNotFoundException>(() => catalog.StartAsync(CancellationToken.None));
     }
 }
