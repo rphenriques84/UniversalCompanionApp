@@ -21,6 +21,10 @@ public static class BackendExtensions
         var client = services.AddHttpClient<BackendClient>((provider, client) =>
             client.BaseAddress = new Uri(provider.GetRequiredService<IOptions<BackendOptions>>().Value.BaseUrl));
 
+        // The default HttpClient logs redact headers in the message only. At Trace level, their
+        // structured values still hold the raw Authorization header, so they would leak the service token.
+        client.RemoveAllLoggers();
+
         // Resilience goes first so it wraps the token handler: each attempt gets a current token.
         client.AddStandardResilienceHandler(ConfigureResilience);
 
