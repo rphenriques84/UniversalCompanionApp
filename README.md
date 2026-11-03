@@ -54,11 +54,7 @@ The backend API is private (internal Docker network only).
 
 ## Debugging
 
-The frontend and backend run directly, without Docker. First time only:
-
-```bash
-dotnet tools/setup-dev-secrets.cs
-```
+The frontend and backend run directly, without Docker. They read their keys from `.env`, the only file that holds local secrets, so run the first two Quickstart commands once.
 
 In Visual Studio, choose the **Frontend + Backend** startup profile and press F5.
 It opens the frontend at `http://localhost:5110`, with the backend at `http://localhost:5147`.

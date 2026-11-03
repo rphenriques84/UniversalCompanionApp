@@ -5,6 +5,11 @@ using Companion.Backend.Api.Features.ServiceAuth;
 
 var builder = WebApplication.CreateBuilder(args);
 
+if (builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddLocalSecrets(builder.Environment.ContentRootPath);
+}
+
 builder.Services.AddErrorHandling();
 builder.Services.AddServiceAuth(builder.Configuration);
 builder.Services.AddGameData(builder.Configuration);

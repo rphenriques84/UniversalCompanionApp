@@ -4,10 +4,6 @@
       "Read(./.env)",
       "Edit(./.env)",
       "Read(./game-files/**)"
-    ],
-    "ask": [
-      "Read(./.env.*)",
-      "Edit(./.env.*)"
     ]
   }
 }

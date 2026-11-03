@@ -28,7 +28,6 @@ Human-readable versions are in `docs/` (start at `docs/README.md`).
 cp .env.example .env            # first time only
 dotnet tools/generate-service-keys.cs   # first time only
 docker compose up -d            # start everything
-dotnet tools/setup-dev-secrets.cs       # first time only, for F5 debugging
 dotnet tools/dev-service-token.cs       # short-lived token for the backend's Scalar page
 dotnet build                    # build
 dotnet test                     # all tests (Docker needed for Testcontainers from Phase 5)

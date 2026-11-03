@@ -6,6 +6,11 @@ using Companion.Frontend.Features.ServiceAuth;
 
 var builder = WebApplication.CreateBuilder(args);
 
+if (builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddLocalSecrets(builder.Environment.ContentRootPath);
+}
+
 builder.Services.AddServiceTokens(builder.Configuration);
 builder.Services.AddBackendClient(builder.Configuration);
 builder.Services.AddOpenApi();

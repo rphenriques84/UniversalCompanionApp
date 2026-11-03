@@ -1,6 +1,6 @@
 # Security
 
-- Never commit or print secrets. Use `dotnet user-secrets` or `.env` (git-ignored). Don't read `.env`. Other `.env.*` files only with approval.
+- Never commit or print secrets. `.env` (git-ignored) is the only local file with secrets (ADR 0014). Don't read it. Every other file in the repo may be read and edited.
 - Run Docker Compose with a temporary `--env-file`, never the real `.env`. Compose loads `.env` by default, and its errors can print the file's contents. Permission rules only block file tools, not what a shell command reads.
 - Error messages and logs never contain key values. Say what is wrong, not what the value was.
 - Keep dependencies patched. CI runs `dotnet list package --vulnerable` and secret scanning.

@@ -95,7 +95,7 @@ Change them through a PR (and an ADR if it's a real decision).
 
 ## 8. Security
 
-- No secrets in git. Use `dotnet user-secrets` or `.env` (git-ignored). Secret scanning in CI (gitleaks).
+- No secrets in git. `.env` (git-ignored) is the only local file with secrets. Secret scanning in CI (gitleaks).
 - Automated tools run Docker Compose with a temporary `--env-file`, never the real `.env`. Compose errors can print the contents of a broken file.
 - Error messages and logs never contain key values.
 - Dependabot for NuGet and Docker images. `dotnet list package --vulnerable` in CI.
