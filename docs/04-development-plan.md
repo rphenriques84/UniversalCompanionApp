@@ -82,8 +82,12 @@ Estimates assume part-time work and are rough.
 - [x] P0.7.9 Direct debugging: F5 starts the frontend and backend together with Docker off, using user secrets for throwaway local keys. Our services always run this way; infrastructure may stay in Docker (P5.0.7, P5.3.1). Document the setup.
 - [x] P0.7.10 Frontend endpoint page: OpenAPI and a Scalar page in Development only, to call the `/bff/*` endpoints from the browser. Production exposes neither (tested).
 - [x] P0.7.11 Backend endpoint page: OpenAPI and a Scalar page in Development only, to call the backend directly during F5 debugging. A dev tool reads the throwaway key from user secrets and issues a short-lived service token to paste in. Real token checks stay on, with no bypass. Production exposes neither (tested).
-- [ ] P0.7.12 One local secrets file: the git-ignored `.env` holds every local secret, for both Docker and F5, and user secrets go away. Services read secrets only through .NET configuration, so a remote key vault can replace the file later (P6.2.3) with no feature code changes. Update the tools, `docs/` and the rules. Add an ADR.
-- [ ] P0.7.13 Tests for the debug tools: `setup-dev-secrets` and `dev-service-token`, including a token the backend accepts.
+- [x] P0.7.12 One local secrets file: the git-ignored `.env` holds every local secret, for both Docker and F5, and user secrets go away. Services read secrets only through .NET configuration, so a remote key vault can replace the file later (P6.2.3) with no feature code changes. Update the tools, `docs/` and the rules. Add an ADR.
+- [ ] P0.7.13 Tests for the debug tool: `dev-service-token`, including a token the backend accepts.
+- [ ] P0.7.14 Startup and log leak tests:
+  - Process tests start the compiled backend and frontend as real processes with a bad key, and the backend with a bad `GameData:Directory`. Each must exit with an error. The test reads all stdout and stderr, at `Debug` level, and fails if it finds the test key value.
+  - Log capture tests use known test secrets (private key, public key, service token) in a normal run with successful and rejected calls. The test captures every log record with `FakeLogCollector` and fails if it finds a secret, in the message or in structured values.
+  - Exception messages stay covered: rejected tokens must not put the token or key in logged exceptions.
 - [x] P0.7.5 Resource files for UI strings.
 - [ ] P0.7.6 Render modes: static SSR default, WebAssembly enabled for interactive pages.
 - [ ] P0.7.7 Prove the WebAssembly client runs: one interactive component in a real browser, in Docker.

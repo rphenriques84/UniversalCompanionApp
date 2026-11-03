@@ -15,5 +15,6 @@
 | [0011](0011-frontend-backend-split.md) | Public frontend (BFF) and private backend API | Accepted |
 | [0012](0012-project-structure.md) | Six source projects, no extra layers | Accepted |
 | [0013](0013-game-data-in-memory.md) | Serve game data from JSON, postpone PostgreSQL to Phase 5 | Accepted |
+| [0014](0014-one-local-secrets-file.md) | One local secrets file | Accepted |
 
 New ADR: copy [0000-template.md](0000-template.md), use the next number.

@@ -1,20 +1,22 @@
 // Prints a 5-minute service token for calling the backend while debugging. Run: dotnet tools/dev-service-token.cs [scope]
-// Signs with the throwaway key from tools/setup-dev-secrets.cs, so only a local backend accepts it.
+// Signs with the private key in .env, so only a backend using the matching public key accepts it.
 #:project ../src/Companion.Contracts/Companion.Contracts.csproj
 using System.Buffers.Text;
-using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using Companion.Contracts;
 
-const string PrivateKeyPrefix = "ServiceAuth:PrivateKey = ";
+const string PrivateKeyPrefix = "SERVICE_TOKEN_PRIVATE_KEY=";
+const string SecretsFile = ".env";
 
 var scope = args.Length > 0 ? args[0] : ServiceScopes.GameDataRead;
-var privateKey = await ReadPrivateKeyAsync();
+var privateKey = File.Exists(SecretsFile)
+    ? File.ReadLines(SecretsFile).FirstOrDefault(line => line.StartsWith(PrivateKeyPrefix, StringComparison.Ordinal))?[PrivateKeyPrefix.Length..].Trim()
+    : null;
 
-if (privateKey is null)
+if (string.IsNullOrEmpty(privateKey))
 {
-    Console.Error.WriteLine("No dev key found. Run: dotnet tools/setup-dev-secrets.cs");
+    Console.Error.WriteLine("No key found in .env. Run: dotnet tools/generate-service-keys.cs");
     return 1;
 }
 
@@ -31,19 +33,3 @@ Console.WriteLine($"{content}.{Base64Url.EncodeToString(signature)}");
 return 0;
 
 static string Encode(string json) => Base64Url.EncodeToString(Encoding.UTF8.GetBytes(json));
-
-static async Task<string?> ReadPrivateKeyAsync()
-{
-    var start = new ProcessStartInfo("dotnet", ["user-secrets", "list", "--project", "src/Companion.Frontend"])
-    {
-        RedirectStandardOutput = true,
-    };
-
-    using var process = Process.Start(start)!;
-    var output = await process.StandardOutput.ReadToEndAsync();
-    await process.WaitForExitAsync();
-
-    return output.Split('\n')
-        .Select(line => line.Trim())
-        .FirstOrDefault(line => line.StartsWith(PrivateKeyPrefix, StringComparison.Ordinal))?[PrivateKeyPrefix.Length..];
-}
