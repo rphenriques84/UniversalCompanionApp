@@ -96,10 +96,10 @@ Estimates assume part-time work and are rough.
 ### P0.8 Observability
 - [x] P0.8.1 Frontend: OpenTelemetry traces → Collector in `otel-lgtm`, with its diagram arrow.
 - [x] P0.8.2 Backend: OpenTelemetry traces → Collector in `otel-lgtm`, with its diagram arrow.
-- [ ] P0.8.3 Logs and metrics in both services, including Error logs for unhandled exceptions.
+- [x] P0.8.3 Logs and metrics in both services, including Error logs for unhandled exceptions.
 - [ ] P0.8.8 Scan test log output for key values, not just known failure paths.
 - [ ] P0.8.4 Trace propagation frontend → backend.
-- [ ] P0.8.5 Low-volume defaults (levels, framework categories at `Warning`).
+- [ ] P0.8.5 Low-volume defaults (levels, framework categories at `Warning`). Seen in P0.8.3: Polly logs every backend call at `Information`; the frontend warns at startup that it can't find an HTTPS port; ASP.NET Core adds memory pool, Kestrel and DNS metrics we may not need.
 - [ ] P0.8.6 Verify a single trace in Grafana for `GET /bff/games`.
 - P0.8.7 Moved into P0.8.1 and P0.8.2: each adds its own diagram arrow.
 - [ ] P0.8.9 Tag logs, traces and metrics with the stack they came from (dev or test) through `deployment.environment`.

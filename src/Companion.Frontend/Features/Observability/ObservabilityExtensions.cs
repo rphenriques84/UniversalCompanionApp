@@ -1,3 +1,6 @@
+using OpenTelemetry;
+using OpenTelemetry.Exporter;
+using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
@@ -16,18 +19,24 @@ public static class ObservabilityExtensions
             .ValidateOnStart();
 
         // F5 debugging and most tests run without a Collector, so they send nothing.
+        // An invalid endpoint also sends nothing here: options validation stops the app at startup.
         var endpoint = section.Get<ObservabilityOptions>()?.OtlpEndpoint;
-        if (string.IsNullOrEmpty(endpoint))
+        if (!Uri.TryCreate(endpoint, UriKind.Absolute, out var endpointUri))
         {
             return services;
         }
 
+        // Unhandled exceptions are logged at Error by the framework's exception handler, so they reach the Collector too.
         services.AddOpenTelemetry()
             .ConfigureResource(resource => resource.AddService(ServiceName))
             .WithTracing(tracing => tracing
                 .AddAspNetCoreInstrumentation()
-                .AddHttpClientInstrumentation()
-                .AddOtlpExporter(otlp => otlp.Endpoint = new Uri(endpoint)));
+                .AddHttpClientInstrumentation())
+            .WithMetrics(metrics => metrics
+                .AddAspNetCoreInstrumentation()
+                .AddHttpClientInstrumentation())
+            .WithLogging()
+            .UseOtlpExporter(OtlpExportProtocol.Grpc, endpointUri);
 
         return services;
     }

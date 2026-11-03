@@ -69,7 +69,8 @@ OpenTelemetry keeps all of these one config change away.
 - The service name is fixed in code: `companion-frontend` or `companion-backend`.
 - No `OtlpEndpoint` means no telemetry is sent. F5 debugging and most tests run this way. Docker Compose sets it.
 - An invalid `OtlpEndpoint` stops the service at startup.
-- Today: traces only. The frontend traces incoming requests and `HttpClient` calls; the backend traces incoming requests. Logs and metrics follow in P0.8.
+- Both services send traces, logs and metrics. Traces and metrics cover incoming requests, plus `HttpClient` calls in the frontend.
+- Unhandled exceptions are logged at `Error` by the framework's exception handler, so they reach Grafana too.
 
 Production: `TraceSamplingRatio` around `0.1`. Services point at the internal Collector and need **no API key**; the Grafana Cloud key is configured only in the Collector.
 

@@ -1,7 +1,10 @@
 using Companion.Frontend.Features.Observability;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
 
 namespace Companion.Frontend.Tests.Features.Observability;
@@ -9,11 +12,13 @@ namespace Companion.Frontend.Tests.Features.Observability;
 public sealed class ObservabilityExtensionsTests
 {
     [Fact]
-    public void AddObservability_WithEndpoint_RegistersTracing()
+    public void AddObservability_WithEndpoint_RegistersTracesMetricsAndLogs()
     {
         using var provider = CreateProvider("http://otel-lgtm:4317");
 
         Assert.NotNull(provider.GetService<TracerProvider>());
+        Assert.NotNull(provider.GetService<MeterProvider>());
+        Assert.Contains(provider.GetServices<ILoggerProvider>(), logger => logger is OpenTelemetryLoggerProvider);
     }
 
     [Fact]
@@ -22,6 +27,8 @@ public sealed class ObservabilityExtensionsTests
         using var provider = CreateProvider(null);
 
         Assert.Null(provider.GetService<TracerProvider>());
+        Assert.Null(provider.GetService<MeterProvider>());
+        Assert.DoesNotContain(provider.GetServices<ILoggerProvider>(), logger => logger is OpenTelemetryLoggerProvider);
     }
 
     [Theory]
@@ -40,6 +47,6 @@ public sealed class ObservabilityExtensionsTests
             .AddInMemoryCollection(new Dictionary<string, string?> { ["OpenTelemetry:OtlpEndpoint"] = endpoint })
             .Build();
 
-        return new ServiceCollection().AddObservability(configuration).BuildServiceProvider();
+        return new ServiceCollection().AddLogging().AddObservability(configuration).BuildServiceProvider();
     }
 }

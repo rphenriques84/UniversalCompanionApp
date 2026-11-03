@@ -3,6 +3,7 @@ using Companion.Backend.Api.Features.Errors;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Logging;
 
 namespace Companion.Backend.Tests.Features.Errors;
 
@@ -40,10 +41,23 @@ public sealed class ErrorHandlingTests
         Assert.DoesNotContain(nameof(ErrorHandlingTests), body, StringComparison.Ordinal);
     }
 
+    [Fact]
+    public async Task Request_UnhandledException_LogsError()
+    {
+        await using var app = await StartAppAsync("Production");
+        using var client = app.GetTestClient();
+
+        using var response = await client.GetAsync(new Uri("/throw", UriKind.Relative));
+
+        var records = app.Services.GetFakeLogCollector().GetSnapshot();
+        Assert.Contains(records, record => record.Level == LogLevel.Error && record.Exception is InvalidOperationException);
+    }
+
     private static async Task<WebApplication> StartAppAsync(string environment)
     {
         var builder = WebApplication.CreateBuilder(new WebApplicationOptions { EnvironmentName = environment });
         builder.WebHost.UseTestServer();
+        builder.Logging.ClearProviders().AddFakeLogging();
         builder.Services.AddErrorHandling();
 
         var app = builder.Build();
