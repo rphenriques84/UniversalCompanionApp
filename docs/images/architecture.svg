@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="960" height="712" viewBox="0 0 960 712" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img">
   <title>Universal Companion App: current architecture</title>
-  <desc>What exists today. A web browser reaches the frontend over HTTP. The frontend's BFF endpoint calls the private backend's GET /games with a JWT service token. At startup the backend's game data loader reads the seed data from its image into memory, and GET /games serves it. The frontend, backend and observability stack run in Docker Compose. The backend has no published port. No service sends telemetry yet. A developer can open Grafana from the browser.</desc>
+  <desc>What exists today. A web browser reaches the frontend over HTTP. The frontend renders pages on the server, styled with Tailwind CSS, and serves the WebAssembly client, which runs in the browser on the /client-check page. The frontend's BFF endpoint calls the private backend's GET /games with a JWT service token. At startup the backend's game data loader reads the seed data from its image into memory, and GET /games serves it. The frontend, backend and observability stack run in Docker Compose. The backend has no published port. No service sends telemetry yet. A developer can open Grafana from the browser.</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M1 1 L9 5 L1 9" fill="none" stroke="#5F5E5A" stroke-width="1.6"/>
@@ -25,13 +25,13 @@
   <text x="487.5" y="103" text-anchor="middle" font-size="12" fill="#534AB7">ASP.NET Core, Blazor Web App</text>
   <rect x="368" y="118" width="239" height="58" rx="8" fill="#FFFFFF" stroke="#534AB7" stroke-width="1"/>
   <text x="487.5" y="141" text-anchor="middle" font-size="14" font-weight="600" fill="#3C3489">Server rendering</text>
-  <text x="487.5" y="161" text-anchor="middle" font-size="12" fill="#534AB7">Blazor static SSR</text>
+  <text x="487.5" y="161" text-anchor="middle" font-size="12" fill="#534AB7">Blazor static SSR, Tailwind CSS</text>
   <rect x="368" y="190" width="239" height="58" rx="8" fill="#FFFFFF" stroke="#534AB7" stroke-width="1"/>
   <text x="487.5" y="213" text-anchor="middle" font-size="14" font-weight="600" fill="#3C3489">BFF endpoints</text>
   <text x="487.5" y="233" text-anchor="middle" font-size="12" fill="#534AB7">GET /bff/games</text>
   <rect x="368" y="262" width="239" height="58" rx="8" fill="#FFFFFF" stroke="#534AB7" stroke-width="1"/>
   <text x="487.5" y="285" text-anchor="middle" font-size="14" font-weight="600" fill="#3C3489">WebAssembly client</text>
-  <text x="487.5" y="305" text-anchor="middle" font-size="12" fill="#534AB7">Files served, no interactive pages yet</text>
+  <text x="487.5" y="305" text-anchor="middle" font-size="12" fill="#534AB7">Runs in the browser: /client-check</text>
 
   <!-- Backend -->
   <rect x="645" y="60" width="275" height="437" rx="12" fill="#FAECE7" stroke="#993C1D" stroke-width="1"/>
