@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using OpenTelemetry;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Metrics;
@@ -9,6 +10,9 @@ namespace Companion.Backend.Api.Features.Observability;
 public static class ObservabilityExtensions
 {
     public const string ServiceName = "companion-backend";
+
+    // Request metrics only. The framework's other meters (memory pool, Kestrel, DNS) add series we don't use.
+    private static readonly string[] _meters = ["Microsoft.AspNetCore.Hosting", "Microsoft.AspNetCore.Diagnostics"];
 
     public static IServiceCollection AddObservability(this IServiceCollection services, IConfiguration configuration)
     {
@@ -29,11 +33,18 @@ public static class ObservabilityExtensions
         // Unhandled exceptions are logged at Error by the framework's exception handler, so they reach the Collector too.
         services.AddOpenTelemetry()
             .ConfigureResource(resource => resource.AddService(ServiceName))
-            .WithTracing(tracing => tracing.AddAspNetCoreInstrumentation())
-            .WithMetrics(metrics => metrics.AddAspNetCoreInstrumentation())
+            .WithTracing(tracing => tracing
+                .SetSampler(CreateSampler)
+                .AddAspNetCoreInstrumentation())
+            .WithMetrics(metrics => metrics.AddMeter(_meters))
             .WithLogging()
             .UseOtlpExporter(OtlpExportProtocol.Grpc, endpointUri);
 
         return services;
     }
+
+    // Parent-based: a call that arrives inside a kept trace stays in it, whatever the ratio.
+    private static Sampler CreateSampler(IServiceProvider services) =>
+        new ParentBasedSampler(new TraceIdRatioBasedSampler(
+            services.GetRequiredService<IOptions<ObservabilityOptions>>().Value.TraceSamplingRatio));
 }

@@ -62,14 +62,17 @@ OpenTelemetry keeps all of these one config change away.
 ```json
 "OpenTelemetry": {
   "OtlpEndpoint": "http://otel-lgtm:4317",   // the Collector; never Grafana directly
-  "TraceSamplingRatio": 1.0                  // planned (P0.8.5)
+  "TraceSamplingRatio": 1.0                  // share of new traces kept, 0 to 1
 }
 ```
 
 - The service name is fixed in code: `companion-frontend` or `companion-backend`.
 - No `OtlpEndpoint` means no telemetry is sent. F5 debugging and most tests run this way. Docker Compose sets it.
-- An invalid `OtlpEndpoint` stops the service at startup.
+- An invalid `OtlpEndpoint` or a `TraceSamplingRatio` outside 0–1 stops the service at startup.
+- Sampling is parent-based: the frontend decides, and the backend keeps every call that belongs to a kept trace.
 - Both services send traces, logs and metrics. Traces and metrics cover incoming requests, plus `HttpClient` calls in the frontend.
+- The frontend doesn't trace static files (paths with a file extension). One page load fetches dozens of them.
+- Metrics come only from the request meters (`Microsoft.AspNetCore.Hosting`, `Microsoft.AspNetCore.Diagnostics`, and `System.Net.Http` in the frontend). Memory pool, Kestrel and DNS metrics are left out.
 - Unhandled exceptions are logged at `Error` by the framework's exception handler, so they reach Grafana too.
 - Frontend → backend calls carry the W3C `traceparent` header (.NET default), so `GET /bff/games` is one trace across both services. To see it, open Grafana → Explore → Tempo and search for `GET /bff/games/`.
 
@@ -79,7 +82,8 @@ Production: `TraceSamplingRatio` around `0.1`. Services point at the internal Co
 
 - Message templates, never interpolation.
 - Levels: `Error` (needs action), `Warning` (handled but unexpected), `Information` (key business events), `Debug` (local only).
-- Production minimum: `Information`. Framework noise (`Microsoft.*`, `System.*`) at `Warning`.
+- Production minimum: `Information`. Framework noise (`Microsoft.*`, `System.*`, `Polly`) at `Warning`. `Microsoft.Hosting.Lifetime` stays at `Information`: it logs only at startup and shutdown. Tests check these levels.
+- Expected in local Docker: one startup warning that the frontend can't find an HTTPS port. Docker has no TLS; it's kept because it's true, and goes away once hosting adds TLS.
 - Never log: emails, tokens, passwords, IPs, OAuth payloads, request/response bodies.
 - Tests check this. Unit tests capture every log record and look for test keys and tokens. The E2E test reads everything stored in Grafana (logs, traces, metric labels) and fails on a key value or a JWT.
 
