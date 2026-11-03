@@ -94,14 +94,14 @@ Estimates assume part-time work and are rough.
 - [x] P0.7.8 Diagram: remove "no interactive pages yet", add Tailwind CSS.
 
 ### P0.8 Observability
-- [ ] P0.8.1 Frontend: OpenTelemetry traces → Collector in `otel-lgtm`.
-- [ ] P0.8.2 Backend: OpenTelemetry traces → Collector in `otel-lgtm`.
+- [x] P0.8.1 Frontend: OpenTelemetry traces → Collector in `otel-lgtm`, with its diagram arrow.
+- [ ] P0.8.2 Backend: OpenTelemetry traces → Collector in `otel-lgtm`, with its diagram arrow.
 - [ ] P0.8.3 Logs and metrics in both services, including Error logs for unhandled exceptions.
 - [ ] P0.8.8 Scan test log output for key values, not just known failure paths.
 - [ ] P0.8.4 Trace propagation frontend → backend.
 - [ ] P0.8.5 Low-volume defaults (levels, framework categories at `Warning`).
 - [ ] P0.8.6 Verify a single trace in Grafana for `GET /bff/games`.
-- [ ] P0.8.7 Diagram: add OTLP arrows from frontend and backend.
+- P0.8.7 Moved into P0.8.1 and P0.8.2: each adds its own diagram arrow.
 - [ ] P0.8.9 Tag logs, traces and metrics with the stack they came from (dev or test) through `deployment.environment`.
 
 ### P0.9 CI and docs

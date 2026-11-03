@@ -101,6 +101,7 @@ Decisions are recorded as ADRs in [adr/](adr/).
 ## Observability: OpenTelemetry → Grafana
 
 - **Both services send OTLP to an OpenTelemetry Collector on the private network.** Only the Collector talks to Grafana and holds its credentials.
+- OpenTelemetry .NET packages (Apache-2.0).
 - **Local:** `grafana/otel-lgtm` container (Collector, Grafana, Loki, Tempo, Prometheus).
 - **Production (later):** Collector container on the private network (e.g. Grafana Alloy) → Grafana Cloud Free.
 - **Why a Collector (not a backend log endpoint):** telemetry still arrives when the backend is down; standard batching, retries, sampling and PII filtering; no telemetry load on the backend; no Grafana key in the public frontend.

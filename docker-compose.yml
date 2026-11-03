@@ -9,6 +9,7 @@ services:
       ASPNETCORE_ENVIRONMENT: Production
       ServiceAuth__PrivateKey: ${SERVICE_TOKEN_PRIVATE_KEY:?Run dotnet tools/generate-service-keys.cs}
       Backend__BaseUrl: http://backend:8080
+      OpenTelemetry__OtlpEndpoint: http://otel-lgtm:4317
     ports:
       - "127.0.0.1:8080:8080"
     networks:
