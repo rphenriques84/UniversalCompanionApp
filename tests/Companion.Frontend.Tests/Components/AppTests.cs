@@ -35,6 +35,16 @@ public sealed class AppTests
     }
 
     [Fact]
+    public async Task GetHome_Anonymous_IsStaticWithBlazorScript()
+    {
+        var page = await GetPageAsync(_homeUri);
+
+        // Interactive components leave "<!--Blazor:" markers in the HTML. Static SSR leaves none.
+        Assert.DoesNotContain("<!--Blazor:", page, StringComparison.Ordinal);
+        Assert.Contains("_framework/blazor.web", page, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public async Task GetError_Anonymous_SkipLinkStaysOnPage()
     {
         var page = await GetPageAsync(_errorUri);
