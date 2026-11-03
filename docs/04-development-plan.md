@@ -95,7 +95,7 @@ Estimates assume part-time work and are rough.
 
 ### P0.8 Observability
 - [x] P0.8.1 Frontend: OpenTelemetry traces → Collector in `otel-lgtm`, with its diagram arrow.
-- [ ] P0.8.2 Backend: OpenTelemetry traces → Collector in `otel-lgtm`, with its diagram arrow.
+- [x] P0.8.2 Backend: OpenTelemetry traces → Collector in `otel-lgtm`, with its diagram arrow.
 - [ ] P0.8.3 Logs and metrics in both services, including Error logs for unhandled exceptions.
 - [ ] P0.8.8 Scan test log output for key values, not just known failure paths.
 - [ ] P0.8.4 Trace propagation frontend → backend.
