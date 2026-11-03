@@ -56,7 +56,9 @@ services:
       - public
       - internal
     healthcheck:
-      test: ["CMD", "curl", "-sf", "http://127.0.0.1:3000/api/health"]
+      # The image writes /tmp/ready once Grafana, Loki, Tempo, Prometheus and the Collector are all ready.
+      # Grafana alone is not enough: logs a service sends at startup would be lost.
+      test: ["CMD", "test", "-f", "/tmp/ready"]
       interval: 10s
       timeout: 3s
       retries: 12
