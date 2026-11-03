@@ -17,7 +17,7 @@ public sealed class TelemetryTests
     private static readonly TimeSpan _pollInterval = TimeSpan.FromSeconds(2);
 
     [E2EFact]
-    public async Task GetGames_RealStack_TelemetryArrivesWithoutSecrets()
+    public async Task GetGames_RealStack_TelemetryArrivesConnectedWithoutSecrets()
     {
         await using var stack = await ComposeStack.StartAsync();
         using var client = new HttpClient();
@@ -31,6 +31,11 @@ public sealed class TelemetryTests
             Assert.True(await HasResultsAsync(client, LogQuery(service), "result"), $"No logs from {service}.");
             Assert.True(await HasResultsAsync(client, MetricQuery(service), "result"), $"No metrics from {service}.");
         }
+
+        // ">>" matches backend spans that descend from the frontend's /bff/games span: one trace covers both services.
+        var connected = new Uri($"{_grafana}/tempo/api/search?q=" + Uri.EscapeDataString(
+            "{resource.service.name=\"companion-frontend\" && span.url.path=\"/bff/games\"} >> {resource.service.name=\"companion-backend\"}"));
+        Assert.True(await HasResultsAsync(client, connected, "traces"), "No trace covers both the frontend and the backend.");
 
         var stored = await ReadAllTelemetryAsync(client);
         var keyValues = stack.ReadKeyValues();

@@ -98,9 +98,9 @@ Estimates assume part-time work and are rough.
 - [x] P0.8.2 Backend: OpenTelemetry traces → Collector in `otel-lgtm`, with its diagram arrow.
 - [x] P0.8.3 Logs and metrics in both services, including Error logs for unhandled exceptions.
 - [x] P0.8.8 Scan test log output for key values, not just known failure paths. P0.7.14 covers the services' own logs. This task scans what reaches Grafana: the E2E test reads every stored log, trace and metric series and fails on a key value or a JWT.
-- [ ] P0.8.4 Trace propagation frontend → backend.
+- [x] P0.8.4 Trace propagation frontend → backend. .NET does it by default (W3C `traceparent`); the E2E test proves one trace covers both services.
 - [ ] P0.8.5 Low-volume defaults (levels, framework categories at `Warning`). Seen in P0.8.3: Polly logs every backend call at `Information`; the frontend warns at startup that it can't find an HTTPS port; ASP.NET Core adds memory pool, Kestrel and DNS metrics we may not need.
-- [ ] P0.8.6 Verify a single trace in Grafana for `GET /bff/games`.
+- P0.8.6 Moved into P0.8.4: its E2E test finds the single `GET /bff/games` trace in Grafana.
 - P0.8.7 Moved into P0.8.1 and P0.8.2: each adds its own diagram arrow.
 - [ ] P0.8.9 Tag logs, traces and metrics with the stack they came from (dev or test) through `deployment.environment`.
 
