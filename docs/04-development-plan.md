@@ -91,7 +91,7 @@ Estimates assume part-time work and are rough.
 - [x] P0.7.5 Resource files for UI strings.
 - [x] P0.7.6 Render modes: static SSR default, WebAssembly enabled for interactive pages.
 - [x] P0.7.7 Prove the WebAssembly client runs: one interactive component in a real browser, in Docker.
-- [ ] P0.7.8 Diagram: remove "no interactive pages yet", add Tailwind CSS.
+- [x] P0.7.8 Diagram: remove "no interactive pages yet", add Tailwind CSS.
 
 ### P0.8 Observability
 - [ ] P0.8.1 Frontend: OpenTelemetry traces → Collector in `otel-lgtm`.
